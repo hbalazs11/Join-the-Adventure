@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid Studio 2018 (https://www.liquid-technologies.com) -->
+<GameDescriptor version="1.0" root="true" id="myGame">
+    <GameProperties>
+        
+    </GameProperties>
+    <Rooms>
+        
+    </Rooms>
+    
+    <MenuItems>
+        <MenuItem id="menu1" activeAtStart="false" useNumber="5" menuTextId="menu1Text">
+            <Requirements textOnFail="menu1Failed">
+                <isActive refId="checkedElementId"/>
+                <isActive refId="anotherCheckedElementId"/>
+                <propertyCondition refId="checkedElementId" condition="conditionEnum" value="checkedValue" />
+                <propertyCondition refId="anotherCheckedElementId" condition="conditionEnum" value="checkedValue" />
+            </Requirements>
+            <Actions responseTextId="menu1Action1" onUseIntervalTo="3">
+                <setActive refId="elementToSetActive" value="true" />
+                <setActive refId="anotherElementToSetActive" value="true" />
+                <setPropertyValue refId="propertyToSet" value="value" />
+                <setPropertyValue refId="anotherPropertyToSet" value="value" />
+            </Actions>
+            <Actions responseTextId="menu1Action2">
+                <setActive refId="elementToSetActive" value="true" />
+                <setActive refId="anotherElementToSetActive" value="true" />
+                <setPropertyValue refId="propertyToSet" value="value" />
+                <setPropertyValue refId="anotherPropertyToSet" value="value" />
+            </Actions>
+        </MenuItem>
+        <MenuItem id="menu2" menuTextId="menuText">
+            <Requirements>
+                <isActive refId="checkedElementId"/>
+                <isActive refId="anotherCheckedElementId"/>
+                <propertyCondition refId="checkedElementId" condition="conditionEnum" value="checkedValue" />
+                <propertyCondition refId="anotherCheckedElementId" condition="conditionEnum" value="checkedValue" />
+            </Requirements>
+            <Actions responseTextId="menu2Action">
+                <setActive refId="menu2" value="false" />
+            </Actions>
+            <Texts>
+                <Text id ="menuText">Itt nincs multilang</Text>
+            </Texts>
+        </MenuItem>
+    </MenuItems>
+    
+    <Items>
+        <Item id="torch" activeAtStart="true" equipable="true" descTextId="torchDesc">
+            <MenuItems>
+                <MenuItem id="turnOn" menuTextId="turnOn">
+                    <Requirements>
+                        <propertyCondition refId="stateOnOff" condition="eq" value="0" />
+                    </Requirements>
+                    <Actions responseTextId="torchOn">
+                        <setPropertyValue refId="stateOnOff" value="1" />
+                    </Actions>
+                </MenuItem>
+                <MenuItem id="turnOff" menuTextId="turnOff">
+                    <Requirements>
+                        <propertyCondition refId="stateOnOff" condition="eq" value="1" />
+                    </Requirements>
+                    <Actions responseTextId="torchOff">
+                        <setPropertyValue refId="stateOnOff" value="0" />
+                    </Actions>
+                </MenuItem>
+            </MenuItems>
+            <Properties>
+                <Property id="stateOnOff" minValue="0" maxValue="1" defValue="0" nameTextId="stateText" />
+            </Properties>
+
+            <Texts>
+                <Text id ="stateText">Állapot</Text>
+                <Text id ="torchOn">Felkapcsol</Text>
+                <Text id ="torchOff">Lekapcsol</Text>
+            </Texts>
+        </Item>
+        <Item id="button" activeAtStart="true" equipable="false" descTextId="buttonDesc">
+            <MenuItems>
+                <MenuItem id="buttonHit" menuTextId="buttonHit">
+                    <Actions responseTextId="buttonGotHit" />
+                </MenuItem>
+            </MenuItems>
+
+            <Texts>
+                <Text id ="buttonDesc">Ez egy gomb az asztalon</Text>
+                <Text id ="buttonHit">Megnyom</Text>
+                <Text id ="buttonGotHit">Nem csinált semmit</Text>
+            </Texts>
+        </Item>
+    </Items>
+    <NPCs>
+        
+    </NPCs>
+
+    <Texts>
+        <Text id="menu1Text" lang="hu">Ez itt egy menüszöveg</Text>
+        <Text id="menu1Text" lang="en">This is a menu text</Text>
+        <Text id="menu1Failed" lang="hu">Ez az akció nemsikerült, mert valami hiányzik hozzá!</Text>
+        <Text id="menu1Action1" lang="hu">Három kattintásig ezt írom ki</Text>
+        <Text id="menu1Action2" lang="hu">A maradékban meg ezt</Text>
+        <Text id="menu2Action" lang="hu">Ez csak egyszer jelenik meg</Text>
+        <Text id="torchDesc">Ide kerül a zseblámpa leírása</Text>
+    </Texts>
+    
+</GameDescriptor>

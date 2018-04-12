@@ -1,0 +1,35 @@
+# =============== #
+# Unity generated #
+# =============== #
+unity_project/Join the Adventure/Temp/
+unity_project/Join the Adventure/Obj/
+unity_project/Join the Adventure/UnityGenerated/
+unity_project/Join the Adventure/Library/
+unity_project/Join the Adventure/Builds/
+unity_project/Join the Adventure/Assets/AssetStoreTools*
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+*.svd
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
