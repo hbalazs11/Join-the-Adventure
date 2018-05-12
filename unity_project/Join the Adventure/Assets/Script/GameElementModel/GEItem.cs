@@ -1,22 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
-public class GEItem : GameElement, IActivatable{
+public class GEItem : ActivatableGameElement
+{
 
-    private Dictionary<string, GEMenuItem> menuItems;
-    private Dictionary<string, GEProperty> properties;
-    private Dictionary<string, GEText> texts;
-    private bool isActive;
+    private SortedList<string, GEMenuItem> menuItems;
+    private SortedList<string, GEProperty> properties;
+    private SortedList<string, GEText> texts;
+    private bool isEquipped;
     private bool equipable;
     private GEText description;
     private GEText itemName;
+    
 
     public GEItem(string id, GEText itemName): base(id)
     {
-        menuItems = new Dictionary<string, GEMenuItem>();
-        properties = new Dictionary<string, GEProperty>();
-        texts = new Dictionary<string, GEText>();
+        menuItems = new SortedList<string, GEMenuItem>();
+        properties = new SortedList<string, GEProperty>();
+        texts = new SortedList<string, GEText>();
         this.itemName = itemName;
+        isEquipped = false;
     }
 
     public GEItem(string id, GEText itemName, bool isActive, bool equipable, GEText description) : this(id, itemName)
@@ -26,7 +30,16 @@ public class GEItem : GameElement, IActivatable{
         this.description = description;
     }
 
-    public Dictionary<string, GEMenuItem> MenuItems
+    public void Equip(GameElementManager elementManager)
+    {
+        if(equipable && !isEquipped)
+        {
+            elementManager.Player.Items.Add(id, this);
+            isEquipped = true;
+        }
+    }
+
+    public SortedList<string, GEMenuItem> MenuItems
     {
         get
         {
@@ -39,7 +52,7 @@ public class GEItem : GameElement, IActivatable{
         }
     }
 
-    public Dictionary<string, GEProperty> Properties
+    public SortedList<string, GEProperty> Properties
     {
         get
         {
@@ -52,7 +65,7 @@ public class GEItem : GameElement, IActivatable{
         }
     }
 
-    public Dictionary<string, GEText> Texts
+    public SortedList<string, GEText> Texts
     {
         get
         {
@@ -92,15 +105,24 @@ public class GEItem : GameElement, IActivatable{
         {
             return itemName;
         }
+        set
+        {
+            this.itemName = value;
+        }
     }
 
-    public bool IsActive()
+    public bool IsEquipped
     {
-        return isActive;
+        get
+        {
+            return isEquipped;
+        }
+
+        set
+        {
+            isEquipped = value;
+        }
     }
 
-    public void SetActive(bool active)
-    {
-        this.isActive = active;
-    }
+    
 }

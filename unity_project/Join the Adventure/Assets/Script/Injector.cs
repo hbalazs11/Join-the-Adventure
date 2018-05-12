@@ -5,6 +5,7 @@ using UnityEngine;
 public class Injector  {
 
     private static GameElementManager gameElementManager;
+    private static ILogger logger;
 
     public static IDescriptorReader DescriptorReader
     {
@@ -31,6 +32,18 @@ public class Injector  {
         get
         {
             return new DescriptorProcessor();
+        }
+    }
+
+    public static ILogger Logger
+    {
+        get
+        {
+            if (logger == null)
+            {
+                logger = new Logger();
+            }
+            return logger;
         }
     }
 }

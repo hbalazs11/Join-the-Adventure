@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class GameElement  {
+public abstract class GameElement  {
 
     protected string id;
 
@@ -22,4 +22,5 @@ public class GameElement  {
             id = value;
         }
     }
+    
 }

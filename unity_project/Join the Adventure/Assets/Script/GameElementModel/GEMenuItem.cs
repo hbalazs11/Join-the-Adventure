@@ -1,31 +1,93 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class GEMenuItem : GameElement, IActivatable
+public class GEMenuItem : ActivatableGameElement
 {
-    private bool isActive;
     
-    private int? useNumber;
+    private int maxUseNumber;
     private GEText menuName;
 
-    private Dictionary<string, GEAction> actions;
-    private Dictionary<string, GERequirement> requirements;
-    private Dictionary<string, GEText> texts;
+    private List<GEAction> actions;
+    private GERequirement requirements;
+    private SortedList<string, GEText> texts;
 
-    public GEMenuItem(string id, GEText menuName, Dictionary<string, GEAction> actions) : base(id)
+    private int actionCounter;
+
+    public GEMenuItem(string id, GEText menuName, List<GEAction> actions) : base(id)
     {
         this.menuName = menuName;
         this.actions = actions;
+        isActive = true;
+        maxUseNumber = 0; //infinit representations
+        ActionCounter = 0;
+    }
+
+    public GEMenuItem(string id, GEText menuName, List<GEAction> actions, GERequirement requirements, SortedList<string, GEText> texts, bool? isActive, int? maxUseNumber) : this(id, menuName, actions)
+    {
+        this.requirements = requirements;
+        this.texts = texts;
+        this.maxUseNumber = maxUseNumber ?? 0;
+        this.isActive = isActive ?? false;
     }
 
 
-    public bool IsActive()
+    public string Execute()
     {
-        return isActive;
+        if(requirements != null && !requirements.Check())
+        {
+            return requirements.TextOnFail.GetText();
+        }
+        string response = GetCurrentActionset().Execute().GetText();
+        ActionCounter++;
+        return response;
     }
 
-    public void SetActive(bool active)
+    private GEAction GetCurrentActionset()
     {
-        this.isActive = active;
+        GEAction selectedAction = actions[0];
+        if(actions.Count == 1)
+        {
+            return selectedAction;
+        }
+        for(int i = 1; i < actions.Count; i++)
+        {
+            GEAction currentAction = actions[i];
+            if (currentAction.UseInterval < ActionCounter) continue;
+            if (selectedAction.UseInterval > currentAction.UseInterval)
+            {
+                selectedAction = currentAction;
+            }
+        }
+        //if (selectedAction.UseInterval < ActionCounter) return null;
+        return selectedAction;
+    }
+
+    public GEText MenuName
+    {
+        get
+        {
+            return menuName;
+        }
+        set
+        {
+            menuName = value;
+        }
+    }
+
+    public int ActionCounter
+    {
+        get
+        {
+            return actionCounter;
+        }
+
+        set
+        {
+            actionCounter = value;
+            if(maxUseNumber != 0 && actionCounter >= maxUseNumber)
+            {
+                SetActive(false);
+            }
+        }
     }
 }

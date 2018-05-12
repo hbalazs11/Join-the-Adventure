@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
@@ -16,6 +17,8 @@ public class MainMenuController : MonoBehaviour
     private event EventHandler<EventArgs> OnLoadingProcessFinished;
     private event EventHandler<ExceptionEventArgs> OnLoadingProcessException;
 
+    private bool isLoadFinished;
+
     public MainMenuController()
     {
         descriporReader = Injector.DescriptorReader;
@@ -26,6 +29,7 @@ public class MainMenuController : MonoBehaviour
     {
         OnLoadingProcessFinished += new EventHandler<EventArgs>(LoadGameMenuScene);
         OnLoadingProcessException += new EventHandler<ExceptionEventArgs>(HandleLoadingProcessException);
+        isLoadFinished = false;
     }
 
     private void Update()
@@ -37,18 +41,22 @@ public class MainMenuController : MonoBehaviour
         {
             loadButton.interactable = true;
         }
-        
+        if (isLoadFinished)
+        {
+            isLoadFinished = false;
+            SceneManager.LoadScene("GameMenu");
+        }
     }
 
     private void LoadGameMenuScene(object sender, EventArgs e)
     {
-        Debug.Log("Loading is finished!");
-        //TODO új scenet megnyitni
+        Debug.Log("Descriptor loading is finished!");
+        isLoadFinished = true;
     }
 
     private void HandleLoadingProcessException(object sender, ExceptionEventArgs args)
     {
-        Debug.LogError(args.Msg, this);
+        Debug.LogError(args.Msg + "\\n" + args.Exc.StackTrace, this);
         //TODO error message on UI
     }
 
@@ -58,14 +66,45 @@ public class MainMenuController : MonoBehaviour
         Debug.Log("LoadGame invoked!");
         Thread loadingThread = new Thread(LoadDescriptor);
         loadingThread.Start();
+    }
 
+    public void LoadTestGame()
+    {
+        Thread loadingThread = new Thread(LoadTestDescriptor);
+        loadingThread.Start();
+    }
+
+    private void LoadTestDescriptor()
+    {
+        GameDescriptor descriptor = null;
+        try
+        {
+            descriptor = descriporReader.ReadDescriptor("Assets/TestXML/AwsomeTestGame.xml");
+        }
+        catch (Exception e)
+        {
+            RaiseLoadingProcessException("Could not load descriptors! " + e.Message, e);
+        }
+        try
+        {
+            descriptorProcessor.ProcessGameDescriptor(descriptor);
+        }
+        catch (Exception e)
+        {
+            RaiseLoadingProcessException("Could not process descriptors! " + e.Message, e);
+        }
+
+        if (OnLoadingProcessFinished != null)
+        {
+            OnLoadingProcessFinished(null, EventArgs.Empty);
+        }
 
     }
 
     /**
-     * Expensive process, must run on working thread.
-     * Callbacks are handled in events: OnLoadingProcessFinished, OnLoadingProcessException
-     */
+        * Expensive process, must run on working thread.
+        * Callbacks are handled in events: OnLoadingProcessFinished, OnLoadingProcessException
+        */
     private void LoadDescriptor()
     {
         GameDescriptor[] descriptors = null;

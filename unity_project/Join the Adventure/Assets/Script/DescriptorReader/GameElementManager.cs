@@ -4,10 +4,13 @@ using System.Collections.Generic;
 
 public class GameElementManager : IGameElementManager {
 
+    private ILogger logger;
+
     private string currentLang;
     private string defLang;
 
     private GEPlayer player;
+    private GEGameProperties gameProperties;
 
     private Dictionary<string, GERoom> rooms;
 
@@ -19,16 +22,30 @@ public class GameElementManager : IGameElementManager {
 
     private Dictionary<string, GEMenuItem> menuItems;
 
+    public GERoom CurrentRoom { get; set; }
 
     public GameElementManager()
     {
         rooms = new Dictionary<string, GERoom>();
         texts = new Dictionary<string, GEText>();
         properties = new Dictionary<string, GEProperty>();
+        items = new Dictionary<string, GEItem>();
+        menuItems = new Dictionary<string, GEMenuItem>();
+        logger = Injector.Logger;
     }
-    public GEText GetTextElement(string id)
+
+    public void SetFirstRoom()
     {
-        return GetFromDic(texts, id);
+        CurrentRoom = rooms[gameProperties.firstRoomId];
+    }
+
+    public GEText GetTextElement(string id, bool log = true)
+    {
+        if(id == null)
+        {
+            return null;
+        }
+        return GetFromDic(texts, id, log);
     }
 
 
@@ -39,23 +56,27 @@ public class GameElementManager : IGameElementManager {
 
     public string GetText(string id)
     {
-        return GetText(id, currentLang);
+        return GetText(id, currentLang, false);
     }
 
-    public string GetText(string id, string lang)
+    public string GetText(string id, string lang, bool log = true)
     {
         GEText text = GetTextElement(id);
         if (text == null)
         {
-            Console.WriteLine("There is no GEText with the given id! " + id);
-            throw new Exception(String.Format("There is no text with the given id! id: {0}", id));
+            if (log)
+            {
+                logger.LogWarn("There is no GEText with the given id! " + id);
+                //throw new Exception(String.Format("There is no text with the given id! id: {0}", id));
+            }
+            return null;
         }
-        return text.GetText(lang);
+        return text.GetText(lang, log);
     }
 
     public GEText AddText(string id, string txt, string lang)
     {
-        GEText text = GetTextElement(id);
+        GEText text = GetTextElement(id, false);
         if (text == null)
         {
             text = new GEText(id, defLang, lang, txt);
@@ -122,17 +143,116 @@ public class GameElementManager : IGameElementManager {
         else
         {
             dictionary[id] = value;
-            Console.WriteLine("There are multiple text elements defined with the same id! " + id);
+            logger.LogWarn("There are multiple text elements defined with the same id! The duplicated id: " + id);
         }
     }
 
-    private T GetFromDic<T>(Dictionary<string, T> dictionary, string key) where T : GameElement
+    private T GetFromDic<T>(Dictionary<string, T> dictionary, string key, bool logNullWarn = true) where T : GameElement
     {
         T value = null;
         dictionary.TryGetValue(key, out value);
+        if(logNullWarn && value == null)
+        {
+            logger.LogWarn("There is no content with the given id in the GameElementManager! id: " + key);
+        }
         return value;
     }
 
+    public IActivatable GetActivatableGameElement(string id)
+    {
+        //menuitem, item, npc, exit, neightbour
+        
+        if (items.ContainsKey(id))
+        {
+            return items[id];
+        }
+        if (menuItems.ContainsKey(id))
+        {
+            return menuItems[id];
+        }
+        //...
+        return null;
+    }
 
+    public GameElement GetGameElement(string id)
+    {
+        if (items.ContainsKey(id))
+        {
+            return items[id];
+        }
+        if (menuItems.ContainsKey(id))
+        {
+            return menuItems[id];
+        }
+        if (rooms.ContainsKey(id))
+        {
+            return rooms[id];
+        }
+        if (texts.ContainsKey(id))
+        {
+            return texts[id];
+        }
+        if (properties.ContainsKey(id))
+        {
+            return properties[id];
+        }
+        //...
+        return null;
+    }
 
+    public GEPlayer Player
+    {
+        get
+        {
+            return player;
+        }
+
+        set
+        {
+            player = value;
+        }
+    }
+
+    internal GEGameProperties GameProperties
+    {
+        get
+        {
+            return gameProperties;
+        }
+
+        set
+        {
+            gameProperties = value;
+        }
+    }
+
+    public string DefLang
+    {
+        get
+        {
+            return defLang;
+        }
+
+        set
+        {
+            defLang = value;
+            if(currentLang == null)
+            {
+                currentLang = defLang;
+            }
+        }
+    }
+
+    public string CurrentLang
+    {
+        get
+        {
+            return currentLang;
+        }
+
+        set
+        {
+            currentLang = value;
+        }
+    }
 }

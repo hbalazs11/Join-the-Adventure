@@ -35,6 +35,10 @@ public class GEProperty : GameElement{
         {
             return name;
         }
+        set
+        {
+            this.name = value;
+        }
     }
 
     public double Value
@@ -46,8 +50,16 @@ public class GEProperty : GameElement{
 
         set
         {
-            if (minValue != null && value < minValue) return;
-            if (maxValue != null && value > maxValue) return;
+            if (minValue != null && value < minValue)
+            {
+                this.value = (double)minValue;
+                return;
+            }
+            if (maxValue != null && value > maxValue)
+            {
+                this.value = (double)maxValue;
+                return;
+            }
             this.value = value;
         }
     }
