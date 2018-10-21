@@ -22,6 +22,10 @@ public class GameElementManager : IGameElementManager {
 
     private Dictionary<string, GEMenuItem> menuItems;
 
+    private Dictionary<string, GENpc> npcs;
+
+    private Dictionary<string, GEGameEnd> gameEnds;
+
     public GERoom CurrentRoom { get; set; }
 
     public GameElementManager()
@@ -31,6 +35,8 @@ public class GameElementManager : IGameElementManager {
         properties = new Dictionary<string, GEProperty>();
         items = new Dictionary<string, GEItem>();
         menuItems = new Dictionary<string, GEMenuItem>();
+        npcs = new Dictionary<string, GENpc>();
+        gameEnds = new Dictionary<string, GEGameEnd>();
         logger = Injector.Logger;
     }
 
@@ -132,7 +138,27 @@ public class GameElementManager : IGameElementManager {
     {
         AddToDic(menuItems, menuItem);
     }
-    
+
+    public GENpc GetNPC(string id)
+    {
+        return GetFromDic(npcs, id);
+    }
+
+    public void AddNPC(GENpc npc)
+    {
+        AddToDic(npcs, npc);
+    }
+
+    public GEGameEnd GetGameEnd(string id)
+    {
+        return GetFromDic(gameEnds, id);
+    }
+
+    public void AddGameEnd(GEGameEnd gameEnd)
+    {
+        AddToDic(gameEnds, gameEnd);
+    }
+
     private void AddToDic<T>(Dictionary<string,T> dictionary, T value) where T : GameElement
     {
         string id = value.Id;
@@ -196,7 +222,14 @@ public class GameElementManager : IGameElementManager {
         {
             return properties[id];
         }
-        //...
+        if (npcs.ContainsKey(id))
+        {
+            return npcs[id];
+        }
+        if (gameEnds.ContainsKey(id))
+        {
+            return gameEnds[id];
+        }
         return null;
     }
 

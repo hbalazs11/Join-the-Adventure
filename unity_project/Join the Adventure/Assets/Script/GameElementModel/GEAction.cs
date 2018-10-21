@@ -132,5 +132,21 @@ public class GEAction
             responseText = value;
         }
     }
+
+    public List<GEActivation> Activations
+    {
+        get
+        {
+            return activations;
+        }
+    }
+
+    public List<GEPropertySetter> PropertySetters
+    {
+        get
+        {
+            return propertySetters;
+        }
+    }
 }
 

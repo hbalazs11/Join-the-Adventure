@@ -22,6 +22,9 @@ public class MIOpenBundle<T> : MenuItem where T : GameElement
             } else if(element is GEItem)
             {
                 bundleInstance = MenuItemBundleFactroy.CreateBundle(element as GEItem, parentBundle);
+            } else if (element is GENpc)
+            {
+                bundleInstance = MenuItemBundleFactroy.CreateBundle(element as GENpc, parentBundle);
             } else
             {
                 //...

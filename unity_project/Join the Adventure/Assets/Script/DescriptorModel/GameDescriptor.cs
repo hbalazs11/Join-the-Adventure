@@ -615,18 +615,18 @@ public partial class GamePropertiesType
 public partial class NPCsType
 {
 
-    private NPCsTypeNPC nPCField;
+    private List<NPCsTypeNPC> nPCField;
 
     private static System.Xml.Serialization.XmlSerializer serializer;
 
     [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
-    public NPCsTypeNPC NPC
+    public List<NPCsTypeNPC> NPC
     {
         get
         {
             if ((this.nPCField == null))
             {
-                this.nPCField = new NPCsTypeNPC();
+                this.nPCField = new List<NPCsTypeNPC>();
             }
             return this.nPCField;
         }
@@ -831,10 +831,17 @@ public partial class NPCsTypeNPC
 
     private List<NPCsTypeNPCConversation> conversationField;
 
+    private ItemsWithRefsType itemsField;
+
+    private TextsType textsField;
+
     private static System.Xml.Serialization.XmlSerializer serializer;
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string id { get; set; }
+
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string nameTextId { get; set; }
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string descTextId { get; set; }
@@ -860,6 +867,40 @@ public partial class NPCsTypeNPC
         set
         {
             this.conversationField = value;
+        }
+    }
+
+    [System.Xml.Serialization.XmlElementAttribute("Items", Order = 1)]
+    public ItemsWithRefsType Items
+    {
+        get
+        {
+            if ((this.itemsField == null))
+            {
+                this.itemsField = new ItemsWithRefsType();
+            }
+            return this.itemsField;
+        }
+        set
+        {
+            this.itemsField = value;
+        }
+    }
+
+    [System.Xml.Serialization.XmlElementAttribute("Texts", Order = 2)]
+    public TextsType Texts
+    {
+        get
+        {
+            if ((this.textsField == null))
+            {
+                this.textsField = new TextsType();
+            }
+            return this.textsField;
+        }
+        set
+        {
+            this.textsField = value;
         }
     }
 
@@ -1331,6 +1372,8 @@ public partial class NPCsTypeNPCConversationLine
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string lineTextId { get; set; }
 
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public bool isLastLine { get; set; }
 
     [System.Xml.Serialization.XmlElementAttribute("Answer", Order = 0)]
     public List<NPCsTypeNPCConversationLineAnswer> Answer
@@ -1544,6 +1587,8 @@ public partial class NPCsTypeNPCConversationLineAnswer
 
     private RequirementsType requirementsField;
 
+    private ItemActionsType actionsField;
+
     private static System.Xml.Serialization.XmlSerializer serializer;
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -1567,6 +1612,23 @@ public partial class NPCsTypeNPCConversationLineAnswer
         set
         {
             this.requirementsField = value;
+        }
+    }
+
+    [System.Xml.Serialization.XmlElementAttribute(Order = 1)]
+    public ItemActionsType Actions
+    {
+        get
+        {
+            if ((this.actionsField == null))
+            {
+                this.actionsField = new ItemActionsType();
+            }
+            return this.actionsField;
+        }
+        set
+        {
+            this.actionsField = value;
         }
     }
 
@@ -3082,18 +3144,18 @@ public partial class TextsTypeText
 public partial class NPCsWithRefType : NPCsType
 {
 
-    private ReferenceType nPCRefField;
+    private List<ReferenceType> nPCRefField;
 
     private static System.Xml.Serialization.XmlSerializer serializer;
 
     [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
-    public ReferenceType NPCRef
+    public List<ReferenceType> NPCRef
     {
         get
         {
             if ((this.nPCRefField == null))
             {
-                this.nPCRefField = new ReferenceType();
+                this.nPCRefField = new List<ReferenceType>();
             }
             return this.nPCRefField;
         }
@@ -4517,6 +4579,439 @@ public partial class ActionsType
     }
 
     public static ActionsType LoadFromFile(string fileName)
+    {
+        System.IO.FileStream file = null;
+        System.IO.StreamReader sr = null;
+        try
+        {
+            file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+            sr = new System.IO.StreamReader(file);
+            string xmlString = sr.ReadToEnd();
+            sr.Close();
+            file.Close();
+            return Deserialize(xmlString);
+        }
+        finally
+        {
+            if ((file != null))
+            {
+                file.Dispose();
+            }
+            if ((sr != null))
+            {
+                sr.Dispose();
+            }
+        }
+    }
+    #endregion
+}
+
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+[System.SerializableAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = true)]
+public partial class ItemActionsType : ActionsType
+{
+
+    private List<ItemActionsTypeEquipItem> equipItemField;
+
+    private static System.Xml.Serialization.XmlSerializer serializer;
+
+    [System.Xml.Serialization.XmlElementAttribute("equipItem", Order = 0)]
+    public List<ItemActionsTypeEquipItem> equipItem
+    {
+        get
+        {
+            if ((this.equipItemField == null))
+            {
+                this.equipItemField = new List<ItemActionsTypeEquipItem>();
+            }
+            return this.equipItemField;
+        }
+        set
+        {
+            this.equipItemField = value;
+        }
+    }
+
+    private static System.Xml.Serialization.XmlSerializer Serializer
+    {
+        get
+        {
+            if ((serializer == null))
+            {
+                serializer = new System.Xml.Serialization.XmlSerializer(typeof(ItemActionsType));
+            }
+            return serializer;
+        }
+    }
+
+    #region Serialize/Deserialize
+    /// <summary>
+    /// Serializes current NPCsWithRefType object into an XML document
+    /// </summary>
+    /// <returns>string XML value</returns>
+    public new virtual string Serialize()
+    {
+        System.IO.StreamReader streamReader = null;
+        System.IO.MemoryStream memoryStream = null;
+        try
+        {
+            memoryStream = new System.IO.MemoryStream();
+            Serializer.Serialize(memoryStream, this);
+            memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+            streamReader = new System.IO.StreamReader(memoryStream);
+            return streamReader.ReadToEnd();
+        }
+        finally
+        {
+            if ((streamReader != null))
+            {
+                streamReader.Dispose();
+            }
+            if ((memoryStream != null))
+            {
+                memoryStream.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Deserializes workflow markup into an NPCsWithRefType object
+    /// </summary>
+    /// <param name="xml">string workflow markup to deserialize</param>
+    /// <param name="obj">Output NPCsWithRefType object</param>
+    /// <param name="exception">output Exception value if deserialize failed</param>
+    /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+    public static bool Deserialize(string xml, out ItemActionsType obj, out System.Exception exception)
+    {
+        exception = null;
+        obj = default(ItemActionsType);
+        try
+        {
+            obj = Deserialize(xml);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            exception = ex;
+            return false;
+        }
+    }
+
+    public static bool Deserialize(string xml, out ItemActionsType obj)
+    {
+        System.Exception exception = null;
+        return Deserialize(xml, out obj, out exception);
+    }
+
+    public new static ItemActionsType Deserialize(string xml)
+    {
+        System.IO.StringReader stringReader = null;
+        try
+        {
+            stringReader = new System.IO.StringReader(xml);
+            return ((ItemActionsType)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+        }
+        finally
+        {
+            if ((stringReader != null))
+            {
+                stringReader.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Serializes current NPCsWithRefType object into file
+    /// </summary>
+    /// <param name="fileName">full path of outupt xml file</param>
+    /// <param name="exception">output Exception value if failed</param>
+    /// <returns>true if can serialize and save into file; otherwise, false</returns>
+    public new virtual bool SaveToFile(string fileName, out System.Exception exception)
+    {
+        exception = null;
+        try
+        {
+            SaveToFile(fileName);
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            exception = e;
+            return false;
+        }
+    }
+
+    public new virtual void SaveToFile(string fileName)
+    {
+        System.IO.StreamWriter streamWriter = null;
+        try
+        {
+            string xmlString = Serialize();
+            System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+            streamWriter = xmlFile.CreateText();
+            streamWriter.WriteLine(xmlString);
+            streamWriter.Close();
+        }
+        finally
+        {
+            if ((streamWriter != null))
+            {
+                streamWriter.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Deserializes xml markup from file into an NPCsWithRefType object
+    /// </summary>
+    /// <param name="fileName">string xml file to load and deserialize</param>
+    /// <param name="obj">Output NPCsWithRefType object</param>
+    /// <param name="exception">output Exception value if deserialize failed</param>
+    /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+    public static bool LoadFromFile(string fileName, out ItemActionsType obj, out System.Exception exception)
+    {
+        exception = null;
+        obj = default(ItemActionsType);
+        try
+        {
+            obj = LoadFromFile(fileName);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            exception = ex;
+            return false;
+        }
+    }
+
+    public static bool LoadFromFile(string fileName, out ItemActionsType obj)
+    {
+        System.Exception exception = null;
+        return LoadFromFile(fileName, out obj, out exception);
+    }
+
+    public new static ItemActionsType LoadFromFile(string fileName)
+    {
+        System.IO.FileStream file = null;
+        System.IO.StreamReader sr = null;
+        try
+        {
+            file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+            sr = new System.IO.StreamReader(file);
+            string xmlString = sr.ReadToEnd();
+            sr.Close();
+            file.Close();
+            return Deserialize(xmlString);
+        }
+        finally
+        {
+            if ((file != null))
+            {
+                file.Dispose();
+            }
+            if ((sr != null))
+            {
+                sr.Dispose();
+            }
+        }
+    }
+    #endregion
+}
+
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+[System.SerializableAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+public partial class ItemActionsTypeEquipItem
+{
+
+    public ItemActionsTypeEquipItem()
+    {
+        valueField = true;
+    }
+
+    private static System.Xml.Serialization.XmlSerializer serializer;
+
+    private bool valueField;
+
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string refId { get; set; }
+
+    [System.Xml.Serialization.XmlAttributeAttribute("value")]
+    public bool value
+    {
+        get
+        {
+            return this.valueField;
+        }
+        set
+        {
+            this.valueField = value;
+        }
+    }
+
+
+    private static System.Xml.Serialization.XmlSerializer Serializer
+    {
+        get
+        {
+            if ((serializer == null))
+            {
+                serializer = new System.Xml.Serialization.XmlSerializer(typeof(ItemActionsTypeEquipItem));
+            }
+            return serializer;
+        }
+    }
+
+    #region Serialize/Deserialize
+    /// <summary>
+    /// Serializes current ActionsTypeSetActive object into an XML document
+    /// </summary>
+    /// <returns>string XML value</returns>
+    public virtual string Serialize()
+    {
+        System.IO.StreamReader streamReader = null;
+        System.IO.MemoryStream memoryStream = null;
+        try
+        {
+            memoryStream = new System.IO.MemoryStream();
+            Serializer.Serialize(memoryStream, this);
+            memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+            streamReader = new System.IO.StreamReader(memoryStream);
+            return streamReader.ReadToEnd();
+        }
+        finally
+        {
+            if ((streamReader != null))
+            {
+                streamReader.Dispose();
+            }
+            if ((memoryStream != null))
+            {
+                memoryStream.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Deserializes workflow markup into an ActionsTypeSetActive object
+    /// </summary>
+    /// <param name="xml">string workflow markup to deserialize</param>
+    /// <param name="obj">Output ActionsTypeSetActive object</param>
+    /// <param name="exception">output Exception value if deserialize failed</param>
+    /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+    public static bool Deserialize(string xml, out ItemActionsTypeEquipItem obj, out System.Exception exception)
+    {
+        exception = null;
+        obj = default(ItemActionsTypeEquipItem);
+        try
+        {
+            obj = Deserialize(xml);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            exception = ex;
+            return false;
+        }
+    }
+
+    public static bool Deserialize(string xml, out ItemActionsTypeEquipItem obj)
+    {
+        System.Exception exception = null;
+        return Deserialize(xml, out obj, out exception);
+    }
+
+    public static ItemActionsTypeEquipItem Deserialize(string xml)
+    {
+        System.IO.StringReader stringReader = null;
+        try
+        {
+            stringReader = new System.IO.StringReader(xml);
+            return ((ItemActionsTypeEquipItem)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+        }
+        finally
+        {
+            if ((stringReader != null))
+            {
+                stringReader.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Serializes current ActionsTypeSetActive object into file
+    /// </summary>
+    /// <param name="fileName">full path of outupt xml file</param>
+    /// <param name="exception">output Exception value if failed</param>
+    /// <returns>true if can serialize and save into file; otherwise, false</returns>
+    public virtual bool SaveToFile(string fileName, out System.Exception exception)
+    {
+        exception = null;
+        try
+        {
+            SaveToFile(fileName);
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            exception = e;
+            return false;
+        }
+    }
+
+    public virtual void SaveToFile(string fileName)
+    {
+        System.IO.StreamWriter streamWriter = null;
+        try
+        {
+            string xmlString = Serialize();
+            System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+            streamWriter = xmlFile.CreateText();
+            streamWriter.WriteLine(xmlString);
+            streamWriter.Close();
+        }
+        finally
+        {
+            if ((streamWriter != null))
+            {
+                streamWriter.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Deserializes xml markup from file into an ActionsTypeSetActive object
+    /// </summary>
+    /// <param name="fileName">string xml file to load and deserialize</param>
+    /// <param name="obj">Output ActionsTypeSetActive object</param>
+    /// <param name="exception">output Exception value if deserialize failed</param>
+    /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+    public static bool LoadFromFile(string fileName, out ItemActionsTypeEquipItem obj, out System.Exception exception)
+    {
+        exception = null;
+        obj = default(ItemActionsTypeEquipItem);
+        try
+        {
+            obj = LoadFromFile(fileName);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            exception = ex;
+            return false;
+        }
+    }
+
+    public static bool LoadFromFile(string fileName, out ItemActionsTypeEquipItem obj)
+    {
+        System.Exception exception = null;
+        return LoadFromFile(fileName, out obj, out exception);
+    }
+
+    public static ItemActionsTypeEquipItem LoadFromFile(string fileName)
     {
         System.IO.FileStream file = null;
         System.IO.StreamReader sr = null;

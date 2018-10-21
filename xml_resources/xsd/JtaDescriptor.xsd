@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--Created with Liquid Studio 2018 (https://www.liquid-technologies.com)-->
+<!-- Created with Liquid Studio 2018 (https://www.liquid-technologies.com) -->
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="GameDescriptor">
         <xs:complexType>
@@ -10,9 +10,9 @@
                 <xs:element name="MenuItems" type="MenuItemsType" minOccurs="0" maxOccurs="1" />
                 <xs:element name="Items" type="ItemsType" minOccurs="0" maxOccurs="1" />
                 <xs:element name="NPCs" type="NPCsType" minOccurs="0" />
-                <xs:element name="Texts" type="TextsType" minOccurs="0" />
                 <xs:element name="Properties" type="PropertiesType" minOccurs="0" />
                 <xs:element name="GameEnds" type="GameEndsType" minOccurs="0" />
+                <xs:element name="Texts" type="TextsType" minOccurs="0" />
             </xs:sequence>
             <xs:attribute name="version" type="xs:decimal" use="optional" />
             <xs:attribute name="id" type="xs:string" use="optional" />
@@ -170,7 +170,7 @@
     </xs:complexType>
     <xs:complexType name="NPCsType">
         <xs:sequence>
-            <xs:element name="NPC">
+            <xs:element name="NPC" minOccurs="0" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:sequence>
                         <xs:element name="Conversation" minOccurs="0" maxOccurs="unbounded">
@@ -183,6 +183,7 @@
                                                     <xs:complexType>
                                                         <xs:sequence>
                                                             <xs:element name="Requirements" type="RequirementsType" minOccurs="0" />
+                                                            <xs:element name="Actions" type="ItemActionsType" minOccurs="0" />
                                                         </xs:sequence>
                                                         <xs:attribute name="textId" type="xs:string" use="required" />
                                                         <xs:attribute name="nextLineId" type="xs:string" use="required" />
@@ -191,6 +192,7 @@
                                             </xs:sequence>
                                             <xs:attribute name="id" type="xs:string" use="required" />
                                             <xs:attribute name="lineTextId" type="xs:string" use="required" />
+                                            <xs:attribute name="isLastLine" type="xs:boolean" default="false" />
                                         </xs:complexType>
                                     </xs:element>
                                     <xs:element name="Requirements" type="RequirementsType" minOccurs="0" />
@@ -201,8 +203,11 @@
                                 <xs:attribute name="firstLineId" type="xs:string" use="required" />
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="Items" type="ItemsWithRefsType" minOccurs="0" />
+                        <xs:element name="Texts" type="TextsType" minOccurs="0" />
                     </xs:sequence>
                     <xs:attribute name="id" type="xs:string" use="required" />
+                    <xs:attribute name="nameTextId" type="xs:string" use="required" />
                     <xs:attribute name="descTextId" type="xs:string" />
                     <xs:attribute name="activeAtStart" type="xs:boolean" />
                 </xs:complexType>
@@ -213,7 +218,7 @@
         <xs:complexContent>
             <xs:extension base="NPCsType">
                 <xs:sequence>
-                    <xs:element name="NPCRef" type="ReferenceType" />
+                    <xs:element name="NPCRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -236,6 +241,20 @@
         </xs:sequence>
         <xs:attribute name="responseTextId" type="xs:string" use="required" />
         <xs:attribute name="onUseIntervalTo" type="xs:integer" use="optional" default="0" />
+    </xs:complexType>
+    <xs:complexType name="ItemActionsType">
+        <xs:complexContent>
+            <xs:extension base="ActionsType">
+                <xs:sequence>
+                    <xs:element name="equipItem" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:attribute name="refId" type="xs:string" use="required" />
+                            <xs:attribute name="value" type="xs:boolean" default="true" />
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="RequirementsType">
         <xs:sequence>

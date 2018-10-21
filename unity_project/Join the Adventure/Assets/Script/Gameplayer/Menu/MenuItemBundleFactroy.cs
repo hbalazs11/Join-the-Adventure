@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 public class MenuItemBundleFactroy  {
     
@@ -14,7 +12,10 @@ public class MenuItemBundleFactroy  {
         }
         newBundle.AddMenuItem(MIOpenList<GEItem>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.ITEMS), newBundle, room.Items.Values));
 
-        //TODO: npcs...
+        //if (room.Npcs.Values.Count != 0)
+        //{
+        //}
+        newBundle.AddMenuItem(MIOpenList<GENpc>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.NPCS), newBundle, room.Npcs.Values));
 
         newBundle.AddMenuItem(new MIBack(parent));
 
@@ -75,4 +76,33 @@ public class MenuItemBundleFactroy  {
         return newBundle;
     }
 
+    public static MenuItemBundle CreateBundle(GENpc npc, MenuItemBundle parent)
+    {
+        MenuItemBundle newBundle = new MenuItemBundle(npc.NameText.GetText(), parent);
+        
+        newBundle.AddMenuItem(new MIShowDescription(LabelUtility.Instance.GetLabel(LabelNames.SHOWDESCRUPTION), newBundle, npc.DescText.GetText()));
+        newBundle.AddMenuItem(new MIStartConversation(LabelUtility.Instance.GetLabel(LabelNames.STARTCONVERSATION), newBundle, npc));
+
+        newBundle.AddMenuItem(new MIBack(parent));
+
+        return newBundle;
+    }
+
+    public static MenuItemBundle CreateListBundle(string bundleName, List<GENpc> geNpcs, MenuItemBundle parent)
+    {
+        MenuItemBundle newBundle = new MenuItemBundle(bundleName, parent);
+        if (geNpcs == null || geNpcs.Count == 0)
+        {
+            return newBundle;
+        }
+        foreach (GENpc npc in geNpcs)
+        {
+            newBundle.AddMenuItem(new MIOpenBundle<GENpc>(npc.NameText.GetText(), npc, newBundle));
+            npc.OnActivationChange += newBundle.RefreshOnEvent;
+        }
+
+        newBundle.AddMenuItem(new MIBack(parent));
+
+        return newBundle;
+    }
 }

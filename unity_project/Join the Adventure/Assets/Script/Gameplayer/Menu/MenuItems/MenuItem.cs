@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public abstract class MenuItem {
 
     
-    private GameObject thisMenuItem;
+    private GameObject thisGOMenuItem;
     protected MenuController menuController;
     protected MenuItemBundle parentBundle;
 
@@ -24,27 +24,27 @@ public abstract class MenuItem {
 
     public GameObject InstantiateMenuButton()
     {
-        thisMenuItem = MonoBehaviour.Instantiate(menuController.menuButtonPrefab) as GameObject;
-        thisMenuItem.SetActive(true);
+        thisGOMenuItem = MonoBehaviour.Instantiate(menuController.menuButtonPrefab) as GameObject;
+        thisGOMenuItem.SetActive(true);
 
-        thisMenuItem.transform.SetParent(menuController.buttonListGO.transform, false);
+        thisGOMenuItem.transform.SetParent(menuController.buttonListGO.transform, false);
 
-        thisMenuItem.GetComponent<Button>().onClick.AddListener(Execute);
-        thisMenuItem.GetComponentInChildren<Text>().text = menuText;
-        thisMenuItem.SetActive(false);
-        return thisMenuItem;
+        thisGOMenuItem.GetComponent<Button>().onClick.AddListener(Execute);
+        thisGOMenuItem.GetComponentInChildren<Text>().text = menuText;
+        thisGOMenuItem.SetActive(false);
+        return thisGOMenuItem;
     }
 
     public virtual void SetActive(bool value)
     {
-        if(/*value &&*/ thisMenuItem == null)
+        if(/*value &&*/ thisGOMenuItem == null)
         {
             InstantiateMenuButton();
         }
         isActive = value;
-        if (thisMenuItem != null)
+        if (thisGOMenuItem != null)
         {
-            thisMenuItem.SetActive(value);
+            thisGOMenuItem.SetActive(value);
         }
     }
 
@@ -55,10 +55,10 @@ public abstract class MenuItem {
 
     public void DestroyGO()
     {
-        if (thisMenuItem == null) return;
-        thisMenuItem.SetActive(true);
-        MonoBehaviour.Destroy(thisMenuItem);
-        thisMenuItem = null;
+        if (thisGOMenuItem == null) return;
+        thisGOMenuItem.SetActive(true);
+        MonoBehaviour.Destroy(thisGOMenuItem);
+        thisGOMenuItem = null;
     }
 
     public string GetMenuText()
@@ -68,14 +68,14 @@ public abstract class MenuItem {
 
     public void SetPositionNumber(int pos)
     {
-        if (thisMenuItem == null) return;
-        thisMenuItem.transform.SetSiblingIndex(pos);
+        if (thisGOMenuItem == null) return;
+        thisGOMenuItem.transform.SetSiblingIndex(pos);
     }
 
     public int GetPositionNumber()
     {
-        if (thisMenuItem == null) return -1;
-        return thisMenuItem.transform.GetSiblingIndex();
+        if (thisGOMenuItem == null) return -1;
+        return thisGOMenuItem.transform.GetSiblingIndex();
     }
 
     //public GameObject MenuItemGO

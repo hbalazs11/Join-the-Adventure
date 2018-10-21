@@ -29,7 +29,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         ProcessProperties(gameDescriptor.Properties);
         ProcessMenuItems(gameDescriptor.MenuItems);
         ProcessRooms(gameDescriptor.Rooms);
-        ProcessGameEnd(gameDescriptor.GameEnds);
+        ProcessGameEnds(gameDescriptor.GameEnds);
         ProcessNpcs(gameDescriptor.NPCs);
 
 
@@ -243,6 +243,19 @@ public class DescriptorProcessor : IDescriptorProcessor
         return processedAction;
     }
 
+    private GENpc.GEItemAction ProcessActions(ItemActionsType action)
+    {
+        GEAction actionBase = ProcessActions((ActionsType)action);
+
+        List<GENpc.GEItemAction.GEEquipItem> equipItems = new List<GENpc.GEItemAction.GEEquipItem>();
+        foreach (ItemActionsTypeEquipItem equipItem in action.equipItem)
+        {
+            equipItems.Add(new GENpc.GEItemAction.GEEquipItem(equipItem.refId, equipItem.value));
+        }
+        GENpc.GEItemAction newAction = new GENpc.GEItemAction(elementManager, null, actionBase.Activations, actionBase.PropertySetters, equipItems, actionBase.UseInterval);
+        return newAction;
+    }
+
     private void ProcessPlayer(PlayerType player)
     {
         elementManager.Player = new GEPlayer(ProcessProperties(player.Properties), ProcessItems(player.Items));
@@ -311,15 +324,124 @@ public class DescriptorProcessor : IDescriptorProcessor
         return processedNeighbours;
     }
 
-    private SortedList<string,GENpcs> ProcessNpcs(NPCsType npcs)
+    private SortedList<string, GENpc> ProcessNpcs(NPCsType npcs)
     {
-        //TODO
-        return null;
+        SortedList<string, GENpc> processedNpcs = new SortedList<string, GENpc>();
+        if (npcs == null) return processedNpcs;
+        foreach (NPCsTypeNPC npc in npcs.NPC)
+        {
+            SortedList<string, GEText> texts = ProcessTexts(npc.Texts);
+            SortedList<string, GEItem> items = ProcessItems(npc.Items);
+
+            GENpc newNpc = new GENpc(npc.id, npc.activeAtStart)
+            {
+                Items = items,
+                Texts = texts
+            };
+            SortedList<string, GENpc.GEConversation> conversations = ProcessConversations(npc.Conversation, newNpc);
+            newNpc.Conversations = conversations;
+
+            OnReferenceProcessing += delegate (object o, EventArgs e)
+            {
+                newNpc.NameText = elementManager.GetTextElement(npc.nameTextId);
+                if (npc.descTextId != null)
+                {
+                    newNpc.DescText = elementManager.GetTextElement(npc.descTextId);
+                }
+                else
+                {
+                    logger.LogInfo("There was no descTextId given for the Room with id: " + npc.id);
+                }
+            };
+            processedNpcs.Add(npc.id, newNpc);
+            elementManager.AddNPC(newNpc);
+        }
+        return processedNpcs;
     }
 
-    private void ProcessGameEnd(GameEndsType gameEnd)
+    private SortedList<string, GENpc> ProcessNpcs(NPCsWithRefType npcs)
     {
-        //TODO
+        SortedList<string, GENpc> processedNpcs = ProcessNpcs((NPCsType)npcs);
+        if (npcs != null)
+        {
+            OnReferenceProcessing += delegate (object o, EventArgs e)
+            {
+                ProcessRefs(npcs.NPCRef, processedNpcs, elementManager.GetNPC);
+            };
+        }
+        return processedNpcs;
+    }
+
+    private SortedList<string, GENpc.GEConversation> ProcessConversations(List<NPCsTypeNPCConversation> conversations, GENpc npc)
+    {
+        SortedList<string, GENpc.GEConversation> processedConvs = new SortedList<string, GENpc.GEConversation>();
+        if (conversations == null || conversations.Count == 0) return processedConvs;
+
+        foreach(NPCsTypeNPCConversation conv in conversations)
+        {
+            GENpc.GEConversation newConv = new GENpc.GEConversation(conv.id, conv.activeAtStart, npc);
+            SortedList<string, GENpc.GELine> lines = ProcessLines(conv.Line, newConv);
+            SortedList<string, GEText> texts = ProcessTexts(conv.Texts);
+            newConv.FirstLine = lines[conv.firstLineId];
+            newConv.Lines = lines;
+            newConv.Texts = texts;
+            processedConvs.Add(conv.id, newConv);
+        }
+
+        return processedConvs;
+    }
+
+    private SortedList<string, GENpc.GELine> ProcessLines(List<NPCsTypeNPCConversationLine> lines, GENpc.GEConversation conv)
+    {
+        SortedList<string, GENpc.GELine> processedLines = new SortedList<string, GENpc.GELine>();
+        if (lines == null || lines.Count == 0) return processedLines;
+
+        foreach (NPCsTypeNPCConversationLine line in lines)
+        {
+            GENpc.GELine newLine = new GENpc.GELine(line.id, conv, line.isLastLine);
+            List<GENpc.GEAnswer> answers = ProcessAnswers(line.Answer, newLine);
+            newLine.Answers = answers;
+            OnReferenceProcessing += delegate (object o, EventArgs e)
+            {
+                newLine.LineText = elementManager.GetTextElement(line.lineTextId);
+            };
+            processedLines.Add(line.id, newLine);
+        }
+
+        return processedLines;
+    }
+
+    private List<GENpc.GEAnswer> ProcessAnswers(List<NPCsTypeNPCConversationLineAnswer> answers, GENpc.GELine line)
+    {
+        List<GENpc.GEAnswer> processedAnswers = new List<GENpc.GEAnswer>();
+        if (answers == null || answers.Count == 0) return processedAnswers;
+
+        foreach (NPCsTypeNPCConversationLineAnswer answer in answers)
+        {
+            GERequirement requirement = ProcessRequirements(answer.Requirements);
+            GENpc.GEItemAction action = ProcessActions(answer.Actions);
+
+            GENpc.GEAnswer newAnser = new GENpc.GEAnswer(line)
+            {
+                Requirement = requirement,
+                Action = action
+            };
+            OnReferenceProcessing += delegate (object o, EventArgs e)
+            {
+                newAnser.AnswerText = elementManager.GetTextElement(answer.textId);
+            };
+            processedAnswers.Add(newAnser);
+        }
+
+        return processedAnswers;
+    }
+
+    private void ProcessGameEnds(GameEndsType gameEnds)
+    {
+        foreach(GameEndsTypeGameEnd gameEnd in gameEnds.GameEnd)
+        {
+            elementManager.AddGameEnd(new GEGameEnd(gameEnd.id));
+        }
     }
 
     private void ProcessRefs<T>(List<ReferenceType> refs, SortedList<string, T> destDic, Func<string, T> elementGetter) where T : GameElement

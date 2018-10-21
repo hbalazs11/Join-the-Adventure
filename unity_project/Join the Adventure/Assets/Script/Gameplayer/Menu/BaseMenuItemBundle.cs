@@ -13,7 +13,6 @@ public class BaseMenuItemBundle : MenuItemBundle
     public BaseMenuItemBundle() : base(LabelUtility.Instance.GetLabel(LabelNames.MENU), null)
     {
         inventoryMenu = MIOpenList<GEItem>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.INVENTORY), this, Injector.GameElementManager.Player.Items.Values);
-
     }
 
     public void SetRoom(GERoom room)
@@ -26,7 +25,7 @@ public class BaseMenuItemBundle : MenuItemBundle
         {
             gotoMenu.DestroyGO();
         }
-        roomMenu = new MIOpenBundle<GERoom>(room.NameText.GetText(),room, this);
+        roomMenu = new MIOpenBundle<GERoom>(room.NameText.GetText(), room, this);
         gotoMenu = MIOpenList<GENeighbour>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.GONEXTROOM), this, room.Neighbours.Values);
     }
 

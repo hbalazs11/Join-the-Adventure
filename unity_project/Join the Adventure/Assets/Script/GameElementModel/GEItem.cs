@@ -39,6 +39,15 @@ public class GEItem : ActivatableGameElement
         }
     }
 
+    public void Unequip(GameElementManager elementManager)
+    {
+        if (equipable && isEquipped)
+        {
+            elementManager.Player.Items.Remove(id);
+            isEquipped = false;
+        }
+    }
+
     public SortedList<string, GEMenuItem> MenuItems
     {
         get

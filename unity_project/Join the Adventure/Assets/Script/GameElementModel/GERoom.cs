@@ -19,7 +19,7 @@ public class GERoom : ActivatableGameElement
     public SortedList<string, GEProperty> Properties { get; set; }
     public SortedList<string, GEMenuItem> MenuItems { get; set; }
     public SortedList<string, GEItem> Items { get; set; }
-    public SortedList<string, GENpcs> Npcs { get; set; }
+    public SortedList<string, GENpc> Npcs { get; set; }
     public SortedList<string, GEText> Texts { get; set; }
     public SortedList<string, GENeighbour> Neighbours { get; set; }
 

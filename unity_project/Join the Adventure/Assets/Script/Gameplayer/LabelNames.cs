@@ -10,4 +10,7 @@ public class LabelNames {
     public static readonly string BACK = "jtaLabelBack";
     public static readonly string ITEMS = "jtaLabelItems";
     public static readonly string PICKUPNOTIF = "jtaLabelPickUpNotif";
+    public static readonly string NPCS = "jtaLabelNpc";
+    public static readonly string SHOWDESCRUPTION = "jtaLabelShowDescription";
+    public static readonly string STARTCONVERSATION = "jtaLabelStartConversation";
 }
