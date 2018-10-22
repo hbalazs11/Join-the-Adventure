@@ -453,6 +453,7 @@ public class DescriptorProcessor : IDescriptorProcessor
             OnReferenceProcessing += delegate (object o, EventArgs e)
             {
                 newGameEnd.EndText = elementManager.GetTextElement(gameEnd.textId);
+                newGameEnd.GameOverText = elementManager.GetTextElement(gameEnd.gameOverTextId);
             };
             elementManager.AddGameEnd(newGameEnd);
         }

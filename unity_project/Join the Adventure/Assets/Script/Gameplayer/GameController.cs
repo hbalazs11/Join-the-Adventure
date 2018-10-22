@@ -2,8 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
+
+    public Text gameOverTextLabel;
 
     private GameElementManager elementManager;
     private ILogger logger;
@@ -46,5 +50,17 @@ public class GameController : MonoBehaviour {
     {
         elementManager.CurrentRoom = room;
         LoadCurrentRoom();
+    }
+
+    public void ShowGameOver(string gameOverTxt)
+    {
+        gameOverTextLabel.text = gameOverTxt;
+        gameOverTextLabel.gameObject.SetActive(true);
+        desctiptionScript.SetRoomName("");
+    }
+
+    public void HeadBackToGameMenu()
+    {
+        SceneManager.LoadScene("GameMenu");
     }
 }

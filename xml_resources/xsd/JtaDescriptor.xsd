@@ -289,6 +289,7 @@
                 <xs:complexType>
                     <xs:attribute name="id" type="xs:string" use="required" />
                     <xs:attribute name="textId" type="xs:string" use="required" />
+                    <xs:attribute name="gameOverTextId" type="xs:string" use="required"/>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>

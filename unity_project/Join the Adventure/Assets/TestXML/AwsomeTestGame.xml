@@ -179,12 +179,13 @@
     </Room>
   </Rooms>
   <GameEnds>
-    <GameEnd id="appleDeath" textId="appleDeathTxt"/>
+    <GameEnd id="appleDeath" textId="appleDeathTxt" gameOverTextId="gameOverTxt"/>
   </GameEnds>
   <Texts defLang="hun">
     <Text id="gameNameTxt">Awsome Test Game</Text>
     <Text id="gameDescTxt">Ez csak egy teszt játék. Ide jönne valami menő leírás am.</Text>
     <Text id="appleDeathTxt">Az alma finom volt. De ahogy lenyeled az utolsó falatot, érzed hogy valami nincs rendben.\nA következő pillanatban holtan esel össze.\nA játéknak vége.</Text>
+    <Text id="gameOverTxt">A JÁTÉKNAK VÉGE</Text>
     <Text id="jtaLabelInventory">Hátizsák</Text>
     <Text id="jtaLabelGoNextRoom">Továbbhaladás...</Text>
     <Text id="jtaLabelMenu">Menü</Text>

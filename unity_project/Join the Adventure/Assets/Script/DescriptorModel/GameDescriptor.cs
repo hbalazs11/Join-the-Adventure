@@ -7663,6 +7663,9 @@ public partial class GameEndsTypeGameEnd
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string textId { get; set; }
 
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string gameOverTextId { get; set; }
+
 
     private static System.Xml.Serialization.XmlSerializer Serializer
     {
