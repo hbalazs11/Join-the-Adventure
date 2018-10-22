@@ -6,7 +6,10 @@ public class DescriptorReader : IDescriptorReader
 {
     public GameDescriptor ReadDescriptor(string path)
     {
-        return GameDescriptor.LoadFromFile(path);
+        var a = Resources.Load<TextAsset>("AwsomeTestGame");
+        return GameDescriptor.Deserialize(a.text);
+        //GameDescriptor ret = new GameDescriptor();
+        //return GameDescriptor.LoadFromFile(path);
     }
 
     public GameDescriptor[] ReadMultipleDescriptor(string[] paths)

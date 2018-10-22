@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class LabelUtility  {
 
-    private const string DEF_LABELINI_PATH = "Assets/Resources/labels.ini";
+    private const string DEF_LABELINI_PATH = "Assets/Resources/labels.txt";
 
     private GameElementManager elementManager;
     private ILogger logger;
@@ -36,7 +37,11 @@ public class LabelUtility  {
     private void Start(string path)
     {
         data = new Dictionary<string, string>();
-        foreach (var row in File.ReadAllLines(path))
+        //foreach (var row in File.ReadAllLines(path))
+        //    data.Add(row.Split('=')[0], string.Join("=", row.Split('=').Skip(1).ToArray()));
+        var ta = Resources.Load<TextAsset>("labels");
+        string[] fLines = Regex.Split(ta.text, "\r\n");
+        foreach (var row in fLines)
             data.Add(row.Split('=')[0], string.Join("=", row.Split('=').Skip(1).ToArray()));
         isStarted = true;
     }

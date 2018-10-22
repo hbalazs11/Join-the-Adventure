@@ -70,8 +70,12 @@ public class MainMenuController : MonoBehaviour
 
     public void LoadTestGame()
     {
-        Thread loadingThread = new Thread(LoadTestDescriptor);
-        loadingThread.Start();
+        //Thread loadingThread = new Thread(LoadTestDescriptor);
+        //loadingThread.Start();
+        var a = Resources.Load<TextAsset>("AwsomeTestGame");
+        var b = GameDescriptor.Deserialize(a.text);
+        descriptorProcessor.ProcessGameDescriptor(b);
+        OnLoadingProcessFinished(null, EventArgs.Empty);
     }
 
     private void LoadTestDescriptor()

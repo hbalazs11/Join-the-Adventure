@@ -6,11 +6,11 @@ PlayerSettings:
   serializedVersion: 12
   productGUID: a8916d91485f00b40b25ea2764744f56
   AndroidProfiler: 0
-  defaultScreenOrientation: 4
+  defaultScreenOrientation: 2
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: SpideyGames
   productName: Join the Adventure
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -141,6 +141,7 @@ PlayerSettings:
   targetPixelDensity: 0
   resolutionScalingMode: 0
   applicationIdentifier:
+    Android: hu.spideygames.jointheadventure
     Standalone: hu.SpideyGames.JoinTheAdventure
   buildNumber: {}
   AndroidBundleVersionCode: 1
