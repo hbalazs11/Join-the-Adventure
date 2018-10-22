@@ -44,10 +44,6 @@ public class MenuItemBundleFactroy  {
     public static MenuItemBundle CreateListBundle(string bundleName, List<GEItem> geItems, MenuItemBundle parent)
     {
         MenuItemBundle newBundle = new MenuItemBundle(bundleName, parent);
-        if(geItems == null || geItems.Count == 0)
-        {
-            return newBundle;
-        }
         foreach (GEItem item in geItems)
         {
             newBundle.AddMenuItem(new MIOpenBundle<GEItem>(item.ItemName.GetText(), item, newBundle));
@@ -62,10 +58,6 @@ public class MenuItemBundleFactroy  {
     public static MenuItemBundle CreateListBundle(string bundleName, List<GENeighbour> geNeighbours, MenuItemBundle parent)
     {
         MenuItemBundle newBundle = new MenuItemBundle(bundleName, parent);
-        if (geNeighbours == null || geNeighbours.Count == 0)
-        {
-            return newBundle;
-        }
         foreach (GENeighbour neighbour in geNeighbours)
         {
             newBundle.AddMenuItem(new MIRoomChange(neighbour.MenuText.GetText(), newBundle, neighbour));
@@ -91,10 +83,7 @@ public class MenuItemBundleFactroy  {
     public static MenuItemBundle CreateListBundle(string bundleName, List<GENpc> geNpcs, MenuItemBundle parent)
     {
         MenuItemBundle newBundle = new MenuItemBundle(bundleName, parent);
-        if (geNpcs == null || geNpcs.Count == 0)
-        {
-            return newBundle;
-        }
+        
         foreach (GENpc npc in geNpcs)
         {
             newBundle.AddMenuItem(new MIOpenBundle<GENpc>(npc.NameText.GetText(), npc, newBundle));
