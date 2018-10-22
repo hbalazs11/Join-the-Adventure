@@ -185,7 +185,8 @@
                                                             <xs:element name="Requirements" type="RequirementsType" minOccurs="0" />
                                                             <xs:element name="Actions" type="ItemActionsType" minOccurs="0" />
                                                         </xs:sequence>
-                                                        <xs:attribute name="activeAtStart" default="true" type="xs:boolean" use="optional" />
+                                                        <xs:attribute name="id" type="xs:string" use="required" />
+                                                        <xs:attribute name="activeAtStart" default="true" type="xs:boolean" />
                                                         <xs:attribute name="textId" type="xs:string" use="required" />
                                                         <xs:attribute name="nextLineId" type="xs:string" use="required" />
                                                     </xs:complexType>
@@ -204,6 +205,7 @@
                                 <xs:attribute name="firstLineId" type="xs:string" use="required" />
                             </xs:complexType>
                         </xs:element>
+                        <xs:element name="MenuItems" type="MenuItemsWithRefsType" minOccurs="0" />
                         <xs:element name="Items" type="ItemsWithRefsType" minOccurs="0" />
                         <xs:element name="Texts" type="TextsType" minOccurs="0" />
                     </xs:sequence>

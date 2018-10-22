@@ -93,6 +93,8 @@
                 <Actions responseTextId="takePearTxt">
                   <setActive refId="NoMoreFruiteConv" value="true"/>
                   <setActive refId="GreetingConv" value="false"/>
+                  <setActive refId="lookAt" value="false"/>
+                  <setActive refId="lookAtLater" value="true"/>
                   <equipItem refId="blacksmithPear"/>
                 </Actions>
               </Answer>
@@ -100,13 +102,15 @@
                 <Actions responseTextId="takeAppleTxt">
                   <setActive refId="NoMoreFruiteConv" value="true"/>
                   <setActive refId="GreetingConv" value="false"/>
+                  <setActive refId="lookAt" value="false"/>
+                  <setActive refId="lookAtLater" value="true"/>
                   <equipItem refId="blacksmithApple"/>
                 </Actions>
               </Answer>
             </Line>
             <Line id="blacksmithLine2" lineTextId="blacksmithLine2Txt" isLastLine="true"/>
             <Texts>
-              <Text id="blacksmithLine1Txt">Üdvözöllek a szobában!\nMost, hogy eljutottál idáig, jutalomban részesüls!\nAz almát vagy a körtét kéred?</Text>
+              <Text id="blacksmithLine1Txt">Üdvözöllek a szobában!\nMost, hogy eljutottál idáig, jutalomban részesülsz!\nAz almát vagy a körtét kéred?</Text>
               <Text id="pearAnswTxt">A körtét kérem!</Text>
               <Text id="appleAnswTxt">Az almát kérem!</Text>
               <Text id="takePearTxt">A körtét eltetted a táskádba.</Text>
@@ -117,6 +121,14 @@
           <Conversation id="NoMoreFruiteConv" activeAtStart="false" firstLineId="noMoreFruiteLine">
             <Line id="noMoreFruiteLine" isLastLine="true" lineTextId="noMoreFruiteTxt"/>
           </Conversation>
+          <MenuItems>
+            <MenuItem id="lookAt" activeAtStart="true" menuTextId="lookAtMenuTxt">
+              <Actions responseTextId="lookAtResponseTxt"/>
+            </MenuItem>
+            <MenuItem id="lookAtLater" activeAtStart="false" menuTextId="lookAtMenuTxt">
+              <Actions responseTextId="lookAtLaterResponseTxt"/>
+            </MenuItem>
+          </MenuItems>
           <Items>
             <Item id="blacksmithPear" activeAtStart="true" equipable="true" nameTextId="pearNameTxt" descTextId="pearDescTxt">
               <MenuItems>
@@ -145,6 +157,9 @@
             <Text id="eatPearTxt">Megetted az körtét. Hmmm. Ez tényleg finom volt!</Text>
             <Text id="eatAppleTxt">##NOPE##</Text>
             <Text id="noMoreFruiteTxt">Komolyoan mondtam! Mást már nem adok!</Text>
+            <Text id="lookAtMenuTxt">Megnézem jobban...</Text>
+            <Text id="lookAtResponseTxt">Tényleg csúnya ez a kovács... Voszont közvetlen mellette egy kosárban szép gyümölcsök vannak.</Text>
+            <Text id="lookAtLaterResponseTxt">Most már egészen rosszallóan néz... Mintha már nem látna szivesen.</Text>
           </Texts>
         </NPC>
       </NPCs>

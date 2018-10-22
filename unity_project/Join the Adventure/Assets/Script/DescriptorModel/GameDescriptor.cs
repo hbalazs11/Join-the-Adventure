@@ -831,6 +831,8 @@ public partial class NPCsTypeNPC
 
     private List<NPCsTypeNPCConversation> conversationField;
 
+    private MenuItemsWithRefsType menuItemsField;
+
     private ItemsWithRefsType itemsField;
 
     private TextsType textsField;
@@ -870,7 +872,24 @@ public partial class NPCsTypeNPC
         }
     }
 
-    [System.Xml.Serialization.XmlElementAttribute("Items", Order = 1)]
+    [System.Xml.Serialization.XmlElementAttribute("MenuItems", Order = 1)]
+    public MenuItemsWithRefsType MenuItems
+    {
+        get
+        {
+            if ((this.menuItemsField == null))
+            {
+                this.menuItemsField = new MenuItemsWithRefsType();
+            }
+            return this.menuItemsField;
+        }
+        set
+        {
+            this.menuItemsField = value;
+        }
+    }
+
+    [System.Xml.Serialization.XmlElementAttribute("Items", Order = 2)]
     public ItemsWithRefsType Items
     {
         get
@@ -887,7 +906,7 @@ public partial class NPCsTypeNPC
         }
     }
 
-    [System.Xml.Serialization.XmlElementAttribute("Texts", Order = 2)]
+    [System.Xml.Serialization.XmlElementAttribute("Texts", Order = 3)]
     public TextsType Texts
     {
         get

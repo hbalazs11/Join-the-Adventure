@@ -336,11 +336,13 @@ public class DescriptorProcessor : IDescriptorProcessor
         {
             SortedList<string, GEText> texts = ProcessTexts(npc.Texts);
             SortedList<string, GEItem> items = ProcessItems(npc.Items);
+            SortedList<string, GEMenuItem> menuItems = ProcessMenuItems(npc.MenuItems);
 
             GENpc newNpc = new GENpc(npc.id, npc.activeAtStart)
             {
                 Items = items,
-                Texts = texts
+                Texts = texts,
+                MenuItems = menuItems
             };
             SortedList<string, GENpc.GEConversation> conversations = ProcessConversations(npc.Conversation, newNpc);
             newNpc.Conversations = conversations;

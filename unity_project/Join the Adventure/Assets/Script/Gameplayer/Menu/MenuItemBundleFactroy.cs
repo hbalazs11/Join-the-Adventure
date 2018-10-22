@@ -76,7 +76,11 @@ public class MenuItemBundleFactroy  {
     {
         MenuItemBundle newBundle = new MenuItemBundle(npc.NameText.GetText(), parent);
 
-        //todo npc's menuitems
+        foreach (GEMenuItem action in npc.MenuItems.Values)
+        {
+            newBundle.AddMenuItem(new MIGameElementAction(action.MenuName.GetText(), newBundle, action));
+            action.OnActivationChange += newBundle.RefreshOnEvent;
+        }
 
         //newBundle.AddMenuItem(new MIShowDescription(LabelUtility.Instance.GetLabel(LabelNames.SHOWDESCRUPTION), newBundle, npc.DescText.GetText()));
 

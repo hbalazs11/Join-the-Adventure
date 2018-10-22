@@ -9,6 +9,7 @@ public class GENpc : ActivatableGameElement
 
     SortedList<string, GEText> texts;
     SortedList<string, GEItem> items;
+    SortedList<string, GEMenuItem> menuItems;
     SortedList<string, GEConversation> conversations;
 
     public GENpc(string id, bool isActive) : base(id)
@@ -94,6 +95,19 @@ public class GENpc : ActivatableGameElement
                     break;
                 }
             }
+        }
+    }
+
+    public SortedList<string, GEMenuItem> MenuItems
+    {
+        get
+        {
+            return menuItems;
+        }
+
+        set
+        {
+            menuItems = value;
         }
     }
 
