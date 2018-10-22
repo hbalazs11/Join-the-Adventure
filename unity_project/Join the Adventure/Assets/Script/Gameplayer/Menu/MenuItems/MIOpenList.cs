@@ -7,7 +7,6 @@ public class MIOpenList<T> : MenuItem where T : GameElement
 {
     List<T> gameElements;
     MenuItemBundle bundleInstance;
-    Description description;
 
     public static MIOpenList<T> CreateMIOpenList(string menuText, MenuItemBundle parentBundle, IList<T> gameElements){
         MIOpenList<T> newMI = new MIOpenList<T>(menuText, parentBundle);
@@ -17,7 +16,6 @@ public class MIOpenList<T> : MenuItem where T : GameElement
 
     private MIOpenList(string menuText, MenuItemBundle parentBundle) : base(menuText, parentBundle)
     {
-        description = Description.GetInstance();
     }
 
     protected override void Execute()

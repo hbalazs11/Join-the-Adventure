@@ -16,6 +16,14 @@ public class GENpc : ActivatableGameElement
         this.isActive = isActive;
     }
 
+    public GEConversation ActiveConversation
+    {
+        get
+        {
+            return activeConversation;
+        }
+    }
+
     public GEText NameText
     {
         get
@@ -250,7 +258,7 @@ public class GENpc : ActivatableGameElement
         }
     }
 
-    public class GEAnswer
+    public class GEAnswer : ActivatableGameElement
     {
         private GELine parentLine;
 
@@ -259,9 +267,23 @@ public class GENpc : ActivatableGameElement
         GERequirement requirement;
         GEItemAction action;
 
-        public GEAnswer(GELine parent)
+        public GEAnswer(string id, bool isActive, GELine parent) : base(id)
         {
             this.parentLine = parent;
+            this.isActive = isActive; 
+        }
+
+        public string Execute()
+        {
+            if (requirement != null && !requirement.Check())
+            {
+                return requirement.TextOnFail.GetText();
+            }
+            if (action != null)
+            {
+                return action.Execute().GetText();
+            }
+            return null;
         }
 
         public GELine NextLine
@@ -332,10 +354,22 @@ public class GENpc : ActivatableGameElement
 
     public class GEItemAction : GEAction
     {
+        List<GEEquipItem> equipItems;
+
         public GEItemAction(GameElementManager elementManager, GEText responseText, List<GEActivation> activations, List<GEPropertySetter> propertySetters, List<GEEquipItem> equipItems, int useInterval) : base(elementManager, responseText, activations, propertySetters, useInterval)
         {
+            this.equipItems = equipItems;
         }
         
+        public new GEText Execute()
+        {
+            foreach(GEEquipItem equipItem in equipItems)
+            {
+                equipItem.Execute(elementManager);
+            }
+            GEText response = base.Execute();
+            return response;
+        }
 
         public class GEEquipItem
         {

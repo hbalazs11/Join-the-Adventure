@@ -9,7 +9,7 @@ public class GEAction
 
     List<GEActivation> activations;
     List<GEPropertySetter> propertySetters;
-    GameElementManager elementManager;
+    protected GameElementManager elementManager;
 
     public GEAction(GameElementManager elementManager, GEText responseText, List<GEActivation> activations, List<GEPropertySetter> propertySetters, int useInterval)
     {

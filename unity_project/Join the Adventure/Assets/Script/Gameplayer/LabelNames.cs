@@ -13,4 +13,5 @@ public class LabelNames {
     public static readonly string NPCS = "jtaLabelNpc";
     public static readonly string SHOWDESCRUPTION = "jtaLabelShowDescription";
     public static readonly string STARTCONVERSATION = "jtaLabelStartConversation";
+    public static readonly string CONVERSATIONWITH = "jtaLabelConversationWith";
 }

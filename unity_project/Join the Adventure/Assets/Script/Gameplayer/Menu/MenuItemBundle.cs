@@ -10,6 +10,7 @@ public class MenuItemBundle  {
     protected MenuController menuController;
     private List<MenuItem> menuItems;
     private MenuItemBundle parent;
+    public event EventHandler<EventArgs> OnExecutionSidefects;
 
 
     public MenuItemBundle(string bundleName, MenuItemBundle parent)
@@ -18,6 +19,14 @@ public class MenuItemBundle  {
         menuItems = new List<MenuItem>();
         menuController = MenuController.GetInstance();
         this.parent = parent;
+    }
+
+    public void ExecuteSideEffects()
+    {
+        if (OnExecutionSidefects != null)
+        {
+            OnExecutionSidefects(null, EventArgs.Empty);
+        }
     }
 
     public virtual bool IsActive {

@@ -185,6 +185,7 @@
                                                             <xs:element name="Requirements" type="RequirementsType" minOccurs="0" />
                                                             <xs:element name="Actions" type="ItemActionsType" minOccurs="0" />
                                                         </xs:sequence>
+                                                        <xs:attribute name="activeAtStart" default="true" type="xs:boolean" use="optional" />
                                                         <xs:attribute name="textId" type="xs:string" use="required" />
                                                         <xs:attribute name="nextLineId" type="xs:string" use="required" />
                                                     </xs:complexType>

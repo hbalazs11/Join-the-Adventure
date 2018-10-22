@@ -1584,6 +1584,7 @@ public partial class NPCsTypeNPCConversationLine
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 public partial class NPCsTypeNPCConversationLineAnswer
 {
+    public bool activeAtStartField;
 
     private RequirementsType requirementsField;
 
@@ -1592,11 +1593,33 @@ public partial class NPCsTypeNPCConversationLineAnswer
     private static System.Xml.Serialization.XmlSerializer serializer;
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string id { get; set; }
+
+
+    [System.Xml.Serialization.XmlAttributeAttribute()]
     public string textId { get; set; }
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string nextLineId { get; set; }
 
+    public NPCsTypeNPCConversationLineAnswer()
+    {
+        activeAtStartField = true;
+    }
+
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    [System.ComponentModel.DefaultValueAttribute(true)]
+    public bool activeAtStart
+    {
+        get
+        {
+            return this.activeAtStartField;
+        }
+        set
+        {
+            this.activeAtStartField = value;
+        }
+    }
 
     [System.Xml.Serialization.XmlElementAttribute(Order = 0)]
     public RequirementsType Requirements
@@ -4840,6 +4863,7 @@ public partial class ItemActionsTypeEquipItem
     public string refId { get; set; }
 
     [System.Xml.Serialization.XmlAttributeAttribute("value")]
+    [System.ComponentModel.DefaultValueAttribute(true)]
     public bool value
     {
         get

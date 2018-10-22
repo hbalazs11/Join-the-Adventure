@@ -26,6 +26,10 @@ public class GameElementManager : IGameElementManager {
 
     private Dictionary<string, GEGameEnd> gameEnds;
 
+    private Dictionary<string, GENpc.GEConversation> npcConvs;
+
+    private Dictionary<string, GENpc.GELine> npcConvLines;
+
     public GERoom CurrentRoom { get; set; }
 
     public GameElementManager()
@@ -37,6 +41,8 @@ public class GameElementManager : IGameElementManager {
         menuItems = new Dictionary<string, GEMenuItem>();
         npcs = new Dictionary<string, GENpc>();
         gameEnds = new Dictionary<string, GEGameEnd>();
+        npcConvs = new Dictionary<string, GENpc.GEConversation>();
+        npcConvLines = new Dictionary<string, GENpc.GELine>();
         logger = Injector.Logger;
     }
 
@@ -159,6 +165,26 @@ public class GameElementManager : IGameElementManager {
         AddToDic(gameEnds, gameEnd);
     }
 
+    public GENpc.GEConversation GetNpcConv(string id)
+    {
+        return GetFromDic(npcConvs, id);
+    }
+
+    public void AddNpcConv(GENpc.GEConversation conv)
+    {
+        AddToDic(npcConvs, conv);
+    }
+
+    public GENpc.GELine GetNpcConvLine(string id)
+    {
+        return GetFromDic(npcConvLines, id);
+    }
+
+    public void AddNpcConvLine(GENpc.GELine line)
+    {
+        AddToDic(npcConvLines, line);
+    }
+
     private void AddToDic<T>(Dictionary<string,T> dictionary, T value) where T : GameElement
     {
         string id = value.Id;
@@ -196,6 +222,18 @@ public class GameElementManager : IGameElementManager {
         {
             return menuItems[id];
         }
+        if (gameEnds.ContainsKey(id))
+        {
+            return gameEnds[id];
+        }
+        if (npcs.ContainsKey(id))
+        {
+            return npcs[id];
+        }
+        if (npcConvs.ContainsKey(id))
+        {
+            return npcConvs[id];
+        }
         //...
         return null;
     }
@@ -225,6 +263,14 @@ public class GameElementManager : IGameElementManager {
         if (npcs.ContainsKey(id))
         {
             return npcs[id];
+        }
+        if (npcConvs.ContainsKey(id))
+        {
+            return npcConvs[id];
+        }
+        if (npcConvLines.ContainsKey(id))
+        {
+            return npcConvLines[id];
         }
         if (gameEnds.ContainsKey(id))
         {

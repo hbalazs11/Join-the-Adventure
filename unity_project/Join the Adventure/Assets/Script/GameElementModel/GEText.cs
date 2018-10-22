@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class GEText : GameElement {
-
+    private const string EMPTYTEXT = "##NOPE##";
     private string defLang;
     private SortedList<string, string> textByLang;
     private GameElementManager elementManager;
@@ -39,14 +39,14 @@ public class GEText : GameElement {
         textByLang.TryGetValue(lang, out ret);
         if (ret != null)
         {
-            return ret;
+            return CheckNope(ret);
         }
         if (!lang.Equals(defLang))
         {
             textByLang.TryGetValue(defLang, out ret);
             if (ret != null)
             {
-                return ret;
+                return CheckNope(ret);
             }
         }
         if (log)
@@ -60,6 +60,15 @@ public class GEText : GameElement {
     public string GetText()
     {
         return GetText(elementManager.CurrentLang);
+    }
+
+    private string CheckNope(string txt)
+    {
+        if (EMPTYTEXT.Equals(txt))
+        {
+            return "";
+        }
+        return txt;
     }
 
     public string DefLang

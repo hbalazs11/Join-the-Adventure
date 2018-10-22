@@ -253,6 +253,10 @@ public class DescriptorProcessor : IDescriptorProcessor
             equipItems.Add(new GENpc.GEItemAction.GEEquipItem(equipItem.refId, equipItem.value));
         }
         GENpc.GEItemAction newAction = new GENpc.GEItemAction(elementManager, null, actionBase.Activations, actionBase.PropertySetters, equipItems, actionBase.UseInterval);
+        OnReferenceProcessing += delegate (object o, EventArgs e)
+        {
+            newAction.ResponseText = elementManager.GetTextElement(action.responseTextId);
+        };
         return newAction;
     }
 
@@ -386,6 +390,7 @@ public class DescriptorProcessor : IDescriptorProcessor
             newConv.Lines = lines;
             newConv.Texts = texts;
             processedConvs.Add(conv.id, newConv);
+            elementManager.AddNpcConv(newConv);
         }
 
         return processedConvs;
@@ -406,6 +411,7 @@ public class DescriptorProcessor : IDescriptorProcessor
                 newLine.LineText = elementManager.GetTextElement(line.lineTextId);
             };
             processedLines.Add(line.id, newLine);
+            elementManager.AddNpcConvLine(newLine);
         }
 
         return processedLines;
@@ -421,7 +427,7 @@ public class DescriptorProcessor : IDescriptorProcessor
             GERequirement requirement = ProcessRequirements(answer.Requirements);
             GENpc.GEItemAction action = ProcessActions(answer.Actions);
 
-            GENpc.GEAnswer newAnser = new GENpc.GEAnswer(line)
+            GENpc.GEAnswer newAnser = new GENpc.GEAnswer(answer.id, answer.activeAtStart, line)
             {
                 Requirement = requirement,
                 Action = action
@@ -429,6 +435,7 @@ public class DescriptorProcessor : IDescriptorProcessor
             OnReferenceProcessing += delegate (object o, EventArgs e)
             {
                 newAnser.AnswerText = elementManager.GetTextElement(answer.textId);
+                newAnser.NextLine = elementManager.GetNpcConvLine(answer.nextLineId);
             };
             processedAnswers.Add(newAnser);
         }
@@ -440,7 +447,12 @@ public class DescriptorProcessor : IDescriptorProcessor
     {
         foreach(GameEndsTypeGameEnd gameEnd in gameEnds.GameEnd)
         {
-            elementManager.AddGameEnd(new GEGameEnd(gameEnd.id));
+            GEGameEnd newGameEnd = new GEGameEnd(gameEnd.id);
+            OnReferenceProcessing += delegate (object o, EventArgs e)
+            {
+                newGameEnd.EndText = elementManager.GetTextElement(gameEnd.textId);
+            };
+            elementManager.AddGameEnd(newGameEnd);
         }
     }
 
