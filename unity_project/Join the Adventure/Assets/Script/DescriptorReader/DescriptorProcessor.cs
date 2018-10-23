@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class DescriptorProcessor : IDescriptorProcessor
@@ -483,8 +484,8 @@ public class DescriptorProcessor : IDescriptorProcessor
         }
     }
 
-    public void ProcessImageResources(List<byte[]> images)
+    public void ProcessImageResources(Dictionary<string, MemoryStream> images)
     {
-        throw new NotImplementedException();
+        elementManager.ImgResources = images;
     }
 }

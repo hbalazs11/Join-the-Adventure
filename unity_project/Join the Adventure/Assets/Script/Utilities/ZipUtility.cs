@@ -82,11 +82,6 @@ public class ZipUtility {
                 }
             }
         }
-        catch (System.Exception ex)
-        {
-            //statusLabel.text = "Error: " + ex.Message;
-            // handle error
-        }
         finally
         {
             if (zf != null)

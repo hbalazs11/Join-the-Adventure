@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
 
     private Description desctiptionScript;
     private MenuController menuController;
+    private BcgImage bcgImageScript;
 
     void Awake()
     {
@@ -22,6 +23,7 @@ public class GameController : MonoBehaviour {
 
         desctiptionScript = FindObjectOfType<Description>();
         menuController = FindObjectOfType<MenuController>();
+        bcgImageScript = FindObjectOfType<BcgImage>();
     }
 
     // Use this for initialization
@@ -44,6 +46,8 @@ public class GameController : MonoBehaviour {
         desctiptionScript.SetRoomName(elementManager.CurrentRoom.NameText.GetText());
         desctiptionScript.SetDescriptionText(elementManager.CurrentRoom.DescText.GetText());
         menuController.LoadRoom(elementManager.CurrentRoom);
+        string imgName = elementManager.CurrentRoom.ImgPath;
+        bcgImageScript.SetImage(imgName, elementManager.ImgResources[imgName].ToArray());
     }
 
     public void LoadRoom(GERoom room)

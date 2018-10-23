@@ -18,7 +18,8 @@ public class DescriptorLoaderUtility  {
         {
             Dictionary<string, MemoryStream> descFiles = ZipUtility.ExtractZipFile(www.bytes);
             List<string> xmlNames = GetXmlNames(descFiles);
-            List<string> resourceNames = GetResourceNames(descFiles);
+            Dictionary<string, MemoryStream> imgResources = GetImgs(descFiles);
+            Injector.DescriptorProcessor.ProcessImageResources(imgResources);
             List<GameDescriptor> gDescriptors = ReadXmls(xmlNames, descFiles);
             Injector.DescriptorProcessor.ProcessMultipleGameDescriptor(gDescriptors);
             OnFinished(null, EventArgs.Empty);
@@ -61,14 +62,14 @@ public class DescriptorLoaderUtility  {
         return ret;
     }
 
-    private static List<string> GetResourceNames(Dictionary<string, MemoryStream> descriptors)
+    private static Dictionary<string, MemoryStream> GetImgs(Dictionary<string, MemoryStream> descriptors)
     {
-        List<string> ret = new List<string>();
+        Dictionary<string, MemoryStream> ret = new Dictionary<string, MemoryStream>();
         foreach (string name in descriptors.Keys)
         {
-            if (!name.EndsWith(".xml"))
+            if (name.EndsWith(".jpg") || name.EndsWith(".png"))
             {
-                ret.Add(name);
+                ret.Add(name, descriptors[name]);
             }
         }
         return ret;

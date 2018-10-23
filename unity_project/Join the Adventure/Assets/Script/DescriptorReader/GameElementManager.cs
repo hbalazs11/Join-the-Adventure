@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class GameElementManager : IGameElementManager {
 
@@ -30,6 +31,8 @@ public class GameElementManager : IGameElementManager {
 
     private Dictionary<string, GENpc.GELine> npcConvLines;
 
+    private Dictionary<string, MemoryStream> imgResources;
+
     public GERoom CurrentRoom { get; set; }
 
     public GameElementManager()
@@ -43,6 +46,7 @@ public class GameElementManager : IGameElementManager {
         gameEnds = new Dictionary<string, GEGameEnd>();
         npcConvs = new Dictionary<string, GENpc.GEConversation>();
         npcConvLines = new Dictionary<string, GENpc.GELine>();
+        imgResources = new Dictionary<string, MemoryStream>();
         logger = Injector.Logger;
     }
 
@@ -209,6 +213,7 @@ public class GameElementManager : IGameElementManager {
         }
         return value;
     }
+    
 
     public IActivatable GetActivatableGameElement(string id)
     {
@@ -332,6 +337,19 @@ public class GameElementManager : IGameElementManager {
         set
         {
             currentLang = value;
+        }
+    }
+
+    public Dictionary<string, MemoryStream> ImgResources
+    {
+        get
+        {
+            return imgResources;
+        }
+
+        set
+        {
+            imgResources = value;
         }
     }
 }
