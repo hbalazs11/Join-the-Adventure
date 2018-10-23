@@ -63,27 +63,37 @@ public class MainMenuController : MonoBehaviour
 
     public void LoadGame()
     {
-        Debug.Log("LoadGame invoked!");
-        Thread loadingThread = new Thread(LoadDescriptor);
-        loadingThread.Start();
+        //Debug.Log("LoadGame invoked!");
+        //Thread loadingThread = new Thread(LoadDescriptor);
+        //loadingThread.Start();
+
+        StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(pathField.text, null, OnLoadingProcessFinished, OnLoadingProcessException));
     }
 
     public void LoadTestGame()
     {
+        //version 1
         //Thread loadingThread = new Thread(LoadTestDescriptor);
         //loadingThread.Start();
-        var a = Resources.Load<TextAsset>("AwsomeTestGame");
-        var b = GameDescriptor.Deserialize(a.text);
-        descriptorProcessor.ProcessGameDescriptor(b);
-        OnLoadingProcessFinished(null, EventArgs.Empty);
+
+        //version2
+        //var a = Resources.Load<TextAsset>("AwesomeTestGame");
+        //var b = GameDescriptor.Deserialize(a.text);
+        //descriptorProcessor.ProcessGameDescriptor(b);
+        //OnLoadingProcessFinished(null, EventArgs.Empty);
+
+        //version3
+        StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(Application.streamingAssetsPath, "AwesomeTestGame.zip", OnLoadingProcessFinished, OnLoadingProcessException));
     }
+
+   
 
     private void LoadTestDescriptor()
     {
         GameDescriptor descriptor = null;
         try
         {
-            descriptor = descriporReader.ReadDescriptor("Assets/TestXML/AwsomeTestGame.xml");
+            descriptor = descriporReader.ReadDescriptor("Assets/TestXML/AwesomeTestGame.xml");
         }
         catch (Exception e)
         {
@@ -109,42 +119,42 @@ public class MainMenuController : MonoBehaviour
         * Expensive process, must run on working thread.
         * Callbacks are handled in events: OnLoadingProcessFinished, OnLoadingProcessException
         */
-    private void LoadDescriptor()
-    {
-        GameDescriptor[] descriptors = null;
-        try
-        {
-            string path = pathField.text;
-            if (path.EndsWith("\\") || path.EndsWith("/"))
-            {
-                string[] xmls = Directory.GetFiles(pathField.text);
-                descriptors = descriporReader.ReadMultipleDescriptor(xmls);
-            }
-            else
-            {
-                descriptors = new GameDescriptor[] { descriporReader.ReadDescriptor(path) };
-            }
-        }
-        catch (Exception e)
-        {
-            RaiseLoadingProcessException("Could not load descriptors! " + e.Message, e);
-        }
+    //private void LoadDescriptor()
+    //{
+    //    GameDescriptor[] descriptors = null;
+    //    try
+    //    {
+    //        string path = pathField.text;
+    //        if (path.EndsWith("\\") || path.EndsWith("/"))
+    //        {
+    //            string[] xmls = Directory.GetFiles(pathField.text);
+    //            descriptors = descriporReader.ReadMultipleDescriptor(xmls);
+    //        }
+    //        else
+    //        {
+    //            descriptors = new GameDescriptor[] { descriporReader.ReadDescriptor(path) };
+    //        }
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        RaiseLoadingProcessException("Could not load descriptors! " + e.Message, e);
+    //    }
 
 
-        try
-        {
-            descriptorProcessor.ProcessMultipleGameDescriptor(descriptors);
-        }
-        catch (Exception e)
-        {
-            RaiseLoadingProcessException("Could not process descriptors! " + e.Message, e);
-        }
+    //    try
+    //    {
+    //        descriptorProcessor.ProcessMultipleGameDescriptor(descriptors);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        RaiseLoadingProcessException("Could not process descriptors! " + e.Message, e);
+    //    }
 
-        if (OnLoadingProcessFinished != null)
-        {
-            OnLoadingProcessFinished(null, EventArgs.Empty);
-        }
-    }
+    //    if (OnLoadingProcessFinished != null)
+    //    {
+    //        OnLoadingProcessFinished(null, EventArgs.Empty);
+    //    }
+    //}
     
     
 
@@ -156,7 +166,7 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
-    private class ExceptionEventArgs : EventArgs
+    public class ExceptionEventArgs : EventArgs
     {
         private string msg;
         private Exception exception;

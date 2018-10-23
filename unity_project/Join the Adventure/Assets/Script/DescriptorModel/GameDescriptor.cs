@@ -269,6 +269,22 @@ public partial class GameDescriptor
         try
         {
             stringReader = new System.IO.StringReader(xml);
+            //stringReader.Read();
+            return ((GameDescriptor)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+        }
+        finally
+        {
+            if ((stringReader != null))
+            {
+                stringReader.Dispose();
+            }
+        }
+    }
+
+    public static GameDescriptor Deserialize(System.IO.StringReader stringReader)
+    {
+        try
+        {
             return ((GameDescriptor)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
         }
         finally

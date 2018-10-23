@@ -6,6 +6,8 @@ public interface IDescriptorProcessor  {
 
     void ProcessGameDescriptor(GameDescriptor gameDescriptor);
 
-    void ProcessMultipleGameDescriptor(GameDescriptor[] gameDescriptors);
+    void ProcessMultipleGameDescriptor(List<GameDescriptor> gameDescriptors);
+
+    void ProcessImageResources(List<byte[]> images);
 
 }

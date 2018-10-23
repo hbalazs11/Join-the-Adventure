@@ -40,7 +40,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         elementManager.SetFirstRoom();
     }
 
-    public void ProcessMultipleGameDescriptor(GameDescriptor[] gameDescriptors)
+    public void ProcessMultipleGameDescriptor(List<GameDescriptor> gameDescriptors)
     {
         foreach(GameDescriptor descripor in gameDescriptors)
         {
@@ -483,4 +483,8 @@ public class DescriptorProcessor : IDescriptorProcessor
         }
     }
 
+    public void ProcessImageResources(List<byte[]> images)
+    {
+        throw new NotImplementedException();
+    }
 }
