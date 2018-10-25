@@ -7,10 +7,8 @@ using UnityEngine;
 
 public class DescriptorLoaderUtility  {
 
-	public static IEnumerator LoadDescriptor(string path, string name, EventHandler<EventArgs> OnFinished, EventHandler<MainMenuController.ExceptionEventArgs> OnError)
+	public static IEnumerator LoadDescriptor(string filePath, EventHandler<EventArgs> OnFinished, EventHandler<MainMenuController.ExceptionEventArgs> OnError)
     {
-        //string filePath = Path.Combine(path, name).ToString();
-        string filePath = path + "/" + name;
         WWW www = new WWW(filePath);
         yield return www;
 

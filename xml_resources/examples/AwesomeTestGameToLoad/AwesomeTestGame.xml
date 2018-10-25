@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid Studio 2018 (https://www.liquid-technologies.com) -->
+<GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="E:\temp\liquidproject\LiquidTest\Schemas\schema_test.xsd"
+                version="1" id="id" root="true">
+  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="false" />
+  <Player>
+    <Properties>
+      <Property id="playerHealth" nameTextId="playerHealthNameTxt" minValue="0" maxValue="100" defValue="100" />
+    </Properties>
+    <Items>
+      <Item id="torch" nameTextId="torchNameTxt" activeAtStart="true" equipable="true" descTextId="torchDescTxt">
+        <MenuItems>
+          <MenuItem id="torchSwitchOnMenuItem" menuTextId="torchSwitchOnMenuTxt" activeAtStart="true" useNumber="1">
+            <Actions responseTextId="torchSwitchOnResponseTxt">
+              <setActive refId="torchSwitchOffMenuItem" value="true" />
+              <setPropertyValue refId="torchSwitch" change="set" value="1" />
+            </Actions>
+          </MenuItem>
+          <MenuItem id="torchSwitchOffMenuItem" menuTextId="torchSwitchOffMenuTxt" activeAtStart="false" useNumber="1">
+            <Actions responseTextId="torchSwitchOffResponseTxt">
+              <setActive refId="torchSwitchOnMenuItem" value="true" />
+              <setPropertyValue refId="torchSwitch" change="set" value="0" />
+            </Actions>
+          </MenuItem>
+        </MenuItems>
+        <Properties>
+          <Property id="torchSwitch" nameTextId="torchSwitchNameTxt" minValue="0" maxValue="1" defValue="0" />
+        </Properties>
+        <Texts>
+          <Text id="playerHealthNameTxt">Életerő</Text>
+          <Text id="torchNameTxt">Zseblámpa</Text>
+          <Text id="torchDescTxt">Egy közönséges elemlámpa egy kapcsolóval.</Text>
+          <Text id="torchSwitchOnMenuTxt">Felkapcsol</Text>
+          <Text id="torchSwitchOnResponseTxt">Felkapcsoltad a zseblámpát.</Text>
+          <Text id="torchSwitchOffMenuTxt">Lekapcsol</Text>
+          <Text id="torchSwitchOffResponseTxt">Lekapcsoltad a zseblámpát.</Text>
+          <Text id="torchSwitchNameTxt">Zseblámpa</Text>
+        </Texts>
+      </Item>
+    </Items>
+  </Player>
+  <Rooms>
+    <Room id="smallRoom" nameTextId="smallRoomNameTxt" descTextId="smallRoomDescTxt" imgSrc="testJpg1.jpg" activeAtStart="true">
+      <MenuItems>
+        <MenuItem id="searchRoom" menuTextId="searchRoomMenuTxt" activeAtStart="true">
+          <Requirements textOnFail="searchFailedTxt" >
+            <isActive refId="doorKeyItem" value="false" />
+            <propertyCondition refId="torchSwitch" condition="eq" value="1" />
+          </Requirements>
+          <Actions responseTextId="searchSucceededTxt">
+            <setActive refId="doorKeyItem" value="true" />
+          </Actions>
+        </MenuItem>
+      </MenuItems>
+      <Items>
+        <Item id="doorKeyItem" nameTextId="doorKeyNameTxt" activeAtStart="false" equipable="true" >
+        </Item>
+      </Items>
+      <Neighbours>
+        <Neighbour id="neighbourSmallToBig" roomRefId="bigRoom" nameTextId="neighbourSmallToBigMenuTxt" activeAtStart="true">
+          <Requirements textOnFail="doorIsClosedTxt">
+            <isEquipped refId="doorKeyItem" />
+          </Requirements>
+        </Neighbour>
+      </Neighbours>
+      <Texts>
+        <Text id="smallRoomNameTxt">Kisszoba</Text>
+        <Text id="smallRoomDescTxt">Egy egyszerű kis szoba. A világítás gyenge, elég sötét van a sarkakban.</Text>
+        <Text id="searchRoomMenuTxt">Szétnéz</Text>
+        <Text id="searchFailedTxt">Nem találtál semmi érdekeset.</Text>
+        <Text id="searchSucceededTxt">A sötét sarokban valami megcsillan a zseblámpa fényében. Egy kulcs az.</Text>
+        <Text id="doorKeyNameTxt">Kulcs</Text>
+        <Text id="neighbourSmallToBigMenuTxt">Át az ajtón.</Text>
+        <Text id="doorIsClosedTxt">Az ajtó zárva van.</Text>
+      </Texts>
+    </Room>
+    <Room id="bigRoom" nameTextId="bigRoomNameTxt" descTextId="bigRoomDescTxt" imgSrc="testJpg2.jpg" activeAtStart="true">
+      <Items>
+        <Item id="paper" nameTextId="paperNameTxt" equipable="false" >
+          <MenuItems>
+            <MenuItem id="readPaper" menuTextId="readPaparMenuTxt" >
+              <Actions responseTextId="paperDescTxt" />
+            </MenuItem>
+          </MenuItems>
+        </Item>
+      </Items>
+      <NPCs>
+        <NPC id="npcBlacksmith" activeAtStart="true" descTextId="npcBlacksmithDescTxt" nameTextId="npcBlacksmithNameTxt">
+          <Conversation id="GreetingConv" firstLineId="blacksmithLine1" activeAtStart="true" >
+            <Line id="blacksmithLine1" lineTextId="blacksmithLine1Txt">
+              <Answer id="pearAnsw" textId="pearAnswTxt" nextLineId="blacksmithLine2" >
+                <Actions responseTextId="takePearTxt">
+                  <setActive refId="NoMoreFruiteConv" value="true"/>
+                  <setActive refId="GreetingConv" value="false"/>
+                  <setActive refId="lookAt" value="false"/>
+                  <setActive refId="lookAtLater" value="true"/>
+                  <equipItem refId="blacksmithPear"/>
+                </Actions>
+              </Answer>
+              <Answer id="appleAnsw" textId="appleAnswTxt" nextLineId="blacksmithLine2" >
+                <Actions responseTextId="takeAppleTxt">
+                  <setActive refId="NoMoreFruiteConv" value="true"/>
+                  <setActive refId="GreetingConv" value="false"/>
+                  <setActive refId="lookAt" value="false"/>
+                  <setActive refId="lookAtLater" value="true"/>
+                  <equipItem refId="blacksmithApple"/>
+                </Actions>
+              </Answer>
+            </Line>
+            <Line id="blacksmithLine2" lineTextId="blacksmithLine2Txt" isLastLine="true"/>
+            <Texts>
+              <Text id="blacksmithLine1Txt">Üdvözöllek a szobában!\nMost, hogy eljutottál idáig, jutalomban részesülsz!\nAz almát vagy a körtét kéred?</Text>
+              <Text id="pearAnswTxt">A körtét kérem!</Text>
+              <Text id="appleAnswTxt">Az almát kérem!</Text>
+              <Text id="takePearTxt">A körtét eltetted a táskádba.</Text>
+              <Text id="takeAppleTxt">Az almát eltetted a táskádba.</Text>
+              <Text id="blacksmithLine2Txt">Mást már nem adok! Viszlát!</Text>
+            </Texts>
+          </Conversation>
+          <Conversation id="NoMoreFruiteConv" activeAtStart="false" firstLineId="noMoreFruiteLine">
+            <Line id="noMoreFruiteLine" isLastLine="true" lineTextId="noMoreFruiteTxt"/>
+          </Conversation>
+          <MenuItems>
+            <MenuItem id="lookAt" activeAtStart="true" menuTextId="lookAtMenuTxt">
+              <Actions responseTextId="lookAtResponseTxt"/>
+            </MenuItem>
+            <MenuItem id="lookAtLater" activeAtStart="false" menuTextId="lookAtMenuTxt">
+              <Actions responseTextId="lookAtLaterResponseTxt"/>
+            </MenuItem>
+          </MenuItems>
+          <Items>
+            <Item id="blacksmithPear" activeAtStart="true" equipable="true" nameTextId="pearNameTxt" descTextId="pearDescTxt">
+              <MenuItems>
+                <MenuItem id="eatPear" useNumber="1" menuTextId="eatPearMenuTxt">
+                  <Actions responseTextId="eatPearTxt" />
+                </MenuItem>
+              </MenuItems>
+            </Item>
+            <Item id="blacksmithApple" activeAtStart="true" equipable="true" nameTextId="appleNameTxt" descTextId="appleDescTxt">
+              <MenuItems>
+                <MenuItem id="eatApple" useNumber="1" menuTextId="eatAppleMenuTxt">
+                  <Actions responseTextId="eatAppleTxt" >
+                    <setActive refId="appleDeath" value="true"/>
+                  </Actions>
+                </MenuItem>
+              </MenuItems>
+            </Item>
+          </Items>
+          <Texts>
+            <Text id="pearNameTxt">Körte</Text>
+            <Text id="appleNameTxt">Alma</Text>
+            <Text id="pearDescTxt">Egy szép körte. Finomnak tűnik.</Text>
+            <Text id="appleDescTxt">Egy szép piros alma. Finomnak tűnik.</Text>
+            <Text id="eatPearMenuTxt">Megeszem a körtét!</Text>
+            <Text id="eatAppleMenuTxt">Megeszem az almát!</Text>
+            <Text id="eatPearTxt">Megetted az körtét. Hmmm. Ez tényleg finom volt!</Text>
+            <Text id="eatAppleTxt">##NOPE##</Text>
+            <Text id="noMoreFruiteTxt">Komolyoan mondtam! Mást már nem adok!</Text>
+            <Text id="lookAtMenuTxt">Megnézem jobban...</Text>
+            <Text id="lookAtResponseTxt">Tényleg csúnya ez a kovács... Voszont közvetlen mellette egy kosárban szép gyümölcsök vannak.</Text>
+            <Text id="lookAtLaterResponseTxt">Most már egészen rosszallóan néz... Mintha már nem látna szivesen.</Text>
+          </Texts>
+        </NPC>
+      </NPCs>
+      <Neighbours>
+        <Neighbour id="neigbourBigToSmall" roomRefId="smallRoom" nameTextId="neigbourBigToSmallMenuTxt" />
+      </Neighbours>
+      <Texts>
+        <Text id="bigRoomNameTxt">Nagyszoba</Text>
+        <Text id="bigRoomDescTxt">Egy nagyobb szoba, középen egy asztallal, amin egy papírlap van.</Text>
+        <Text id="paperNameTxt">Papírlap az asztalon</Text>
+        <Text id="readPaparMenuTxt">Elolvas</Text>
+        <Text id="paperDescTxt">A papíron a kövezkező szöveget olvasod:\n"Ez a Join-the-Adventure játékszerkesztő első tesztjátéka volt!\nKöszönöm hogy kipróbáltad!"</Text>
+        <Text id="neigbourBigToSmallMenuTxt">Vissza a kisszobába</Text>
+        <Text id="npcBlacksmithNameTxt">Kovács</Text>
+        <Text id="npcBlacksmithDescTxt">A kovács a szoba túlsó végében áll. Egyébként nagyon csúnya.</Text>
+      </Texts>
+    </Room>
+  </Rooms>
+  <GameEnds>
+    <GameEnd id="appleDeath" textId="appleDeathTxt" gameOverTextId="gameOverTxt"/>
+  </GameEnds>
+  <Texts defLang="hun">
+    <Text id="gameNameTxt">Awesome Test Game\n[loaded from .zip]</Text>
+    <Text id="gameDescTxt">Ez csak egy teszt játék. Ide jönne valami menő leírás am.</Text>
+    <Text id="appleDeathTxt">Az alma finom volt. De ahogy lenyeled az utolsó falatot, érzed hogy valami nincs rendben.\nA következő pillanatban holtan esel össze.\nA játéknak vége.</Text>
+    <Text id="gameOverTxt">A JÁTÉKNAK VÉGE</Text>
+    <Text id="jtaLabelInventory">Hátizsák</Text>
+    <Text id="jtaLabelGoNextRoom">Továbbhaladás...</Text>
+    <Text id="jtaLabelMenu">Menü</Text>
+    <Text id="jtaLabelPickUp">Eltesz</Text>
+    <Text id="jtaLabelBack">Vissza</Text>
+    <Text id="jtaLabelItems">Eszközök</Text>
+    <Text id="jtaLabelPickUpNotif">Eltetted a következőt:</Text>
+    <Text id="jtaLabelNpc">Személyek</Text>
+    <Text id="jtaLabelShowDescription">Megnézem magamnak...</Text>
+    <Text id="jtaLabelStartConversation">Odamegyek hozzá...</Text>
+    <Text id="jtaLabelConversationWith">Beszélgetés vele: </Text>
+  </Texts>
+</GameDescriptor>

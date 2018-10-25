@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GracesGames.SimpleFileBrowser.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,8 @@ using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
+    public GameObject FileBrowserPrefab;
+
     public InputField pathField;
     public Button loadButton;
     private IDescriptorReader descriporReader;
@@ -67,7 +70,7 @@ public class MainMenuController : MonoBehaviour
         //Thread loadingThread = new Thread(LoadDescriptor);
         //loadingThread.Start();
 
-        StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(pathField.text, null, OnLoadingProcessFinished, OnLoadingProcessException));
+        StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException));
     }
 
     public void LoadTestGame()
@@ -83,10 +86,8 @@ public class MainMenuController : MonoBehaviour
         //OnLoadingProcessFinished(null, EventArgs.Empty);
 
         //version3
-        StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(Application.streamingAssetsPath, "AwesomeTestGame.zip", OnLoadingProcessFinished, OnLoadingProcessException));
+        StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(Application.streamingAssetsPath + "/AwesomeTestGame.zip", OnLoadingProcessFinished, OnLoadingProcessException));
     }
-
-   
 
     private void LoadTestDescriptor()
     {
@@ -113,6 +114,43 @@ public class MainMenuController : MonoBehaviour
             OnLoadingProcessFinished(null, EventArgs.Empty);
         }
 
+    }
+
+    public void BrowseFiles()
+    {
+        // Create the file browser and name it
+        GameObject fileBrowserObject = Instantiate(FileBrowserPrefab, transform);
+        fileBrowserObject.name = "FileBrowser";
+        // Set the mode to save or load
+        FileBrowser fileBrowserScript = fileBrowserObject.GetComponent<FileBrowser>();
+        
+        fileBrowserScript.SetupFileBrowser(ViewMode.Landscape);
+        
+        fileBrowserScript.OpenFilePanel(new string[] { "zip"});
+        // Subscribe to OnFileSelect event (call LoadFileUsingPath using path) 
+        fileBrowserScript.OnFileSelect += LoadFileUsingPath;
+        
+    }
+
+    private void LoadFileUsingPath(string path)
+    {
+        if (path.Length != 0)
+        {
+            //BinaryFormatter bFormatter = new BinaryFormatter();
+            //// Open the file using the path
+            //FileStream file = File.OpenRead(path);
+            //// Convert the file from a byte array into a string
+            //string fileData = bFormatter.Deserialize(file) as string;
+            //// We're done working with the file so we can close it
+            //file.Close();
+            //// Set the LoadedText with the value of the file
+            //_loadedText.GetComponent<Text>().text = "Loaded data: \n" + fileData;
+            pathField.text = path;
+        }
+        else
+        {
+            Debug.Log("Invalid path given");
+        }
     }
 
     /**
@@ -155,8 +193,8 @@ public class MainMenuController : MonoBehaviour
     //        OnLoadingProcessFinished(null, EventArgs.Empty);
     //    }
     //}
-    
-    
+
+
 
     private void RaiseLoadingProcessException(String msg, Exception e)
     {
