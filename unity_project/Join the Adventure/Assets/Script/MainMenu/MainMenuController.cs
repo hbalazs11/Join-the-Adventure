@@ -48,7 +48,12 @@ public class MainMenuController : MonoBehaviour
         if (isLoadFinished)
         {
             isLoadFinished = false;
-            SceneManager.LoadScene("GameMenu");
+#if UNITY_ANDROID && !UNITY_EDITOR
+            SceneManager.LoadScene("GameMenu_Android");
+#endif
+#if UNITY_STANDALONE || UNITY_EDITOR
+            SceneManager.LoadScene("GameMenu_Standalone");
+#endif
         }
 
 #if UNITY_ANDROID && !UNITY_EDITOR

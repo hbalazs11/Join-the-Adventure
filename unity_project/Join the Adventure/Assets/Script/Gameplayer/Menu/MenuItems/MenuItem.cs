@@ -25,8 +25,8 @@ public abstract class MenuItem {
     public GameObject InstantiateMenuButton()
     {
         thisGOMenuItem = MonoBehaviour.Instantiate(menuController.menuButtonPrefab) as GameObject;
-        thisGOMenuItem.SetActive(true);
 
+        thisGOMenuItem.SetActive(true);
         thisGOMenuItem.transform.SetParent(menuController.buttonListGO.transform, false);
 
         thisGOMenuItem.GetComponent<Button>().onClick.AddListener(Execute);
