@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
     public Text gameOverTextLabel;
+    public CanvasGroup gameMainMenuPanel;
+    public CanvasGroup menuCanvas;
 
     private GameElementManager elementManager;
     private ILogger logger;
@@ -68,5 +70,39 @@ public class GameController : MonoBehaviour {
     public void HeadBackToGameMenu()
     {
         SceneManager.LoadScene("GameMenu");
+    }
+
+    public void GameMMOpenMenu()
+    {
+        if (gameMainMenuPanel.gameObject.activeSelf)
+        {
+            GameMMBack();
+        }
+        else
+        {
+            gameMainMenuPanel.gameObject.SetActive(true);
+            menuCanvas.interactable = false;
+        }
+    }
+
+    public void GameMMSave()
+    {
+
+    }
+
+    public void GameMMLoad()
+    {
+
+    }
+
+    public void GameMMExit()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void GameMMBack()
+    {
+        gameMainMenuPanel.gameObject.SetActive(false);
+        menuCanvas.interactable = true;
     }
 }
