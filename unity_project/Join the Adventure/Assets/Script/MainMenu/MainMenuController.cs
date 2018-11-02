@@ -1,4 +1,5 @@
 ﻿using GracesGames.SimpleFileBrowser.Scripts;
+using SFB;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -118,6 +119,8 @@ public class MainMenuController : MonoBehaviour
 
     public void BrowseFiles()
     {
+
+#if UNITY_ANDROID && !UNITY_EDITOR
         // Create the file browser and name it
         GameObject fileBrowserObject = Instantiate(FileBrowserPrefab, transform);
         fileBrowserObject.name = "FileBrowser";
@@ -129,22 +132,21 @@ public class MainMenuController : MonoBehaviour
         fileBrowserScript.OpenFilePanel(new string[] { "zip"});
         // Subscribe to OnFileSelect event (call LoadFileUsingPath using path) 
         fileBrowserScript.OnFileSelect += LoadFileUsingPath;
-        
+#endif
+#if UNITY_STANDALONE || UNITY_EDITOR
+        var extensions = new[] {
+            new ExtensionFilter("Zip Files", "zip"),
+            new ExtensionFilter("All Files", "*" ),
+        };
+        StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, (string[] paths) => { LoadFileUsingPath(paths[0]); });
+#endif
+
     }
 
     private void LoadFileUsingPath(string path)
     {
         if (path.Length != 0)
         {
-            //BinaryFormatter bFormatter = new BinaryFormatter();
-            //// Open the file using the path
-            //FileStream file = File.OpenRead(path);
-            //// Convert the file from a byte array into a string
-            //string fileData = bFormatter.Deserialize(file) as string;
-            //// We're done working with the file so we can close it
-            //file.Close();
-            //// Set the LoadedText with the value of the file
-            //_loadedText.GetComponent<Text>().text = "Loaded data: \n" + fileData;
             pathField.text = path;
         }
         else

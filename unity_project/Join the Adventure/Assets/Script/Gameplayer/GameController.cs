@@ -48,6 +48,8 @@ public class GameController : MonoBehaviour {
         menuController.LoadRoom(elementManager.CurrentRoom);
         string imgName = elementManager.CurrentRoom.ImgPath;
         bcgImageScript.SetImage(imgName, elementManager.ImgResources[imgName].ToArray());
+
+
     }
 
     public void LoadRoom(GERoom room)

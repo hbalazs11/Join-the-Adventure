@@ -9,12 +9,19 @@ public class DescriptorLoaderUtility  {
 
 	public static IEnumerator LoadDescriptor(string filePath, EventHandler<EventArgs> OnFinished, EventHandler<MainMenuController.ExceptionEventArgs> OnError)
     {
-        WWW www = new WWW(filePath);
-        yield return www;
-
+        byte[] zipBytes = null;
+        if (filePath.Contains(Application.streamingAssetsPath))
+        {
+            WWW www = new WWW(filePath);
+            yield return www;
+            zipBytes = www.bytes;
+        } else
+        {
+            zipBytes = File.ReadAllBytes(filePath);
+        }
         try
         {
-            Dictionary<string, MemoryStream> descFiles = ZipUtility.ExtractZipFile(www.bytes);
+            Dictionary<string, MemoryStream> descFiles = ZipUtility.ExtractZipFile(zipBytes);
             List<string> xmlNames = GetXmlNames(descFiles);
             Dictionary<string, MemoryStream> imgResources = GetImgs(descFiles);
             Injector.DescriptorProcessor.ProcessImageResources(imgResources);
