@@ -40,8 +40,8 @@ public class GameController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
-	}
+
+    }
 
     public void LoadCurrentRoom()
     {
@@ -104,5 +104,6 @@ public class GameController : MonoBehaviour {
     {
         gameMainMenuPanel.gameObject.SetActive(false);
         menuCanvas.interactable = true;
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(menuController.CurrentBundle.GetFirstActiveMenuItem().MenuItemGO);
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MenuButton : MonoBehaviour {
+public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+{
 
     public Text buttonText;
     private Button button;
@@ -28,6 +30,16 @@ public class MenuButton : MonoBehaviour {
     public void SetText(string buttonText)
     {
         this.buttonText.text = buttonText;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        EventSystem.current.SetSelectedGameObject(this.gameObject);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public Button.ButtonClickedEvent onClick 

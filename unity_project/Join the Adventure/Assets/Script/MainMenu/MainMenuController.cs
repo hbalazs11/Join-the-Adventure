@@ -50,6 +50,13 @@ public class MainMenuController : MonoBehaviour
             isLoadFinished = false;
             SceneManager.LoadScene("GameMenu");
         }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+             Application.Quit();
+        }
+#endif
     }
 
     private void LoadGameMenuScene(object sender, EventArgs e)
@@ -138,7 +145,7 @@ public class MainMenuController : MonoBehaviour
             new ExtensionFilter("Zip Files", "zip"),
             new ExtensionFilter("All Files", "*" ),
         };
-        StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, (string[] paths) => { LoadFileUsingPath(paths[0]); });
+        StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, (string[] paths) => { if (paths.Length != 0) { LoadFileUsingPath(paths[0]); } });
 #endif
 
     }

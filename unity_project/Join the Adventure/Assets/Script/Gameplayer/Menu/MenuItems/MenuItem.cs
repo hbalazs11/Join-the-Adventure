@@ -78,13 +78,13 @@ public abstract class MenuItem {
         return thisGOMenuItem.transform.GetSiblingIndex();
     }
 
-    //public GameObject MenuItemGO
-    //{
-    //    get
-    //    {
-    //        return thisMenuItem;
-    //    }
-    //}
+    public GameObject MenuItemGO
+    {
+        get
+        {
+            return thisGOMenuItem;
+        }
+    }
 
     protected abstract void Execute();
     

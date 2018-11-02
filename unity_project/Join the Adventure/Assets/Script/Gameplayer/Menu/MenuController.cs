@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour {
@@ -15,10 +16,14 @@ public class MenuController : MonoBehaviour {
 
     List<MenuItemBundle> usedBundles;
 
+    private CanvasGroup canvasGroup;
+
     public static MenuController GetInstance()
     {
         return FindObjectOfType<MenuController>();
     }
+
+    protected MIBack ActiveBackMI { get; set; }
 
     public MenuItemBundle CurrentBundle
     {
@@ -38,6 +43,8 @@ public class MenuController : MonoBehaviour {
             {
                 usedBundles.Add(currentBundle);
             }
+            ActiveBackMI = currentBundle.BackButton;
+            SetDefaultMenuButtonSelection();
         }
     }
 
@@ -45,17 +52,53 @@ public class MenuController : MonoBehaviour {
     {
         baseBundle = new BaseMenuItemBundle();
         usedBundles = new List<MenuItemBundle>();
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
     // Use this for initialization
     void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		   //(this.transform as RectTransform).
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (canvasGroup.interactable)
+            {
+                if (ActiveBackMI != null)
+                {
+                    ActiveBackMI.ExecuteBack();
+                }
+            } else
+            {
+                GameController.GetInstance().GameMMOpenMenu();
+            }
+        }
+#endif
+#if UNITY_STANDALONE || UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            if (ActiveBackMI != null)
+            {
+                ActiveBackMI.ExecuteBack();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameController.GetInstance().GameMMOpenMenu();
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if(canvasGroup.interactable && EventSystem.current.currentSelectedGameObject == null)
+            {
+                SetDefaultMenuButtonSelection();
+            }
+        }
+#endif
+    }
 
     public void LoadRoom(GERoom room)
     {
@@ -71,5 +114,15 @@ public class MenuController : MonoBehaviour {
     public void SetMenuHeaderText(string text)
     {
         menuHeader.text = text;
+    }
+
+    public void SetDefaultMenuButtonSelection()
+    {
+#if UNITY_STANDALONE || UNITY_EDITOR
+        if (currentBundle.GetFirstActiveMenuItem() != null)
+        {
+            EventSystem.current.SetSelectedGameObject(currentBundle.GetFirstActiveMenuItem().MenuItemGO);
+        }
+#endif
     }
 }

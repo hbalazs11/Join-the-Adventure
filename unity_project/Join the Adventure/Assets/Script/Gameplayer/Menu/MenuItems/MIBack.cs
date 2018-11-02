@@ -13,4 +13,9 @@ public class MIBack : MenuItem
     {
         menuController.CurrentBundle = parentBundle;
     }
+
+    public void ExecuteBack()
+    {
+        Execute();
+    }
 }

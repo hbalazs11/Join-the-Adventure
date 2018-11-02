@@ -12,6 +12,7 @@ public class MenuItemBundle  {
     private MenuItemBundle parent;
     public event EventHandler<EventArgs> OnExecutionSidefects;
 
+    public MIBack BackButton { get; set; }
 
     public MenuItemBundle(string bundleName, MenuItemBundle parent)
     {
@@ -56,6 +57,7 @@ public class MenuItemBundle  {
     public void RefreshBundle()
     {
         SetItemActivations(isActive);
+        menuController.SetDefaultMenuButtonSelection();
     }
 
     public void RemoveItem(MenuItem itemToRemove)
@@ -118,5 +120,23 @@ public class MenuItemBundle  {
     public void AddMenuItem(MenuItem item)
     {
         menuItems.Add(item);
+        if(item is MIBack){
+            BackButton = item as MIBack;
+        }
+    }
+
+    public virtual MenuItem GetFirstActiveMenuItem()
+    {
+        if (menuItems.Count != 0)
+        {
+            foreach(MenuItem item in menuItems)
+            {
+                if (item.GetActive()) return item;
+            }
+            return null;
+        } else
+        {
+            return null;
+        }
     }
 }

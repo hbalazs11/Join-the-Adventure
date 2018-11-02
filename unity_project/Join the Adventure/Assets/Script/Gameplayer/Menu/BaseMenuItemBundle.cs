@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BaseMenuItemBundle : MenuItemBundle
 {
@@ -8,7 +9,6 @@ public class BaseMenuItemBundle : MenuItemBundle
     MenuItem roomMenu;
     MenuItem inventoryMenu;
     MenuItem gotoMenu;
-    //...
 
     public BaseMenuItemBundle() : base(LabelUtility.Instance.GetLabel(LabelNames.MENU), null)
     {
@@ -67,4 +67,8 @@ public class BaseMenuItemBundle : MenuItemBundle
         }
     }
 
+    public override MenuItem GetFirstActiveMenuItem()
+    {
+        return inventoryMenu;
+    }
 }
