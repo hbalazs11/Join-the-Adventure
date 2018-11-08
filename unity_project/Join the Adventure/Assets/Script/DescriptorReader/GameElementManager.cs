@@ -9,6 +9,7 @@ public class GameElementManager : IGameElementManager {
 
     private string currentLang;
     private string defLang;
+    public List<string> AvailableLangs { get; set; }
 
     private GEPlayer player;
     private GEGameProperties gameProperties;
@@ -37,6 +38,11 @@ public class GameElementManager : IGameElementManager {
 
     public GameElementManager()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         rooms = new Dictionary<string, GERoom>();
         texts = new Dictionary<string, GEText>();
         properties = new Dictionary<string, GEProperty>();
@@ -48,6 +54,7 @@ public class GameElementManager : IGameElementManager {
         npcConvLines = new Dictionary<string, GENpc.GELine>();
         imgResources = new Dictionary<string, MemoryStream>();
         logger = Injector.Logger;
+        AvailableLangs = new List<string>();
     }
 
     public void SetFirstRoom()
@@ -100,6 +107,10 @@ public class GameElementManager : IGameElementManager {
         } else
         {
             text.AddText(lang, txt);
+        }
+        if (!AvailableLangs.Contains(lang))
+        {
+            AvailableLangs.Add(lang);
         }
         return text;
     }
@@ -351,5 +362,10 @@ public class GameElementManager : IGameElementManager {
         {
             imgResources = value;
         }
+    }
+
+    public void PurgeElements()
+    {
+        Init();
     }
 }

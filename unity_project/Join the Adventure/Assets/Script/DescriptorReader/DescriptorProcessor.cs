@@ -21,7 +21,7 @@ public class DescriptorProcessor : IDescriptorProcessor
     }
 
 
-    public void ProcessGameDescriptor(GameDescriptor gameDescriptor)
+    protected void ProcessGameDescriptor(GameDescriptor gameDescriptor)
     {
         ProcessGameProperties(gameDescriptor.GameProperties);
         ProcessTexts(gameDescriptor.Texts);
@@ -32,13 +32,6 @@ public class DescriptorProcessor : IDescriptorProcessor
         ProcessRooms(gameDescriptor.Rooms);
         ProcessGameEnds(gameDescriptor.GameEnds);
         ProcessNpcs(gameDescriptor.NPCs);
-
-
-        if (OnReferenceProcessing != null)
-        {
-            OnReferenceProcessing(null, EventArgs.Empty);
-        }
-        elementManager.SetFirstRoom();
     }
 
     public void ProcessMultipleGameDescriptor(List<GameDescriptor> gameDescriptors)
@@ -47,6 +40,11 @@ public class DescriptorProcessor : IDescriptorProcessor
         {
             ProcessGameDescriptor(descripor);
         }
+        if (OnReferenceProcessing != null)
+        {
+            OnReferenceProcessing(null, EventArgs.Empty);
+        }
+        elementManager.SetFirstRoom();
     }
 
     /**
@@ -263,11 +261,13 @@ public class DescriptorProcessor : IDescriptorProcessor
 
     private void ProcessPlayer(PlayerType player)
     {
+        if (player == null) return;
         elementManager.Player = new GEPlayer(ProcessProperties(player.Properties), ProcessItems(player.Items));
     }
 
     private void ProcessGameProperties(GamePropertiesType gameProperties)
     {
+        if (gameProperties == null) return;
         elementManager.GameProperties = new GEGameProperties(gameProperties.firstRoomId, gameProperties.defaultLang, null, null, gameProperties.checkpointsOn);
         elementManager.DefLang = gameProperties.defaultLang;
         this.defLang = gameProperties.defaultLang;
@@ -280,7 +280,8 @@ public class DescriptorProcessor : IDescriptorProcessor
 
     private void ProcessRooms(RoomsType rooms)
     {
-        foreach(RoomsTypeRoom room in rooms.Room)
+        if (rooms == null) return;
+        foreach (RoomsTypeRoom room in rooms.Room)
         {
             GERoom newRoom = new GERoom(room.id, null, room.imgSrc, null, room.activeAtStart, room.isCheckpoint)
             {
@@ -448,7 +449,8 @@ public class DescriptorProcessor : IDescriptorProcessor
 
     private void ProcessGameEnds(GameEndsType gameEnds)
     {
-        foreach(GameEndsTypeGameEnd gameEnd in gameEnds.GameEnd)
+        if (gameEnds == null) return;
+        foreach (GameEndsTypeGameEnd gameEnd in gameEnds.GameEnd)
         {
             GEGameEnd newGameEnd = new GEGameEnd(gameEnd.id);
             OnReferenceProcessing += delegate (object o, EventArgs e)

@@ -14,9 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/Game_Android.unity
     guid: 13ff11363d863d740818c649cd0b06cb
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scene/Game_Standalone.unity
     guid: 62b2b21994739ac469ab7d02e2cfe977
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scene/GameMenu_Standalone.unity
     guid: 72ff5ebe84941244f9cce9a4b032088d

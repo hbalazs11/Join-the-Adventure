@@ -31,6 +31,7 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
+        Injector.GameElementManager.PurgeElements();
         OnLoadingProcessFinished += new EventHandler<EventArgs>(LoadGameMenuScene);
         OnLoadingProcessException += new EventHandler<ExceptionEventArgs>(HandleLoadingProcessException);
         isLoadFinished = false;
@@ -48,10 +49,10 @@ public class MainMenuController : MonoBehaviour
         if (isLoadFinished)
         {
             isLoadFinished = false;
-#if UNITY_ANDROID// && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
             SceneManager.LoadScene("GameMenu_Android");
 #endif
-#if UNITY_STANDALONE //|| UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
             SceneManager.LoadScene("GameMenu_Standalone");
 #endif
         }
@@ -102,32 +103,32 @@ public class MainMenuController : MonoBehaviour
         StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(Application.streamingAssetsPath + "/AwesomeTestGame.zip", OnLoadingProcessFinished, OnLoadingProcessException));
     }
 
-    private void LoadTestDescriptor()
-    {
-        GameDescriptor descriptor = null;
-        try
-        {
-            descriptor = descriporReader.ReadDescriptor("Assets/TestXML/AwesomeTestGame.xml");
-        }
-        catch (Exception e)
-        {
-            RaiseLoadingProcessException("Could not load descriptors! " + e.Message, e);
-        }
-        try
-        {
-            descriptorProcessor.ProcessGameDescriptor(descriptor);
-        }
-        catch (Exception e)
-        {
-            RaiseLoadingProcessException("Could not process descriptors! " + e.Message, e);
-        }
+    //private void LoadTestDescriptor()
+    //{
+    //    GameDescriptor descriptor = null;
+    //    try
+    //    {
+    //        descriptor = descriporReader.ReadDescriptor("Assets/TestXML/AwesomeTestGame.xml");
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        RaiseLoadingProcessException("Could not load descriptors! " + e.Message, e);
+    //    }
+    //    try
+    //    {
+    //        descriptorProcessor.ProcessGameDescriptor(descriptor);
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        RaiseLoadingProcessException("Could not process descriptors! " + e.Message, e);
+    //    }
 
-        if (OnLoadingProcessFinished != null)
-        {
-            OnLoadingProcessFinished(null, EventArgs.Empty);
-        }
+    //    if (OnLoadingProcessFinished != null)
+    //    {
+    //        OnLoadingProcessFinished(null, EventArgs.Empty);
+    //    }
 
-    }
+    //}
 
     public void BrowseFiles()
     {
