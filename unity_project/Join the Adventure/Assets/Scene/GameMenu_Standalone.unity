@@ -746,15 +746,6 @@ Prefab:
       propertyPath: m_Name
       value: Menu_Standalone
       objectReference: {fileID: 0}
-    - target: {fileID: 224325479393755260, guid: 3084c780365046347a418a907703e678,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: -381.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1104852849227004, guid: 3084c780365046347a418a907703e678, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3084c780365046347a418a907703e678, type: 2}
   m_IsPrefabParent: 0
@@ -836,7 +827,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -19.252617}
+  m_AnchoredPosition: {x: 0, y: -6.7914486}
   m_SizeDelta: {x: -9.5, y: 0}
   m_Pivot: {x: 1, y: 0.95}
 --- !u!114 &779423730
@@ -1480,7 +1471,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2143351365}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9995173
+  m_Size: 0.95000005
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

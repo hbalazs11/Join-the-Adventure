@@ -19,7 +19,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224922115644205444}
-  - component: {fileID: 114804150744142446}
   - component: {fileID: 225356429028080382}
   - component: {fileID: 114690307163109286}
   m_Layer: 5
@@ -28,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1114636359988222
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,6 +38,7 @@ GameObject:
   - component: {fileID: 224498385147995246}
   - component: {fileID: 222891957491082318}
   - component: {fileID: 114457547402333442}
+  - component: {fileID: 114263639123306966}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -251,6 +251,36 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Menu Name
+--- !u!114 &114263639123306966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1114636359988222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114690307163109286}
+          m_MethodName: CloseMenu
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!114 &114341361285627552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -357,7 +387,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1553732192982508}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -366,7 +396,7 @@ MonoBehaviour:
   m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
-  m_Elasticity: 0.1
+  m_Elasticity: 0.05
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 1
@@ -590,21 +620,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114804150744142446
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1104852849227004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4549616f148a0b04681a2a1356a40338, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menuButtonPrefab: {fileID: 1464215884883954, guid: b089c04a9af73af47be17bc60341778e,
-    type: 2}
-  buttonListGO: {fileID: 1773221917712936}
-  menuHeader: {fileID: 114161566963184046}
 --- !u!114 &114825569048916126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -793,7 +808,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.000015258789, y: -80}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -381.75, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224364030350701794
 RectTransform:
@@ -829,7 +844,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.6, y: -5.6}
+  m_AnchoredPosition: {x: -0.6, y: -5.6000004}
   m_SizeDelta: {x: 624, y: 248.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224630767718619290

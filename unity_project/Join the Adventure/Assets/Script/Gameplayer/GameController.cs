@@ -8,8 +8,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour {
 
     public Text gameOverTextLabel;
-    public CanvasGroup gameMainMenuPanel;
-    public CanvasGroup menuCanvas;
+    public ModalMenuController escapeMenuController;
 
     private GameElementManager elementManager;
     private ILogger logger;
@@ -31,6 +30,7 @@ public class GameController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         LoadCurrentRoom();
+        InitEscMenu();
 	}
 
     public static GameController GetInstance()
@@ -43,6 +43,16 @@ public class GameController : MonoBehaviour {
 
     }
 
+    private void InitEscMenu()
+    {
+        escapeMenuController.SetMenuName("Menu");
+        escapeMenuController.AddButton("Save", GameMMSave);
+        escapeMenuController.AddButton("Load", GameMMLoad);
+        escapeMenuController.AddButton("Exit", GameMMExit);
+        escapeMenuController.AddBackButton();
+        escapeMenuController.SetActive(false);
+    }
+
     public void LoadCurrentRoom()
     {
         desctiptionScript.SetRoomName(elementManager.CurrentRoom.NameText.GetText());
@@ -50,8 +60,6 @@ public class GameController : MonoBehaviour {
         menuController.LoadRoom(elementManager.CurrentRoom);
         string imgName = elementManager.CurrentRoom.ImgPath;
         bcgImageScript.SetImage(imgName, elementManager.ImgResources[imgName].ToArray());
-
-
     }
 
     public void LoadRoom(GERoom room)
@@ -74,36 +82,21 @@ public class GameController : MonoBehaviour {
 
     public void GameMMOpenMenu()
     {
-        if (gameMainMenuPanel.gameObject.activeSelf)
-        {
-            GameMMBack();
-        }
-        else
-        {
-            gameMainMenuPanel.gameObject.SetActive(true);
-            menuCanvas.interactable = false;
-        }
+        escapeMenuController.OpenMenu();
     }
 
-    public void GameMMSave()
+    private void GameMMSave()
     {
 
     }
 
-    public void GameMMLoad()
+    private void GameMMLoad()
     {
 
     }
 
-    public void GameMMExit()
+    private void GameMMExit()
     {
         SceneManager.LoadScene("MainMenu");
-    }
-
-    public void GameMMBack()
-    {
-        gameMainMenuPanel.gameObject.SetActive(false);
-        menuCanvas.interactable = true;
-        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(menuController.CurrentBundle.GetFirstActiveMenuItem().MenuItemGO);
     }
 }
