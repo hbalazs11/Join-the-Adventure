@@ -25,7 +25,7 @@ public class ZipUtility {
                         continue;
                     }
 
-                    string entryFileName = zipEntry.Name;
+                    string entryFileName = GetFileName(zipEntry.Name);
                     byte[] buffer = new byte[4096];     // 4K is optimum
                     Stream zipStream = zf.GetInputStream(zipEntry);
                     MemoryStream newMs = new MemoryStream();
@@ -70,7 +70,7 @@ public class ZipUtility {
                         continue;
                     }
 
-                    string entryFileName = zipEntry.Name;
+                    string entryFileName = GetFileName(zipEntry.Name);
                     byte[] buffer = new byte[4096];     // 4K is optimum
                     Stream zipStream = zf.GetInputStream(zipEntry);
                     
@@ -93,4 +93,19 @@ public class ZipUtility {
         //statusLabel.text = "DONE!";
     }
 
+    private static string GetFileName(string path)
+    {
+        string fileName = null;
+        if (path.Contains("\\"))
+        {
+            fileName = path.Substring(path.LastIndexOf("\\")+1);
+        } else if (path.Contains("/"))
+        {
+            fileName = path.Substring(path.LastIndexOf("/")+1);
+        } else
+        {
+            fileName = path;
+        }
+        return fileName;
+    }
 }
