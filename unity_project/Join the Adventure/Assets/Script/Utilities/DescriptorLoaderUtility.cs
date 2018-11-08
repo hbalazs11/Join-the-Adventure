@@ -7,18 +7,13 @@ using UnityEngine;
 
 public class DescriptorLoaderUtility  {
 
-	public static IEnumerator LoadDescriptor(string filePath, EventHandler<EventArgs> OnFinished, EventHandler<MainMenuController.ExceptionEventArgs> OnError)
+	public static IEnumerator LoadTestDescriptor(string fileName, EventHandler<EventArgs> OnFinished, EventHandler<MainMenuController.ExceptionEventArgs> OnError)
     {
         byte[] zipBytes = null;
-        if (filePath.Contains(Application.streamingAssetsPath))
-        {
-            WWW www = new WWW(filePath);
-            yield return www;
-            zipBytes = www.bytes;
-        } else
-        {
-            zipBytes = File.ReadAllBytes(filePath);
-        }
+        string filePath = Application.streamingAssetsPath + "/" + fileName;
+        WWW www = new WWW(filePath);
+        yield return www;
+        zipBytes = www.bytes;
         try
         {
             Dictionary<string, MemoryStream> descFiles = ZipUtility.ExtractZipFile(zipBytes);
@@ -34,6 +29,28 @@ public class DescriptorLoaderUtility  {
         {
             OnError(null, new MainMenuController.ExceptionEventArgs("Error occoured during descriptor loading!", e));
             yield break;
+        }
+    }
+
+    public static void LoadDescriptor(string filePath, EventHandler<EventArgs> OnFinished, EventHandler<MainMenuController.ExceptionEventArgs> OnError)
+    {
+        byte[] zipBytes = null;
+        
+        zipBytes = File.ReadAllBytes(filePath);
+        
+        try
+        {
+            Dictionary<string, MemoryStream> descFiles = ZipUtility.ExtractZipFile(zipBytes);
+            List<string> xmlNames = GetXmlNames(descFiles);
+            Dictionary<string, MemoryStream> imgResources = GetImgs(descFiles);
+            Injector.DescriptorProcessor.ProcessImageResources(imgResources);
+            List<GameDescriptor> gDescriptors = ReadXmls(xmlNames, descFiles);
+            Injector.DescriptorProcessor.ProcessMultipleGameDescriptor(gDescriptors);
+            OnFinished(null, EventArgs.Empty);
+        }
+        catch (System.Exception e)
+        {
+            OnError(null, new MainMenuController.ExceptionEventArgs("Error occoured during descriptor loading!", e));
         }
     }
 

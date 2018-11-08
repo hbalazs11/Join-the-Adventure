@@ -80,55 +80,16 @@ public class MainMenuController : MonoBehaviour
 
     public void LoadGame()
     {
-        //Debug.Log("LoadGame invoked!");
-        //Thread loadingThread = new Thread(LoadDescriptor);
-        //loadingThread.Start();
-
-        StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException));
+        Thread loadingThread = new Thread( () => DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException));
+        loadingThread.Start();
     }
 
+    //Reading from Application.streamingAssetsPath.
     public void LoadTestGame()
     {
-        //version 1
-        //Thread loadingThread = new Thread(LoadTestDescriptor);
-        //loadingThread.Start();
-
-        //version2
-        //var a = Resources.Load<TextAsset>("AwesomeTestGame");
-        //var b = GameDescriptor.Deserialize(a.text);
-        //descriptorProcessor.ProcessGameDescriptor(b);
-        //OnLoadingProcessFinished(null, EventArgs.Empty);
-
-        //version3
-        StartCoroutine(DescriptorLoaderUtility.LoadDescriptor(Application.streamingAssetsPath + "/AwesomeTestGame.zip", OnLoadingProcessFinished, OnLoadingProcessException));
+        StartCoroutine(DescriptorLoaderUtility.LoadTestDescriptor("AwesomeTestGame.zip", OnLoadingProcessFinished, OnLoadingProcessException));
     }
-
-    //private void LoadTestDescriptor()
-    //{
-    //    GameDescriptor descriptor = null;
-    //    try
-    //    {
-    //        descriptor = descriporReader.ReadDescriptor("Assets/TestXML/AwesomeTestGame.xml");
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        RaiseLoadingProcessException("Could not load descriptors! " + e.Message, e);
-    //    }
-    //    try
-    //    {
-    //        descriptorProcessor.ProcessGameDescriptor(descriptor);
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        RaiseLoadingProcessException("Could not process descriptors! " + e.Message, e);
-    //    }
-
-    //    if (OnLoadingProcessFinished != null)
-    //    {
-    //        OnLoadingProcessFinished(null, EventArgs.Empty);
-    //    }
-
-    //}
+    
 
     public void BrowseFiles()
     {
@@ -167,48 +128,6 @@ public class MainMenuController : MonoBehaviour
             Debug.Log("Invalid path given");
         }
     }
-
-    /**
-        * Expensive process, must run on working thread.
-        * Callbacks are handled in events: OnLoadingProcessFinished, OnLoadingProcessException
-        */
-    //private void LoadDescriptor()
-    //{
-    //    GameDescriptor[] descriptors = null;
-    //    try
-    //    {
-    //        string path = pathField.text;
-    //        if (path.EndsWith("\\") || path.EndsWith("/"))
-    //        {
-    //            string[] xmls = Directory.GetFiles(pathField.text);
-    //            descriptors = descriporReader.ReadMultipleDescriptor(xmls);
-    //        }
-    //        else
-    //        {
-    //            descriptors = new GameDescriptor[] { descriporReader.ReadDescriptor(path) };
-    //        }
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        RaiseLoadingProcessException("Could not load descriptors! " + e.Message, e);
-    //    }
-
-
-    //    try
-    //    {
-    //        descriptorProcessor.ProcessMultipleGameDescriptor(descriptors);
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        RaiseLoadingProcessException("Could not process descriptors! " + e.Message, e);
-    //    }
-
-    //    if (OnLoadingProcessFinished != null)
-    //    {
-    //        OnLoadingProcessFinished(null, EventArgs.Empty);
-    //    }
-    //}
-
 
 
     private void RaiseLoadingProcessException(String msg, Exception e)
