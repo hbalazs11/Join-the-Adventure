@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
+[Serializable]
 public class GEPlayer  {
 
     private SortedList<string, GEProperty> properties;

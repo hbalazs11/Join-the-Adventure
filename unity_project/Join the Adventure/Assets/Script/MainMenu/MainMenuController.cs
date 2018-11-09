@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,7 +33,11 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
-        Injector.GameElementManager.PurgeElements();
+        if (Injector.GameElementManager != null)
+        {
+            Injector.GameElementManager.PurgeElements();
+        }
+        PersistanceHelper.PersistentDataPath = Application.persistentDataPath;
         OnLoadingProcessFinished += new EventHandler<EventArgs>(LoadGameMenuScene);
         OnLoadingProcessException += new EventHandler<ExceptionEventArgs>(HandleLoadingProcessException);
         isLoadFinished = false;
@@ -73,7 +79,7 @@ public class MainMenuController : MonoBehaviour
 
     private void HandleLoadingProcessException(object sender, ExceptionEventArgs args)
     {
-        Debug.LogError(args.Msg + "\\n" + args.Exc.StackTrace, this);
+        Debug.LogError(args.Msg + "\\n" + args.Exc, this);
         //TODO error message on UI
     }
 
@@ -164,5 +170,49 @@ public class MainMenuController : MonoBehaviour
                 return exception;
             }
         }
+    }
+
+    private event EventHandler<EventArgs> OnLoadingProcessFinishedForSerTest;
+    public void LoadTestForTestSerrialization()
+    {
+        OnLoadingProcessFinishedForSerTest += new EventHandler<EventArgs>(TestSerrialization);
+        StartCoroutine(DescriptorLoaderUtility.LoadTestDescriptor("AwesomeTestGame.zip", OnLoadingProcessFinishedForSerTest, OnLoadingProcessException));
+    }
+
+    private void TestSerrialization(object sender, EventArgs e)
+    {
+        Debug.Log("serialization starts");
+        GameElementManager gem = Injector.GameElementManager;
+        var stream = new MemoryStream();
+        //var serializer = new DataContractSerializer(gem.GetType(), null,
+        //    0x7FFF /*maxItemsInObjectGraph*/,
+        //    false /*ignoreExtensionDataObject*/,
+        //    true /*preserveObjectReferences : this is where the magic happens */,
+        //    null /*dataContractSurrogate*/);
+        //serializer.WriteObject(stream, gem);
+
+        FileStream file = null;
+        BinaryFormatter bf = new BinaryFormatter();
+        using (file = File.Open(Application.persistentDataPath + "/serializeTest2.asd", FileMode.OpenOrCreate))
+        {
+            bf.Serialize(file, gem);
+        }
+        Debug.Log("serialization has finished");
+
+        GameElementManager asd = null;
+        //asd = (GameElementManager) serializer.ReadObject(stream);
+        FileStream file2 = null;
+        if (File.Exists(Application.persistentDataPath + "/serializeTest2.asd"))
+        {
+            Debug.Log(Application.persistentDataPath);
+            using (file2 = File.Open(Application.persistentDataPath + "/serializeTest2.asd", FileMode.Open))
+            {
+                file2.Position = 0;
+                asd = (GameElementManager) bf.Deserialize(file2);
+            }
+
+            Debug.Log("deserialization has finished");
+        }
+        Debug.Log(asd);
     }
 }

@@ -16,7 +16,6 @@ public class DescriptorProcessor : IDescriptorProcessor
 
     public DescriptorProcessor()
     {
-        elementManager = Injector.GameElementManager;
         logger = Injector.Logger;
     }
 
@@ -34,9 +33,26 @@ public class DescriptorProcessor : IDescriptorProcessor
         ProcessNpcs(gameDescriptor.NPCs);
     }
 
-    public void ProcessMultipleGameDescriptor(List<GameDescriptor> gameDescriptors)
+    public void ProcessMultipleGameDescriptor(List<GameDescriptor> gameDescriptors, Dictionary<string, MemoryStream> images)
     {
-        foreach(GameDescriptor descripor in gameDescriptors)
+        if (gameDescriptors.Count == 0) return;
+        
+        GameDescriptor root = GetRootDescriptor(gameDescriptors);
+        if (root == null) root = gameDescriptors[0];
+        string gameName = root.gameName;
+        string version = root.version ?? "";
+        string gameStorageName = gameName + "_" + version;
+        if (PersistanceHelper.CheckDirectory(gameStorageName))
+        {
+            elementManager = PersistanceHelper.GetInitialGEM(gameStorageName);
+            Injector.GameElementManager = elementManager;
+            return;
+        }
+
+        elementManager = new GameElementManager(gameStorageName);
+        PersistanceHelper.CreateStorage(gameStorageName);
+        PersistanceHelper.StoreImages(gameStorageName, images);
+        foreach (GameDescriptor descripor in gameDescriptors)
         {
             ProcessGameDescriptor(descripor);
         }
@@ -45,6 +61,21 @@ public class DescriptorProcessor : IDescriptorProcessor
             OnReferenceProcessing(null, EventArgs.Empty);
         }
         elementManager.SetFirstRoom();
+        PersistanceHelper.StoreInitialGEM(gameStorageName, elementManager);
+        Injector.GameElementManager = elementManager;
+    }
+    
+
+    private GameDescriptor GetRootDescriptor(List<GameDescriptor> gameDescriptors)
+    {
+        foreach (GameDescriptor descripor in gameDescriptors)
+        {
+            if (descripor.root)
+            {
+                return descripor;
+            }
+        }
+        return null;
     }
 
     /**
@@ -485,9 +516,5 @@ public class DescriptorProcessor : IDescriptorProcessor
             }
         }
     }
-
-    public void ProcessImageResources(Dictionary<string, MemoryStream> images)
-    {
-        elementManager.ImgResources = images;
-    }
+    
 }

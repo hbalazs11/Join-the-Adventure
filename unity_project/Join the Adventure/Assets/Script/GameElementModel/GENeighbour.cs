@@ -1,4 +1,7 @@
-﻿public class GENeighbour : ActivatableGameElement
+﻿using System;
+
+[Serializable]
+public class GENeighbour : ActivatableGameElement
 {
 
     private GERequirement requirements;

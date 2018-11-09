@@ -2,6 +2,7 @@
 <!-- Created with Liquid Studio 2018 (https://www.liquid-technologies.com) -->
 <GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:noNamespaceSchemaLocation="E:\temp\liquidproject\LiquidTest\Schemas\schema_test.xsd"
+                gameName="AwesomeTestGame"
                 version="1" id="id" root="true">
   <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="false" />
   <Player>

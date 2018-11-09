@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
+[Serializable]
 public class GEAction
 {
     private GEText responseText;
@@ -35,7 +35,7 @@ public class GEAction
     }
 
 
-
+    [Serializable]
     public class GEActivation 
     {
 
@@ -64,7 +64,7 @@ public class GEAction
 
         }
     }
-
+    [Serializable]
     public class GEPropertySetter
     {
         private string refId;
@@ -105,7 +105,7 @@ public class GEAction
             }
         }
     }
-
+    [Serializable]
     public enum PropertyChangeType
     {
         SET, INC, DEC 

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public interface IDescriptorProcessor  {
 
-    void ProcessMultipleGameDescriptor(List<GameDescriptor> gameDescriptors);
-
-    void ProcessImageResources(Dictionary<string, MemoryStream> images);
+    void ProcessMultipleGameDescriptor(List<GameDescriptor> gameDescriptors, Dictionary<string, MemoryStream> images);
 
 }

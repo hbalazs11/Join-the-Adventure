@@ -3,9 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+[Serializable]
 public class GameElementManager : IGameElementManager {
-
+    [NonSerialized]
     private ILogger logger;
+
+    
+    public static string persistentDataPath;
+
+    public static GameElementManager initialGEM;
 
     private string currentLang;
     private string defLang;
@@ -32,13 +38,18 @@ public class GameElementManager : IGameElementManager {
 
     private Dictionary<string, GENpc.GELine> npcConvLines;
 
+    [NonSerialized]
     private Dictionary<string, MemoryStream> imgResources;
+
+    public string GameStorageName { get; set; }
 
     public GERoom CurrentRoom { get; set; }
 
-    public GameElementManager()
+    public GameElementManager(string gameStorageName)
     {
+        GameStorageName = gameStorageName;
         Init();
+        initialGEM = this;
     }
 
     private void Init()
@@ -60,6 +71,15 @@ public class GameElementManager : IGameElementManager {
     public void SetFirstRoom()
     {
         CurrentRoom = rooms[gameProperties.firstRoomId];
+    }
+
+    public static GameElementManager GetInitialGEM()
+    {
+        if(initialGEM == null)
+        {
+            initialGEM = PersistanceHelper.GetInitialGEM(Injector.GameElementManager.GameStorageName);
+        }
+        return initialGEM;
     }
 
     public GEText GetTextElement(string id, bool log = true)

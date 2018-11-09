@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+[Serializable]
 public class GENpc : ActivatableGameElement
 {
     private GEConversation activeConversation;
@@ -111,6 +113,7 @@ public class GENpc : ActivatableGameElement
         }
     }
 
+    [Serializable]
     public class GEConversation : ActivatableGameElement
     {
 
@@ -191,6 +194,7 @@ public class GENpc : ActivatableGameElement
         }
     }
 
+    [Serializable]
     public class GELine : GameElement
     {
 
@@ -272,6 +276,7 @@ public class GENpc : ActivatableGameElement
         }
     }
 
+    [Serializable]
     public class GEAnswer : ActivatableGameElement
     {
         private GELine parentLine;
@@ -366,6 +371,7 @@ public class GENpc : ActivatableGameElement
         }
     }
 
+    [Serializable]
     public class GEItemAction : GEAction
     {
         List<GEEquipItem> equipItems;
@@ -385,6 +391,7 @@ public class GENpc : ActivatableGameElement
             return response;
         }
 
+        [Serializable]
         public class GEEquipItem
         {
             private string refId;

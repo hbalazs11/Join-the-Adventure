@@ -47,7 +47,10 @@ public partial class GameDescriptor
     private static System.Xml.Serialization.XmlSerializer serializer;
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
-    public decimal version { get; set; }
+    public string gameName { get; set; }
+
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string version { get; set; }
 
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool versionSpecified { get; set; }

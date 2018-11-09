@@ -14,7 +14,8 @@
                 <xs:element name="GameEnds" type="GameEndsType" minOccurs="0" />
                 <xs:element name="Texts" type="TextsType" minOccurs="0" />
             </xs:sequence>
-            <xs:attribute name="version" type="xs:decimal" use="optional" />
+			<xs:attribute name="gameName" type="xs:string" use="required" />
+            <xs:attribute name="version" type="xs:string" use="optional" />
             <xs:attribute name="id" type="xs:string" use="optional" />
             <xs:attribute name="root" default="false" type="xs:boolean" />
         </xs:complexType>

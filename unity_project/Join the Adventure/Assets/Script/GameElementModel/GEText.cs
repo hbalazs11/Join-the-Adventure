@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[Serializable]
 public class GEText : GameElement {
     private const string EMPTYTEXT = "##NOPE##";
     private string defLang;
     private SortedList<string, string> textByLang;
     private GameElementManager elementManager;
+    [NonSerialized]
     ILogger logger;
 
     public GEText(string id, string defLang) : base(id)

@@ -19,11 +19,15 @@ public class Injector  {
     {
         get
         {
-            if(gameElementManager == null)
-            {
-                gameElementManager = new GameElementManager();
-            }
+            //if(gameElementManager == null)
+            //{
+            //    gameElementManager = new GameElementManager();
+            //}
             return gameElementManager;
+        }
+        set
+        {
+            gameElementManager = value;
         }
     }
 

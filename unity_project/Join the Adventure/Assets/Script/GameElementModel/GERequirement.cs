@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
+[Serializable]
 public class GERequirement
 {
     private GEText textOnFail;
@@ -53,7 +55,7 @@ public class GERequirement
             textOnFail = value;
         }
     }
-
+    [Serializable]
     public class GEActivationChecker
     {
         private string refId;
@@ -78,7 +80,7 @@ public class GERequirement
             return element.IsActive() == valueToCheck;
         }
     }
-
+    [Serializable]
     public class GEPropertyChecker
     {
         private string refId;
@@ -112,12 +114,12 @@ public class GERequirement
 
         }
     }
-
+    [Serializable]
     public enum PropertyConditionType
     {
         EQ, LT, GT
     }
-
+    [Serializable]
     public class GEEquippedChecker
     {
         private string refId;

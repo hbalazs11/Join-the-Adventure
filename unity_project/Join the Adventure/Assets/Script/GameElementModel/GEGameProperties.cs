@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
+[Serializable]
 class GEGameProperties
 {
     public string firstRoomId;

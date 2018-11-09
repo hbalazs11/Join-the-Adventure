@@ -19,9 +19,8 @@ public class DescriptorLoaderUtility  {
             Dictionary<string, MemoryStream> descFiles = ZipUtility.ExtractZipFile(zipBytes);
             List<string> xmlNames = GetXmlNames(descFiles);
             Dictionary<string, MemoryStream> imgResources = GetImgs(descFiles);
-            Injector.DescriptorProcessor.ProcessImageResources(imgResources);
             List<GameDescriptor> gDescriptors = ReadXmls(xmlNames, descFiles);
-            Injector.DescriptorProcessor.ProcessMultipleGameDescriptor(gDescriptors);
+            Injector.DescriptorProcessor.ProcessMultipleGameDescriptor(gDescriptors, imgResources);
             OnFinished(null, EventArgs.Empty);
             yield break;
         }
@@ -43,9 +42,8 @@ public class DescriptorLoaderUtility  {
             Dictionary<string, MemoryStream> descFiles = ZipUtility.ExtractZipFile(zipBytes);
             List<string> xmlNames = GetXmlNames(descFiles);
             Dictionary<string, MemoryStream> imgResources = GetImgs(descFiles);
-            Injector.DescriptorProcessor.ProcessImageResources(imgResources);
             List<GameDescriptor> gDescriptors = ReadXmls(xmlNames, descFiles);
-            Injector.DescriptorProcessor.ProcessMultipleGameDescriptor(gDescriptors);
+            Injector.DescriptorProcessor.ProcessMultipleGameDescriptor(gDescriptors, imgResources);
             OnFinished(null, EventArgs.Empty);
         }
         catch (System.Exception e)
