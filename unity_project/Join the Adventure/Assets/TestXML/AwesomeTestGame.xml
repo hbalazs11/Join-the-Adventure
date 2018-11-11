@@ -205,5 +205,6 @@
     <Text id="jtaLabelExit">Kilépés</Text>
     <Text id="jtaLabelLanguages">Nyelvek</Text>
     <Text id="jtaLabelSavedGames">Mentések</Text>
+    <Text id="jtaLabelSavedName">Mentés név...</Text>
   </Texts>
 </GameDescriptor>

@@ -10,8 +10,9 @@ public class GameController : MonoBehaviour {
 
     public Text gameOverTextLabel;
     public ModalMenuController escapeMenuController;
+    public GameSaverMenu saverMenu;
     
-    private ILogger logger;
+    //private ILogger logger;
 
     private Description desctiptionScript;
     private MenuController menuController;
@@ -20,7 +21,7 @@ public class GameController : MonoBehaviour {
 
     void Awake()
     {
-        logger = Injector.Logger;
+        //logger = Injector.Logger;
 
         desctiptionScript = FindObjectOfType<Description>();
         menuController = FindObjectOfType<MenuController>();
@@ -53,11 +54,11 @@ public class GameController : MonoBehaviour {
         escapeMenuController.SetMenuName(LabelUtility.Instance.GetLabel(LabelNames.MENU));
         if (Injector.GameElementManager.GameProperties.IsMenuSaveAvailable)
         {
-            escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), GameMMSave);
+            escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), delegate { saverMenu.OpenMenu(Injector.GameElementManager); });
         }
-        escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.LOAD), savedGameLoader.ChangeLoadMenuActivation);
+        escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.LOAD), savedGameLoader.OpenLoadMenuActivation);
         escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.EXIT), GameMMExit);
-        escapeMenuController.AddBackButton(LabelUtility.Instance.GetLabel(LabelNames.EXIT));
+        escapeMenuController.AddBackButton(LabelUtility.Instance.GetLabel(LabelNames.BACK));
         escapeMenuController.SetActive(false);
     }
 

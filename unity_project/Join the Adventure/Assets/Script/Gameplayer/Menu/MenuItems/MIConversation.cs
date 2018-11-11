@@ -5,14 +5,12 @@ public class MIConversation : MenuItem
 {
 
     private GENpc npc;
-    private Description descriptionPanel;
     private MenuItemBundle bundleInstance;
     private GENpc.GEConversation actualConv;
 
     public MIConversation(string menuText, MenuItemBundle parentBundle, GENpc npc) : base(menuText, parentBundle)
     {
         this.npc = npc;
-        descriptionPanel = Description.GetInstance();
     }
 
     protected override void Execute()

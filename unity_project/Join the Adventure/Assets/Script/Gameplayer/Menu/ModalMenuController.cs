@@ -10,6 +10,8 @@ public class ModalMenuController : MonoBehaviour {
     public GameObject buttonPrefab;
     public ModalMenuController parentModalController;
 
+    private Dictionary<string, GameObject> menuButtons = new Dictionary<string, GameObject>();
+
     //void Awake()
     //{
     //    buttonList = this.gameObject.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
@@ -75,14 +77,15 @@ public class ModalMenuController : MonoBehaviour {
 
     public void AddButton(string label, UnityEngine.Events.UnityAction call)
     {
-        var langButton = MonoBehaviour.Instantiate(buttonPrefab) as GameObject;
+        var newButton = MonoBehaviour.Instantiate(buttonPrefab) as GameObject;
 
-        langButton.SetActive(true);
-        langButton.transform.SetParent(buttonList.transform, false);
+        newButton.SetActive(true);
+        newButton.transform.SetParent(buttonList.transform, false);
 
-        langButton.GetComponent<Button>().onClick.AddListener(call);
-        langButton.GetComponentInChildren<Text>().text = label;
-        langButton.SetActive(true);
+        newButton.GetComponent<Button>().onClick.AddListener(call);
+        newButton.GetComponentInChildren<Text>().text = label;
+        newButton.SetActive(true);
+        menuButtons.Add(label, newButton);
     }
 
     public void AddBackButton(string label = "Back")
@@ -93,5 +96,10 @@ public class ModalMenuController : MonoBehaviour {
     public void SetParentModalController(ModalMenuController parent)
     {
         this.parentModalController = parent;
+    }
+
+    public List<string> GetContainedButtonNames()
+    {
+        return new List<string>(menuButtons.Keys);
     }
 }

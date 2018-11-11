@@ -19,4 +19,5 @@ public class LabelNames {
     public static readonly string EXIT = "jtaLabelExit";
     public static readonly string LANGUAGES = "jtaLabelLanguages";
     public static readonly string SAVEDGAMES = "jtaLabelSavedGames";
+    public static readonly string SAVENAME = "jtaLabelSavedName";
 }

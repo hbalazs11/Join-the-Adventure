@@ -62,8 +62,21 @@ public class SavedGameLoader : MonoBehaviour {
         startGameAfterSavedGameLoad = true;
     }
 
-    public void ChangeLoadMenuActivation()
+    public void OpenLoadMenuActivation()
     {
-        loadMenuController.ChangeActivation();
+        RefreshNames();
+        loadMenuController.OpenMenu();
+    }
+
+    private void RefreshNames()
+    {
+        List<string> currentNames = loadMenuController.GetContainedButtonNames();
+        foreach (string saveName in Injector.GameElementManager.savedGameNames)
+        {
+            if (!currentNames.Contains(saveName))
+            {
+                loadMenuController.AddButton(saveName, delegate { LoadSavedGame(saveName); });
+            }
+        }
     }
 }

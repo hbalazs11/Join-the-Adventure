@@ -60,8 +60,7 @@ public static class PersistanceHelper
         {
             filePath = BuildPath(PersistentDataPath, dirName, fileName + Extension);
         }
-        filePath = BuildPath(PersistentDataPath, dirName, fileName + Extension);
-        using (file = File.Open(filePath, FileMode.OpenOrCreate))
+        using (file = File.Open(filePath, FileMode.Create))
         {
             bf.Serialize(file, gem);
         }

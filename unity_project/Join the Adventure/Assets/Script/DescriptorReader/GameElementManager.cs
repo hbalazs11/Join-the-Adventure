@@ -5,8 +5,6 @@ using System.IO;
 
 [Serializable]
 public class GameElementManager : IGameElementManager {
-    [NonSerialized]
-    private ILogger logger;
 
     [NonSerialized]
     public List<string> savedGameNames;
@@ -62,7 +60,6 @@ public class GameElementManager : IGameElementManager {
         gameEnds = new Dictionary<string, GEGameEnd>();
         npcConvs = new Dictionary<string, GENpc.GEConversation>();
         npcConvLines = new Dictionary<string, GENpc.GELine>();
-        logger = Injector.Logger;
         AvailableLangs = new List<string>();
         savedGameNames = new List<string>();
     }
@@ -108,7 +105,7 @@ public class GameElementManager : IGameElementManager {
         {
             if (log)
             {
-                logger.LogWarn("There is no GEText with the given id! " + id);
+                Injector.Logger.LogWarn("There is no GEText with the given id! " + id);
                 //throw new Exception(String.Format("There is no text with the given id! id: {0}", id));
             }
             return null;
@@ -229,7 +226,7 @@ public class GameElementManager : IGameElementManager {
         else
         {
             dictionary[id] = value;
-            logger.LogWarn("There are multiple text elements defined with the same id! The duplicated id: " + id);
+            Injector.Logger.LogWarn("There are multiple text elements defined with the same id! The duplicated id: " + id);
         }
     }
 
@@ -239,7 +236,7 @@ public class GameElementManager : IGameElementManager {
         dictionary.TryGetValue(key, out value);
         if(logNullWarn && value == null)
         {
-            logger.LogWarn("There is no content with the given id in the GameElementManager! id: " + key);
+            Injector.Logger.LogWarn("There is no content with the given id in the GameElementManager! id: " + key);
         }
         return value;
     }

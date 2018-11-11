@@ -92,4 +92,17 @@ public class GEMenuItem : ActivatableGameElement
             }
         }
     }
+
+    public SortedList<string, GEText> Texts
+    {
+        get
+        {
+            return texts;
+        }
+
+        set
+        {
+            texts = value;
+        }
+    }
 }
