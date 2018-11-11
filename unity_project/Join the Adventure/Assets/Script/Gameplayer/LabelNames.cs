@@ -14,4 +14,9 @@ public class LabelNames {
     public static readonly string SHOWDESCRUPTION = "jtaLabelShowDescription";
     public static readonly string STARTCONVERSATION = "jtaLabelStartConversation";
     public static readonly string CONVERSATIONWITH = "jtaLabelConversationWith";
+    public static readonly string LOAD = "jtaLabelLoad";
+    public static readonly string SAVE = "jtaLabelSave";
+    public static readonly string EXIT = "jtaLabelExit";
+    public static readonly string LANGUAGES = "jtaLabelLanguages";
+    public static readonly string SAVEDGAMES = "jtaLabelSavedGames";
 }

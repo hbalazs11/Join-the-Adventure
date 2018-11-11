@@ -10,25 +10,24 @@ public class GameMenuController : MonoBehaviour {
     public Text greetingTextUI;
 
     public ModalMenuController langMenuController;
-
-    private GameElementManager elementManager;
+    
     private ILogger logger;
+
 
     void Awake()
     {
-        elementManager = Injector.GameElementManager;
-        logger = Injector.Logger;
     }
 
     // Use this for initialization
     void Start () {
+        logger = Injector.Logger;
         LoadTexts();
         InitLangMenu();
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        
 	}
 
     public void StartGame()
@@ -44,14 +43,14 @@ public class GameMenuController : MonoBehaviour {
 
     private void LoadTexts()
     {
-        gameNameTextUI.text = elementManager.GameProperties.GameNameText.GetText();
-        greetingTextUI.text = elementManager.GameProperties.GreetingText.GetText();
+        gameNameTextUI.text = Injector.GameElementManager.GameProperties.GameNameText.GetText();
+        greetingTextUI.text = Injector.GameElementManager.GameProperties.GreetingText.GetText();
     }
 
     private void InitLangMenu()
     {
         langMenuController.SetMenuName("Languages");
-        foreach (string lang in elementManager.AvailableLangs)
+        foreach (string lang in Injector.GameElementManager.AvailableLangs)
         {
             langMenuController.AddButton(lang, delegate { ChangeLang(lang); });
         }
@@ -61,7 +60,7 @@ public class GameMenuController : MonoBehaviour {
 
     private void ChangeLang(string lang)
     {
-        elementManager.CurrentLang = lang;
+        Injector.GameElementManager.CurrentLang = lang;
         LoadTexts();
         ChangeLangMenuActivation();
     }

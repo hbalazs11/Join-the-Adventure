@@ -7,7 +7,6 @@ public class GEText : GameElement {
     private const string EMPTYTEXT = "##NOPE##";
     private string defLang;
     private SortedList<string, string> textByLang;
-    private GameElementManager elementManager;
     [NonSerialized]
     ILogger logger;
 
@@ -15,7 +14,6 @@ public class GEText : GameElement {
     {
         this.defLang = defLang;
         this.textByLang = new SortedList<string, string>();
-        elementManager = Injector.GameElementManager;
         logger = Injector.Logger;
     }
 
@@ -61,7 +59,7 @@ public class GEText : GameElement {
 
     public string GetText()
     {
-        return GetText(elementManager.CurrentLang);
+        return GetText(Injector.GameElementManager.CurrentLang);
     }
 
     private string CheckNope(string txt)

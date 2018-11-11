@@ -10,17 +10,22 @@ class GEGameProperties
     private GEText greetingText;
     public bool checkpointsOn;
 
+    public bool IsMenuSaveAvailable { get; set; }
+
     public GEGameProperties(string firstRoomId, string defLang, GEText gameNameText)
     {
         this.firstRoomId = firstRoomId;
         this.defLang = defLang;
         this.gameNameText = gameNameText;
+        IsMenuSaveAvailable = true;
+        this.checkpointsOn = false;
     }
 
-    public GEGameProperties(string firstRoomId, string defLang, GEText gameNameText, GEText greetingText, bool checkpointsOn) : this(firstRoomId, defLang, gameNameText)
+    public GEGameProperties(string firstRoomId, string defLang, GEText gameNameText, GEText greetingText, bool isMenuSaveAvailable, bool checkpointsOn) : this(firstRoomId, defLang, gameNameText)
     {
         this.greetingText = greetingText;
         this.checkpointsOn = checkpointsOn;
+        IsMenuSaveAvailable = isMenuSaveAvailable;
     }
     
     public GEText GreetingText

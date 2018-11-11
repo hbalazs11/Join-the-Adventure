@@ -8,6 +8,7 @@ public class ModalMenuController : MonoBehaviour {
     public Text menuName;
     public GameObject buttonList;
     public GameObject buttonPrefab;
+    public ModalMenuController parentModalController;
 
     //void Awake()
     //{
@@ -34,22 +35,42 @@ public class ModalMenuController : MonoBehaviour {
 
     public void SetActive(bool value)
     {
-        this.gameObject.SetActive(value);
+        if (value)
+        {
+            OpenMenu();
+        } else
+        {
+            CloseMenu();
+        }
     }
 
     public void ChangeActivation()
     {
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
+        if (this.gameObject.activeSelf)
+        {
+            CloseMenu();
+        } else
+        {
+            OpenMenu();
+        }
     }
 
     public void CloseMenu()
     {
         this.gameObject.SetActive(false);
+        if(parentModalController != null)
+        {
+            parentModalController.OpenMenu();
+        }
     }
 
     public void OpenMenu()
     {
         this.gameObject.SetActive(true);
+        if (parentModalController != null)
+        {
+            parentModalController.CloseMenu();
+        }
     }
 
     public void AddButton(string label, UnityEngine.Events.UnityAction call)
@@ -69,5 +90,8 @@ public class ModalMenuController : MonoBehaviour {
         AddButton(label, CloseMenu);
     }
 
-    
+    public void SetParentModalController(ModalMenuController parent)
+    {
+        this.parentModalController = parent;
+    }
 }

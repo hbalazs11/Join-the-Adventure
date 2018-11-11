@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
 public static class PersistanceHelper
 {
@@ -18,10 +19,17 @@ public static class PersistanceHelper
         return Directory.Exists(PersistentDataPath + SEP + dirName);
     }
 
-    public static GameElementManager GetGEM(string dirName, string fileName)
+    public static GameElementManager GetGEM(string dirName, string fileName, bool isSavedGame = false)
     {
         GameElementManager ret = null;
-        string filePath = BuildPath(PersistentDataPath, dirName, fileName);
+        string filePath;
+        if (isSavedGame)
+        {
+            filePath = BuildPath(PersistentDataPath, dirName, SavedGamesStore, fileName + Extension);
+        } else
+        {
+            filePath = BuildPath(PersistentDataPath, dirName, fileName + Extension);
+        }
         if (File.Exists(filePath))
         {
             using (FileStream file = File.Open(filePath, FileMode.Open))
@@ -36,14 +44,24 @@ public static class PersistanceHelper
 
     public static GameElementManager GetInitialGEM(string dirName)
     {
-        return GetGEM(dirName, InitialGemName + Extension);
+        return GetGEM(dirName, InitialGemName, false);
     }
 
-    public static void StoreGEM(string dirName, string fileName, GameElementManager gem)
+    public static void StoreGEM(string dirName, string fileName, GameElementManager gem, bool isSavedGame = false)
     {
         FileStream file = null;
         BinaryFormatter bf = new BinaryFormatter();
-        using (file = File.Open(BuildPath(PersistentDataPath, dirName, fileName + Extension), FileMode.OpenOrCreate))
+        string filePath;
+        if (isSavedGame)
+        {
+            filePath = BuildPath(PersistentDataPath, dirName, SavedGamesStore, fileName + Extension);
+        }
+        else
+        {
+            filePath = BuildPath(PersistentDataPath, dirName, fileName + Extension);
+        }
+        filePath = BuildPath(PersistentDataPath, dirName, fileName + Extension);
+        using (file = File.Open(filePath, FileMode.OpenOrCreate))
         {
             bf.Serialize(file, gem);
         }
@@ -71,6 +89,25 @@ public static class PersistanceHelper
         return File.ReadAllBytes(BuildPath(PersistentDataPath, dirName, ImageStore, imageName));
     }
 
+    public static void StoreSavedGameGEM(string dirName, string fileName, GameElementManager gem)
+    {
+        StoreGEM(dirName, fileName, gem, true);
+    }
+
+    public static List<string> GetSavedGameNames(string dirName)
+    {
+        string[] files = Directory.GetFiles(BuildPath(PersistentDataPath, dirName, SavedGamesStore), "*" + Extension);
+        for (int i = 0; i < files.Length; i++)
+            files[i] = Path.GetFileNameWithoutExtension(files[i]);
+        List<string> ret = new List<string>(files);
+        return ret;
+    }
+
+    public static GameElementManager GetSavedGameGEM(string dirName, string savedGameName)
+    {
+        return GetGEM(dirName, savedGameName, true);
+    }
+
     public static void CreateStorage(string dirName)
     {
         if (CheckDirectory(dirName)) return;
@@ -81,13 +118,13 @@ public static class PersistanceHelper
 
     private static string BuildPath(params string[] pathParams)
     {
-        string ret = "";
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i < pathParams.Length-1; i++)
         {
-            ret = ret + pathParams[i] + SEP;
+            sb.Append(pathParams[i]).Append(SEP);
         }
-        ret = ret + pathParams[pathParams.Length-1];
-        return ret;
+        sb.Append(pathParams[pathParams.Length - 1]);
+        return sb.ToString();
     }
 
     public static void StreamCopyTo(this Stream source, Stream destination, int bufferSize = 4096)

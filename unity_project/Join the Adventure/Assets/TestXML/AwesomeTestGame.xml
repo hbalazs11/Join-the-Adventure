@@ -4,7 +4,7 @@
                 xsi:noNamespaceSchemaLocation="E:\temp\liquidproject\LiquidTest\Schemas\schema_test.xsd"
                 gameName="AwesomeTestGame"
                 version="1" id="id" root="true">
-  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="false" />
+  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="false" menuSaveAvailable="true"/>
   <Player>
     <Properties>
       <Property id="playerHealth" nameTextId="playerHealthNameTxt" minValue="0" maxValue="100" defValue="100" />
@@ -134,7 +134,9 @@
             <Item id="blacksmithPear" activeAtStart="true" equipable="true" nameTextId="pearNameTxt" descTextId="pearDescTxt">
               <MenuItems>
                 <MenuItem id="eatPear" useNumber="1" menuTextId="eatPearMenuTxt">
-                  <Actions responseTextId="eatPearTxt" />
+                  <Actions responseTextId="eatPearTxt" >
+                    <saveGame isAutoSave="false" />
+                  </Actions>  
                 </MenuItem>
               </MenuItems>
             </Item>
@@ -198,5 +200,10 @@
     <Text id="jtaLabelShowDescription">Megnézem magamnak...</Text>
     <Text id="jtaLabelStartConversation">Odamegyek hozzá...</Text>
     <Text id="jtaLabelConversationWith">Beszélgetés vele: </Text>
+    <Text id="jtaLabelLoad">Betöltés</Text>
+    <Text id="jtaLabelSave">Mentés</Text>
+    <Text id="jtaLabelExit">Kilépés</Text>
+    <Text id="jtaLabelLanguages">Nyelvek</Text>
+    <Text id="jtaLabelSavedGames">Mentések</Text>
   </Texts>
 </GameDescriptor>

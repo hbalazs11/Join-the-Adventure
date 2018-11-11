@@ -45,6 +45,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         if (PersistanceHelper.CheckDirectory(gameStorageName))
         {
             elementManager = PersistanceHelper.GetInitialGEM(gameStorageName);
+            elementManager.savedGameNames = PersistanceHelper.GetSavedGameNames(gameStorageName);
             Injector.GameElementManager = elementManager;
             return;
         }
@@ -299,7 +300,7 @@ public class DescriptorProcessor : IDescriptorProcessor
     private void ProcessGameProperties(GamePropertiesType gameProperties)
     {
         if (gameProperties == null) return;
-        elementManager.GameProperties = new GEGameProperties(gameProperties.firstRoomId, gameProperties.defaultLang, null, null, gameProperties.checkpointsOn);
+        elementManager.GameProperties = new GEGameProperties(gameProperties.firstRoomId, gameProperties.defaultLang, null, null, gameProperties.menuSaveAvailable, gameProperties.checkpointsOn);
         elementManager.DefLang = gameProperties.defaultLang;
         this.defLang = gameProperties.defaultLang;
         OnReferenceProcessing += delegate (object o, EventArgs e)

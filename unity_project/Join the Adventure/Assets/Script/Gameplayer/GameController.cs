@@ -10,22 +10,22 @@ public class GameController : MonoBehaviour {
 
     public Text gameOverTextLabel;
     public ModalMenuController escapeMenuController;
-
-    private GameElementManager elementManager;
+    
     private ILogger logger;
 
     private Description desctiptionScript;
     private MenuController menuController;
     private BcgImage bcgImageScript;
+    private SavedGameLoader savedGameLoader;
 
     void Awake()
     {
-        elementManager = Injector.GameElementManager;
         logger = Injector.Logger;
 
         desctiptionScript = FindObjectOfType<Description>();
         menuController = FindObjectOfType<MenuController>();
         bcgImageScript = FindObjectOfType<BcgImage>();
+        savedGameLoader = FindObjectOfType<SavedGameLoader>();
     }
 
     // Use this for initialization
@@ -50,16 +50,20 @@ public class GameController : MonoBehaviour {
 
     private void InitEscMenu()
     {
-        escapeMenuController.SetMenuName("Menu");
-        escapeMenuController.AddButton("Save", GameMMSave);
-        escapeMenuController.AddButton("Load", GameMMLoad);
-        escapeMenuController.AddButton("Exit", GameMMExit);
-        escapeMenuController.AddBackButton();
+        escapeMenuController.SetMenuName(LabelUtility.Instance.GetLabel(LabelNames.MENU));
+        if (Injector.GameElementManager.GameProperties.IsMenuSaveAvailable)
+        {
+            escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), GameMMSave);
+        }
+        escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.LOAD), savedGameLoader.ChangeLoadMenuActivation);
+        escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.EXIT), GameMMExit);
+        escapeMenuController.AddBackButton(LabelUtility.Instance.GetLabel(LabelNames.EXIT));
         escapeMenuController.SetActive(false);
     }
 
     public void LoadCurrentRoom()
     {
+        GameElementManager elementManager = Injector.GameElementManager;
         desctiptionScript.SetRoomName(elementManager.CurrentRoom.NameText.GetText());
         desctiptionScript.SetDescriptionText(elementManager.CurrentRoom.DescText.GetText());
         menuController.LoadRoom(elementManager.CurrentRoom);
@@ -98,7 +102,7 @@ public class GameController : MonoBehaviour {
 
     public void LoadRoom(GERoom room)
     {
-        elementManager.CurrentRoom = room;
+        Injector.GameElementManager.CurrentRoom = room;
         LoadCurrentRoom();
     }
 
@@ -126,11 +130,6 @@ public class GameController : MonoBehaviour {
     }
 
     private void GameMMSave()
-    {
-
-    }
-
-    private void GameMMLoad()
     {
 
     }

@@ -405,6 +405,7 @@ public partial class GamePropertiesType
 {
 
     private bool checkpointsOnField;
+    private bool menuSaveAvailableField;
 
     private static System.Xml.Serialization.XmlSerializer serializer;
 
@@ -424,6 +425,7 @@ public partial class GamePropertiesType
     public GamePropertiesType()
     {
         this.checkpointsOnField = false;
+        this.menuSaveAvailableField = true;
     }
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -437,6 +439,20 @@ public partial class GamePropertiesType
         set
         {
             this.checkpointsOnField = value;
+        }
+    }
+
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    [System.ComponentModel.DefaultValueAttribute(true)]
+    public bool menuSaveAvailable
+    {
+        get
+        {
+            return this.menuSaveAvailableField;
+        }
+        set
+        {
+            this.menuSaveAvailableField = value;
         }
     }
 
@@ -4481,6 +4497,9 @@ public partial class ActionsType
         }
     }
 
+    [System.Xml.Serialization.XmlElementAttribute("saveGame", Order = 2)]
+    private ActionsTypeSaveGame SaveGame { get; set; }
+
     private static System.Xml.Serialization.XmlSerializer Serializer
     {
         get
@@ -5497,6 +5516,211 @@ public partial class ActionsTypeSetPropertyValue
     }
 
     public static ActionsTypeSetPropertyValue LoadFromFile(string fileName)
+    {
+        System.IO.FileStream file = null;
+        System.IO.StreamReader sr = null;
+        try
+        {
+            file = new System.IO.FileStream(fileName, FileMode.Open, FileAccess.Read);
+            sr = new System.IO.StreamReader(file);
+            string xmlString = sr.ReadToEnd();
+            sr.Close();
+            file.Close();
+            return Deserialize(xmlString);
+        }
+        finally
+        {
+            if ((file != null))
+            {
+                file.Dispose();
+            }
+            if ((sr != null))
+            {
+                sr.Dispose();
+            }
+        }
+    }
+    #endregion
+}
+
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.2612.0")]
+[System.SerializableAttribute()]
+[System.ComponentModel.DesignerCategoryAttribute("code")]
+[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+public partial class ActionsTypeSaveGame
+{
+
+    private static System.Xml.Serialization.XmlSerializer serializer;
+
+    private bool isAutoSaveField;
+
+    public ActionsTypeSaveGame()
+    {
+        isAutoSaveField = false;
+    }
+
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public bool isAutoSave { get { return isAutoSaveField; } set { isAutoSaveField = value; } }
+
+    private static System.Xml.Serialization.XmlSerializer Serializer
+    {
+        get
+        {
+            if ((serializer == null))
+            {
+                serializer = new System.Xml.Serialization.XmlSerializer(typeof(ActionsTypeSaveGame));
+            }
+            return serializer;
+        }
+    }
+
+    #region Serialize/Deserialize
+    /// <summary>
+    /// Serializes current ActionsTypeSetPropertyValue object into an XML document
+    /// </summary>
+    /// <returns>string XML value</returns>
+    public virtual string Serialize()
+    {
+        System.IO.StreamReader streamReader = null;
+        System.IO.MemoryStream memoryStream = null;
+        try
+        {
+            memoryStream = new System.IO.MemoryStream();
+            Serializer.Serialize(memoryStream, this);
+            memoryStream.Seek(0, System.IO.SeekOrigin.Begin);
+            streamReader = new System.IO.StreamReader(memoryStream);
+            return streamReader.ReadToEnd();
+        }
+        finally
+        {
+            if ((streamReader != null))
+            {
+                streamReader.Dispose();
+            }
+            if ((memoryStream != null))
+            {
+                memoryStream.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Deserializes workflow markup into an ActionsTypeSetPropertyValue object
+    /// </summary>
+    /// <param name="xml">string workflow markup to deserialize</param>
+    /// <param name="obj">Output ActionsTypeSetPropertyValue object</param>
+    /// <param name="exception">output Exception value if deserialize failed</param>
+    /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+    public static bool Deserialize(string xml, out ActionsTypeSaveGame obj, out System.Exception exception)
+    {
+        exception = null;
+        obj = default(ActionsTypeSaveGame);
+        try
+        {
+            obj = Deserialize(xml);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            exception = ex;
+            return false;
+        }
+    }
+
+    public static bool Deserialize(string xml, out ActionsTypeSaveGame obj)
+    {
+        System.Exception exception = null;
+        return Deserialize(xml, out obj, out exception);
+    }
+
+    public static ActionsTypeSaveGame Deserialize(string xml)
+    {
+        System.IO.StringReader stringReader = null;
+        try
+        {
+            stringReader = new System.IO.StringReader(xml);
+            return ((ActionsTypeSaveGame)(Serializer.Deserialize(System.Xml.XmlReader.Create(stringReader))));
+        }
+        finally
+        {
+            if ((stringReader != null))
+            {
+                stringReader.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Serializes current ActionsTypeSetPropertyValue object into file
+    /// </summary>
+    /// <param name="fileName">full path of outupt xml file</param>
+    /// <param name="exception">output Exception value if failed</param>
+    /// <returns>true if can serialize and save into file; otherwise, false</returns>
+    public virtual bool SaveToFile(string fileName, out System.Exception exception)
+    {
+        exception = null;
+        try
+        {
+            SaveToFile(fileName);
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            exception = e;
+            return false;
+        }
+    }
+
+    public virtual void SaveToFile(string fileName)
+    {
+        System.IO.StreamWriter streamWriter = null;
+        try
+        {
+            string xmlString = Serialize();
+            System.IO.FileInfo xmlFile = new System.IO.FileInfo(fileName);
+            streamWriter = xmlFile.CreateText();
+            streamWriter.WriteLine(xmlString);
+            streamWriter.Close();
+        }
+        finally
+        {
+            if ((streamWriter != null))
+            {
+                streamWriter.Dispose();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Deserializes xml markup from file into an ActionsTypeSetPropertyValue object
+    /// </summary>
+    /// <param name="fileName">string xml file to load and deserialize</param>
+    /// <param name="obj">Output ActionsTypeSetPropertyValue object</param>
+    /// <param name="exception">output Exception value if deserialize failed</param>
+    /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
+    public static bool LoadFromFile(string fileName, out ActionsTypeSaveGame obj, out System.Exception exception)
+    {
+        exception = null;
+        obj = default(ActionsTypeSaveGame);
+        try
+        {
+            obj = LoadFromFile(fileName);
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            exception = ex;
+            return false;
+        }
+    }
+
+    public static bool LoadFromFile(string fileName, out ActionsTypeSaveGame obj)
+    {
+        System.Exception exception = null;
+        return LoadFromFile(fileName, out obj, out exception);
+    }
+
+    public static ActionsTypeSaveGame LoadFromFile(string fileName)
     {
         System.IO.FileStream file = null;
         System.IO.StreamReader sr = null;

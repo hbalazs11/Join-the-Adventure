@@ -33,10 +33,7 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
-        if (Injector.GameElementManager != null)
-        {
-            Injector.GameElementManager.PurgeElements();
-        }
+        Injector.GameElementManager = new GameElementManager("emptyGEM");
         PersistanceHelper.PersistentDataPath = Application.persistentDataPath;
         OnLoadingProcessFinished += new EventHandler<EventArgs>(LoadGameMenuScene);
         OnLoadingProcessException += new EventHandler<ExceptionEventArgs>(HandleLoadingProcessException);

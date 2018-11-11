@@ -8,8 +8,7 @@ using UnityEngine;
 public class LabelUtility  {
 
     private const string DEF_LABELINI_PATH = "Assets/Resources/labels.txt";
-
-    private GameElementManager elementManager;
+    
     private ILogger logger;
     private Dictionary<string, string> data;
     private bool isStarted = false;
@@ -18,7 +17,6 @@ public class LabelUtility  {
 
     private LabelUtility()
     {
-        elementManager = Injector.GameElementManager;
         logger = Injector.Logger;
     }
 
@@ -57,7 +55,7 @@ public class LabelUtility  {
         {
             Start();
         }
-        string res = elementManager.GetText(key);
+        string res = Injector.GameElementManager.GetText(key);
         if (res != null) return res;
         res = data[key];
         if (res != null) return res;

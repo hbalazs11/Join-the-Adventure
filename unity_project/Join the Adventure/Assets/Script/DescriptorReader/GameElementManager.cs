@@ -8,7 +8,9 @@ public class GameElementManager : IGameElementManager {
     [NonSerialized]
     private ILogger logger;
 
-    
+    [NonSerialized]
+    public List<string> savedGameNames;
+
     public static string persistentDataPath;
 
     public static GameElementManager initialGEM;
@@ -37,9 +39,7 @@ public class GameElementManager : IGameElementManager {
     private Dictionary<string, GENpc.GEConversation> npcConvs;
 
     private Dictionary<string, GENpc.GELine> npcConvLines;
-
-    [NonSerialized]
-    private Dictionary<string, MemoryStream> imgResources;
+    
 
     public string GameStorageName { get; set; }
 
@@ -49,7 +49,6 @@ public class GameElementManager : IGameElementManager {
     {
         GameStorageName = gameStorageName;
         Init();
-        initialGEM = this;
     }
 
     private void Init()
@@ -63,9 +62,9 @@ public class GameElementManager : IGameElementManager {
         gameEnds = new Dictionary<string, GEGameEnd>();
         npcConvs = new Dictionary<string, GENpc.GEConversation>();
         npcConvLines = new Dictionary<string, GENpc.GELine>();
-        imgResources = new Dictionary<string, MemoryStream>();
         logger = Injector.Logger;
         AvailableLangs = new List<string>();
+        savedGameNames = new List<string>();
     }
 
     public void SetFirstRoom()
@@ -369,23 +368,5 @@ public class GameElementManager : IGameElementManager {
         {
             currentLang = value;
         }
-    }
-
-    public Dictionary<string, MemoryStream> ImgResources
-    {
-        get
-        {
-            return imgResources;
-        }
-
-        set
-        {
-            imgResources = value;
-        }
-    }
-
-    public void PurgeElements()
-    {
-        Init();
     }
 }
