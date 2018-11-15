@@ -9,10 +9,9 @@ public class GEGameEnd : ActivatableGameElement {
 
     public GEGameEnd(string id) : base(id)
     {
-        OnActivationChange += GEGameEnd_OnActivationChange;
     }
 
-    private void GEGameEnd_OnActivationChange(object sender, System.EventArgs e)
+    private void OnActivation()
     {
         if (!isActive) return;
         Description description = Description.GetInstance();
@@ -22,6 +21,12 @@ public class GEGameEnd : ActivatableGameElement {
         MenuItemBundle menuItemBundle = new MenuItemBundle("", null);
         menuItemBundle.AddMenuItem(new MIGameEnd("OK",null));
         MenuController.GetInstance().CurrentBundle = menuItemBundle;
+    }
+
+    public override void SetActive(bool active)
+    {
+        base.SetActive(active);
+        OnActivation();
     }
 
     public GEText EndText

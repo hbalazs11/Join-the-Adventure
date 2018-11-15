@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour {
         {
             escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), delegate { saverMenu.OpenMenu(Injector.GameElementManager); });
         }
-        escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.LOAD), savedGameLoader.OpenLoadMenuActivation);
+        escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.LOAD), savedGameLoader.OpenLoadMenu);
         escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.EXIT), GameMMExit);
         escapeMenuController.AddBackButton(LabelUtility.Instance.GetLabel(LabelNames.BACK));
         escapeMenuController.SetActive(false);
@@ -116,11 +116,13 @@ public class GameController : MonoBehaviour {
 
     public void HeadBackToGameMenu()
     {
+        List<string> savedNames = Injector.GameElementManager.savedGameNames;
         Injector.GameElementManager = GameElementManager.GetInitialGEM();
-#if UNITY_ANDROID //&& !UNITY_EDITOR
+        Injector.GameElementManager.savedGameNames = savedNames;
+#if UNITY_ANDROID && !UNITY_EDITOR
         SceneManager.LoadScene("GameMenu_Android");
 #endif
-#if UNITY_STANDALONE //|| UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
         SceneManager.LoadScene("GameMenu_Standalone");
 #endif
     }

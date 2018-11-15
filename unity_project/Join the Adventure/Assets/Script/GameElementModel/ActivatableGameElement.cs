@@ -7,6 +7,7 @@ using UnityEngine;
 public abstract class ActivatableGameElement : GameElement, IActivatable {
 
     protected bool isActive;
+    [field: NonSerialized]
     public event EventHandler<EventArgs> OnActivationChange;
 
     public ActivatableGameElement(string id) : base(id)
@@ -18,7 +19,7 @@ public abstract class ActivatableGameElement : GameElement, IActivatable {
         return isActive;
     }
 
-    public void SetActive(bool active)
+    public virtual void SetActive(bool active)
     {
         this.isActive = active;
         if (OnActivationChange != null)

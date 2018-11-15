@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!-- Created with Liquid Studio 2018 (https://www.liquid-technologies.com) -->
+<!--Created with Liquid Studio 2018 (https://www.liquid-technologies.com)-->
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="GameDescriptor">
         <xs:complexType>
@@ -167,6 +167,7 @@
         <xs:attribute name="gameNameTextId" type="xs:string" use="required" />
         <xs:attribute name="greetingTextId" type="xs:string" />
         <xs:attribute name="checkpointsOn" default="false" type="xs:boolean" />
+		<xs:attribute name="menuSaveAvailable" default="true" type="xs:boolean" />
         <xs:attribute name="defaultLang" type="xs:string" use="required" />
     </xs:complexType>
     <xs:complexType name="NPCsType">
@@ -240,6 +241,11 @@
                     <xs:attribute name="refId" type="xs:string" use="required" />
                     <xs:attribute name="change" type="PropertyChangeEnum" use="required" />
                     <xs:attribute name="value" type="xs:double" use="required" />
+                </xs:complexType>
+            </xs:element>
+			<xs:element name="saveGame" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+					<xs:attribute name="isAutoSave" type="xs:boolean" default="false" />
                 </xs:complexType>
             </xs:element>
         </xs:sequence>

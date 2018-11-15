@@ -129,8 +129,6 @@ public class GENpc : ActivatableGameElement
         {
             this.isActive = isActive;
             this.parentNPC = parent;
-
-            this.OnActivationChange += GEConversation_OnActivationChange;
         }
 
         public SortedList<string, GELine> Lines
@@ -185,13 +183,20 @@ public class GENpc : ActivatableGameElement
             }
         }
 
-        private void GEConversation_OnActivationChange(object sender, System.EventArgs e)
+        private void OnActivation()
         {
             if (isActive)
             {
                 this.parentNPC.activeConversation = this;
             }
         }
+
+        public override void SetActive(bool active)
+        {
+            base.SetActive(active);
+            OnActivation();
+        }
+
     }
 
     [Serializable]
