@@ -48,15 +48,15 @@ public class MainMenuController : MonoBehaviour
         if (isLoadFinished)
         {
             isLoadFinished = false;
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID //&& !UNITY_EDITOR
             SceneManager.LoadScene("GameMenu_Android");
 #endif
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE //|| UNITY_EDITOR
             SceneManager.LoadScene("GameMenu_Standalone");
 #endif
         }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID //&& !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
              Application.Quit();

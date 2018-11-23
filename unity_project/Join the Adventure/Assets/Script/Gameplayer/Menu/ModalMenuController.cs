@@ -9,6 +9,7 @@ public class ModalMenuController : MonoBehaviour {
     public GameObject buttonList;
     public GameObject buttonPrefab;
     public ModalMenuController parentModalController;
+    public List<CanvasGroup> blockedCanvasGroups;
 
     private Dictionary<string, GameObject> menuButtons = new Dictionary<string, GameObject>();
 
@@ -64,6 +65,10 @@ public class ModalMenuController : MonoBehaviour {
         {
             parentModalController.OpenMenu();
         }
+        foreach (CanvasGroup cg in blockedCanvasGroups)
+        {
+            cg.interactable = true;
+        }
     }
 
     public void OpenMenu()
@@ -72,6 +77,14 @@ public class ModalMenuController : MonoBehaviour {
         if (parentModalController != null)
         {
             parentModalController.CloseMenu();
+            foreach (CanvasGroup cg in parentModalController.blockedCanvasGroups)
+            {
+                cg.interactable = false;
+            }
+        }
+        foreach(CanvasGroup cg in blockedCanvasGroups)
+        {
+            cg.interactable = false;
         }
     }
 

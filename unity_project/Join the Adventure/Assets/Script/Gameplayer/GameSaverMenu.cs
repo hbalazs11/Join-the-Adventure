@@ -27,6 +27,11 @@ public class GameSaverMenu : MonoBehaviour {
 		
 	}
 
+    public static GameSaverMenu GetInstance()
+    {
+        return FindObjectOfType<GameSaverMenu>();
+    }
+
     public void OpenMenu(GameElementManager gem)
     {
         if (elementManager == null || elementManager != gem)
@@ -73,15 +78,45 @@ public class GameSaverMenu : MonoBehaviour {
     private void SaveGame()
     {
         if (inputField.text.Length == 0) return;
-        Thread loadingThread = new Thread(() => StartSaveOnAnotherThread(Injector.GameElementManager.GameStorageName, inputField.text, Injector.GameElementManager));
+        Thread loadingThread = new Thread(() => StartSave(Injector.GameElementManager.GameStorageName, inputField.text, Injector.GameElementManager));
         saveInAction = true;
         loadingThread.Start();
         menuController.CloseMenu();
     }
+    public void AutoSave()
+    {
+        Thread loadingThread = new Thread(() => StartAutoSave(Injector.GameElementManager.GameStorageName, Injector.GameElementManager));
+        saveInAction = true;
+        loadingThread.Start();
+    }
 
-    private void StartSaveOnAnotherThread(string gameName, string saveName, GameElementManager gem)
+    public void SaveGameWithTimetag(string sourceName)
+    {
+        Thread loadingThread = new Thread(() => StartSaveWithTimetag(Injector.GameElementManager.GameStorageName, sourceName, Injector.GameElementManager));
+        saveInAction = true;
+        loadingThread.Start();
+    }
+
+    private void StartSaveWithTimetag(string gameName, string sourceName, GameElementManager gem)
+    {
+        string saveName = PersistanceHelper.StoreSaveStationSavedGameGEM(gameName, sourceName, gem);
+        ManageAfterSave(saveName, gem);
+    }
+
+    private void StartAutoSave(string gameName, GameElementManager gem)
+    {
+        string saveName = PersistanceHelper.StoreAutoSavedGameGEM(gameName, gem);
+        ManageAfterSave(saveName, gem);
+    }
+
+    private void StartSave(string gameName, string saveName, GameElementManager gem)
     {
         PersistanceHelper.StoreSavedGameGEM(gameName, saveName, gem);
+        ManageAfterSave(saveName, gem);
+    }
+
+    private void ManageAfterSave(string saveName, GameElementManager gem)
+    {
         saveInAction = false;
         saveFinished = true;
         lock (syncLock)
@@ -92,4 +127,5 @@ public class GameSaverMenu : MonoBehaviour {
             }
         }
     }
+
 }

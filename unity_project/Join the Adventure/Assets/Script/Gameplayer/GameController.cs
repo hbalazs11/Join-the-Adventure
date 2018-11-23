@@ -54,12 +54,17 @@ public class GameController : MonoBehaviour {
         escapeMenuController.SetMenuName(LabelUtility.Instance.GetLabel(LabelNames.MENU));
         if (Injector.GameElementManager.GameProperties.IsMenuSaveAvailable)
         {
-            escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), delegate { saverMenu.OpenMenu(Injector.GameElementManager); });
+            escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), OpenSaverMenu);
         }
         escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.LOAD), savedGameLoader.OpenLoadMenu);
         escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.EXIT), GameMMExit);
         escapeMenuController.AddBackButton(LabelUtility.Instance.GetLabel(LabelNames.BACK));
         escapeMenuController.SetActive(false);
+    }
+
+    public void OpenSaverMenu()
+    {
+        saverMenu.OpenMenu(Injector.GameElementManager);
     }
 
     public void LoadCurrentRoom()
@@ -119,10 +124,10 @@ public class GameController : MonoBehaviour {
         List<string> savedNames = Injector.GameElementManager.savedGameNames;
         Injector.GameElementManager = GameElementManager.GetInitialGEM();
         Injector.GameElementManager.savedGameNames = savedNames;
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID //&& !UNITY_EDITOR
         SceneManager.LoadScene("GameMenu_Android");
 #endif
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE //|| UNITY_EDITOR
         SceneManager.LoadScene("GameMenu_Standalone");
 #endif
     }

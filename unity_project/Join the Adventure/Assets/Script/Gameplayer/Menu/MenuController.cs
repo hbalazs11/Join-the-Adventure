@@ -63,22 +63,19 @@ public class MenuController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
+        if (!canvasGroup.interactable)
+            return;
+#if UNITY_ANDROID //&& !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (canvasGroup.interactable)
+            if (ActiveBackMI != null)
             {
-                if (ActiveBackMI != null)
-                {
-                    ActiveBackMI.ExecuteBack();
-                }
-            } else
-            {
-                GameController.GetInstance().GameMMOpenMenu();
+                ActiveBackMI.ExecuteBack();
             }
         }
 #endif
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE //|| UNITY_EDITOR
+        
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             if (ActiveBackMI != null)
@@ -118,7 +115,7 @@ public class MenuController : MonoBehaviour {
 
     public void SetDefaultMenuButtonSelection()
     {
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE //|| UNITY_EDITOR
         if (currentBundle.GetFirstActiveMenuItem() != null)
         {
             EventSystem.current.SetSelectedGameObject(currentBundle.GetFirstActiveMenuItem().MenuItemGO);

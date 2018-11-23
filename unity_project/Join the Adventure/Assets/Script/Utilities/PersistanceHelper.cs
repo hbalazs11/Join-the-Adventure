@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -13,6 +14,8 @@ public static class PersistanceHelper
     private const string Extension = ".dat";
     private const string ImageStore = "images";
     private const string SavedGamesStore = "saved_games";
+    private const string AutoSaveName = "autosave_";
+    private const string DateFormat = "yyyyMMdd-HHmmss";
 
     public static bool CheckDirectory(string dirName)
     {
@@ -93,9 +96,55 @@ public static class PersistanceHelper
         StoreGEM(dirName, fileName, gem, true);
     }
 
-    public static List<string> GetSavedGameNames(string dirName)
+    public static string StoreAutoSavedGameGEM(string dirName, GameElementManager gem)
     {
-        string[] files = Directory.GetFiles(BuildPath(PersistentDataPath, dirName, SavedGamesStore), "*" + Extension);
+        string savedGameName = AutoSaveName + GetCurrentTime();
+        StoreGEM(dirName, savedGameName, gem);
+        ManageSavedGames(dirName);
+        return savedGameName;
+    }
+
+    public static string StoreSaveStationSavedGameGEM(string dirName, string saveStationId, GameElementManager gem)
+    {
+        string saveName = saveStationId + GetCurrentTime();
+        StoreGEM(dirName, saveName, gem);
+        return saveName;
+    }
+
+    private static void ManageSavedGames(string dirName)
+    {
+        List<string> savedGameNames = GetSavedGameNames(dirName, AutoSaveName);
+        if (savedGameNames.Count < 5) return;
+        savedGameNames.Sort();
+        RemoveStoredGEM(dirName, savedGameNames[0], true);
+    }
+
+    public static void RemoveStoredGEM(string dirName, string gemName, bool isSavedGame = false)
+    {
+        string filePath;
+        if (isSavedGame)
+        {
+            filePath = BuildPath(PersistentDataPath, dirName, SavedGamesStore, gemName + Extension);
+        }
+        else
+        {
+            filePath = BuildPath(PersistentDataPath, dirName, gemName + Extension);
+        }
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+
+    }
+
+    private static string GetCurrentTime()
+    {
+        return DateTime.Now.ToString(DateFormat);
+    }
+
+    public static List<string> GetSavedGameNames(string dirName, string namePrefix = "")
+    {
+        string[] files = Directory.GetFiles(BuildPath(PersistentDataPath, dirName, SavedGamesStore), namePrefix + "*" + Extension);
         for (int i = 0; i < files.Length; i++)
             files[i] = Path.GetFileNameWithoutExtension(files[i]);
         List<string> ret = new List<string>(files);

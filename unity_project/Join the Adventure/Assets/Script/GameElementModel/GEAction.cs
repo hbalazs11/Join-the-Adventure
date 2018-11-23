@@ -9,15 +9,18 @@ public class GEAction
 
     List<GEActivation> activations;
     List<GEPropertySetter> propertySetters;
+    GESaveAction saveAction;
+
     protected GameElementManager elementManager;
 
-    public GEAction(GameElementManager elementManager, GEText responseText, List<GEActivation> activations, List<GEPropertySetter> propertySetters, int useInterval)
+    public GEAction(GameElementManager elementManager, GEText responseText, List<GEActivation> activations, List<GEPropertySetter> propertySetters, GESaveAction saveAction, int useInterval)
     {
         this.elementManager = elementManager;
         this.responseText = responseText;
         this.activations = activations;
         this.propertySetters = propertySetters;
         this.useInterval = useInterval;
+        this.saveAction = saveAction;
     }
 
     public GEText Execute()
@@ -30,6 +33,10 @@ public class GEAction
         foreach (GEPropertySetter propSetter in propertySetters)
         {
             propSetter.Execute(elementManager);
+        }
+        if (saveAction != null)
+        {
+            saveAction.Execute();
         }
         return responseText;
     }
@@ -111,6 +118,37 @@ public class GEAction
         SET, INC, DEC 
     }
 
+    [Serializable]
+    public class GESaveAction
+    {
+        private bool isAutoSave;
+        private string saveStationId;
+
+        public GESaveAction(bool isAutoSave, string saveStationId)
+        {
+            this.isAutoSave = isAutoSave;
+            this.saveStationId = saveStationId;
+        }
+
+        public bool IsAutoSave
+        {
+            get
+            {
+                return isAutoSave;
+            }
+        }
+
+        public void Execute()
+        {
+            if (isAutoSave)
+            {
+                GameSaverMenu.GetInstance().SaveGameWithTimetag(saveStationId);
+            } else
+            {
+                GameController.GetInstance().OpenSaverMenu();
+            }
+        }
+    }
 
     public int UseInterval
     {
@@ -146,6 +184,14 @@ public class GEAction
         get
         {
             return propertySetters;
+        }
+    }
+
+    public GESaveAction SaveAction
+    {
+        get
+        {
+            return saveAction;
         }
     }
 }

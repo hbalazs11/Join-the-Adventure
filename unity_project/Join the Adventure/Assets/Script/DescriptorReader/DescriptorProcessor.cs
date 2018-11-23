@@ -27,7 +27,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         ProcessPlayer(gameDescriptor.Player);
         ProcessItems(gameDescriptor.Items);
         ProcessProperties(gameDescriptor.Properties);
-        ProcessMenuItems(gameDescriptor.MenuItems);
+        ProcessMenuItems(gameDescriptor.MenuItems, gameDescriptor.gameName);
         ProcessRooms(gameDescriptor.Rooms);
         ProcessGameEnds(gameDescriptor.GameEnds);
         ProcessNpcs(gameDescriptor.NPCs);
@@ -138,7 +138,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         if (items == null) return processedItems;
         foreach(ItemsTypeItem item in items.Item)
         {
-            SortedList<string, GEMenuItem> menuItems = ProcessMenuItems(item.MenuItems);
+            SortedList<string, GEMenuItem> menuItems = ProcessMenuItems(item.MenuItems, item.id);
             SortedList<string, GEProperty> properties = ProcessProperties(item.Properties);
             SortedList<string, GEText> texts = ProcessTexts(item.Texts);
             GEItem newItem = new GEItem(item.id, null, item.activeAtStart, item.equipable, null)
@@ -171,7 +171,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         return processedItems;
     }
 
-    private SortedList<string, GEMenuItem> ProcessMenuItems(MenuItemsType menuItems)
+    private SortedList<string, GEMenuItem> ProcessMenuItems(MenuItemsType menuItems, string parentId)
     {
         SortedList<string, GEMenuItem> processedMenuItems = new SortedList<string, GEMenuItem>();
         if (menuItems == null) return processedMenuItems;
@@ -181,7 +181,7 @@ public class DescriptorProcessor : IDescriptorProcessor
             List<GEAction> actionsToAdd = new List<GEAction>();
             foreach (ActionsType action in menuItem.Actions)
             {
-                actionsToAdd.Add(ProcessActions(action));
+                actionsToAdd.Add(ProcessActions(action, parentId));
             }
             GERequirement requirements = ProcessRequirements(menuItem.Requirements);
             GEMenuItem newMenuItem = new GEMenuItem(menuItem.id, null, actionsToAdd, requirements, texts, menuItem.activeAtStart, menuItem.useNumber);
@@ -195,9 +195,9 @@ public class DescriptorProcessor : IDescriptorProcessor
         return processedMenuItems;
     }
 
-    private SortedList<string, GEMenuItem> ProcessMenuItems(MenuItemsWithRefsType menuItems)
+    private SortedList<string, GEMenuItem> ProcessMenuItems(MenuItemsWithRefsType menuItems, string parentId)
     {
-        SortedList<string, GEMenuItem> processedMItems = ProcessMenuItems((MenuItemsType)menuItems);
+        SortedList<string, GEMenuItem> processedMItems = ProcessMenuItems((MenuItemsType)menuItems, parentId);
         if (menuItems != null)
         {
             OnReferenceProcessing += delegate (object o, EventArgs e)
@@ -241,7 +241,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         return requirement;
     }
 
-    private GEAction ProcessActions(ActionsType actions)
+    private GEAction ProcessActions(ActionsType actions, string parentId)
     {
         List<GEAction.GEActivation> activations = new List<GEAction.GEActivation>();
         foreach(ActionsTypeSetActive activation in actions.setActive)
@@ -266,7 +266,12 @@ public class DescriptorProcessor : IDescriptorProcessor
 
             propSetter.Add(new GEAction.GEPropertySetter(prop.refId, propEnum, prop.value));
         }
-        GEAction processedAction = new GEAction(elementManager, null, activations, propSetter, Int32.Parse(actions.OnUseIntervalTo));
+        GEAction.GESaveAction saveAction = null;
+        if(actions.SaveGame != null)
+        {
+            saveAction = new GEAction.GESaveAction(actions.SaveGame.isAutoSave, parentId);
+        }
+        GEAction processedAction = new GEAction(elementManager, null, activations, propSetter, saveAction, Int32.Parse(actions.OnUseIntervalTo));
         OnReferenceProcessing += delegate (object o, EventArgs e)
         {
             processedAction.ResponseText = elementManager.GetTextElement(actions.responseTextId);
@@ -274,16 +279,16 @@ public class DescriptorProcessor : IDescriptorProcessor
         return processedAction;
     }
 
-    private GENpc.GEItemAction ProcessActions(ItemActionsType action)
+    private GENpc.GEItemAction ProcessActions(ItemActionsType action, string parentId)
     {
-        GEAction actionBase = ProcessActions((ActionsType)action);
+        GEAction actionBase = ProcessActions((ActionsType)action, parentId);
 
         List<GENpc.GEItemAction.GEEquipItem> equipItems = new List<GENpc.GEItemAction.GEEquipItem>();
         foreach (ItemActionsTypeEquipItem equipItem in action.equipItem)
         {
             equipItems.Add(new GENpc.GEItemAction.GEEquipItem(equipItem.refId, equipItem.value));
         }
-        GENpc.GEItemAction newAction = new GENpc.GEItemAction(elementManager, null, actionBase.Activations, actionBase.PropertySetters, equipItems, actionBase.UseInterval);
+        GENpc.GEItemAction newAction = new GENpc.GEItemAction(elementManager, null, actionBase.Activations, actionBase.PropertySetters, actionBase.SaveAction, equipItems, actionBase.UseInterval);
         OnReferenceProcessing += delegate (object o, EventArgs e)
         {
             newAction.ResponseText = elementManager.GetTextElement(action.responseTextId);
@@ -318,7 +323,7 @@ public class DescriptorProcessor : IDescriptorProcessor
             GERoom newRoom = new GERoom(room.id, null, room.imgSrc, null, room.activeAtStart, room.isCheckpoint)
             {
                 Properties = ProcessProperties(room.Properties),
-                MenuItems = ProcessMenuItems(room.MenuItems),
+                MenuItems = ProcessMenuItems(room.MenuItems, room.id),
                 Items = ProcessItems(room.Items),
                 Npcs = ProcessNpcs(room.NPCs),
                 Texts = ProcessTexts(room.Texts),
@@ -370,7 +375,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         {
             SortedList<string, GEText> texts = ProcessTexts(npc.Texts);
             SortedList<string, GEItem> items = ProcessItems(npc.Items);
-            SortedList<string, GEMenuItem> menuItems = ProcessMenuItems(npc.MenuItems);
+            SortedList<string, GEMenuItem> menuItems = ProcessMenuItems(npc.MenuItems, npc.id);
 
             GENpc newNpc = new GENpc(npc.id, npc.activeAtStart)
             {
@@ -461,7 +466,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         foreach (NPCsTypeNPCConversationLineAnswer answer in answers)
         {
             GERequirement requirement = ProcessRequirements(answer.Requirements);
-            GENpc.GEItemAction action = ProcessActions(answer.Actions);
+            GENpc.GEItemAction action = ProcessActions(answer.Actions, answer.id);
 
             GENpc.GEAnswer newAnser = new GENpc.GEAnswer(answer.id, answer.activeAtStart, line)
             {

@@ -1215,6 +1215,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e3788b137576764f91c7c1bc524a6c5, type: 2}
   m_IsPrefabParent: 0
+--- !u!225 &1148124676 stripped
+CanvasGroup:
+  m_PrefabParentObject: {fileID: 225091661152049232, guid: 2e3788b137576764f91c7c1bc524a6c5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1148124675}
 --- !u!1 &1324311771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,7 +1303,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000015258789, y: 0}
+  m_AnchoredPosition: {x: 4.682964, y: 0}
   m_SizeDelta: {x: -9.365906, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1349620903
@@ -1360,6 +1365,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 900132172}
     m_Modifications:
+    - target: {fileID: 114690307163109286, guid: 3084c780365046347a418a907703e678,
+        type: 2}
+      propertyPath: blockedCanvasGroups.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224922115644205444, guid: 3084c780365046347a418a907703e678,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -1463,6 +1473,11 @@ Prefab:
       propertyPath: m_Name
       value: EscMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 114690307163109286, guid: 3084c780365046347a418a907703e678,
+        type: 2}
+      propertyPath: blockedCanvasGroups.Array.data[0]
+      value: 
+      objectReference: {fileID: 1148124676}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3084c780365046347a418a907703e678, type: 2}
   m_IsPrefabParent: 0

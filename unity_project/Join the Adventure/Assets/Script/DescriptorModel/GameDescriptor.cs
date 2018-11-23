@@ -4498,7 +4498,7 @@ public partial class ActionsType
     }
 
     [System.Xml.Serialization.XmlElementAttribute("saveGame", Order = 2)]
-    private ActionsTypeSaveGame SaveGame { get; set; }
+    public ActionsTypeSaveGame SaveGame { get; set; }
 
     private static System.Xml.Serialization.XmlSerializer Serializer
     {
@@ -4756,13 +4756,6 @@ public partial class ItemActionsType : ActionsType
         }
     }
 
-    /// <summary>
-    /// Deserializes workflow markup into an NPCsWithRefType object
-    /// </summary>
-    /// <param name="xml">string workflow markup to deserialize</param>
-    /// <param name="obj">Output NPCsWithRefType object</param>
-    /// <param name="exception">output Exception value if deserialize failed</param>
-    /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
     public static bool Deserialize(string xml, out ItemActionsType obj, out System.Exception exception)
     {
         exception = null;
@@ -4802,12 +4795,6 @@ public partial class ItemActionsType : ActionsType
         }
     }
 
-    /// <summary>
-    /// Serializes current NPCsWithRefType object into file
-    /// </summary>
-    /// <param name="fileName">full path of outupt xml file</param>
-    /// <param name="exception">output Exception value if failed</param>
-    /// <returns>true if can serialize and save into file; otherwise, false</returns>
     public new virtual bool SaveToFile(string fileName, out System.Exception exception)
     {
         exception = null;
@@ -4843,13 +4830,6 @@ public partial class ItemActionsType : ActionsType
         }
     }
 
-    /// <summary>
-    /// Deserializes xml markup from file into an NPCsWithRefType object
-    /// </summary>
-    /// <param name="fileName">string xml file to load and deserialize</param>
-    /// <param name="obj">Output NPCsWithRefType object</param>
-    /// <param name="exception">output Exception value if deserialize failed</param>
-    /// <returns>true if this XmlSerializer can deserialize the object; otherwise, false</returns>
     public static bool LoadFromFile(string fileName, out ItemActionsType obj, out System.Exception exception)
     {
         exception = null;

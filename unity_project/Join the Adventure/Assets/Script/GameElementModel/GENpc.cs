@@ -381,7 +381,7 @@ public class GENpc : ActivatableGameElement
     {
         List<GEEquipItem> equipItems;
 
-        public GEItemAction(GameElementManager elementManager, GEText responseText, List<GEActivation> activations, List<GEPropertySetter> propertySetters, List<GEEquipItem> equipItems, int useInterval) : base(elementManager, responseText, activations, propertySetters, useInterval)
+        public GEItemAction(GameElementManager elementManager, GEText responseText, List<GEActivation> activations, List<GEPropertySetter> propertySetters, GESaveAction saveAction, List<GEEquipItem> equipItems, int useInterval) : base(elementManager, responseText, activations, propertySetters, saveAction, useInterval)
         {
             this.equipItems = equipItems;
         }
