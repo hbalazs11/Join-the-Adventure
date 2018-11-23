@@ -89,7 +89,7 @@
           <MenuItems>
             <MenuItem id="saveMItem" activeAtStart="true" menuTextId="saveTxt">
               <Actions responseTextId="saveResponseTxt">
-                <saveGame/>
+                <saveGame isAutoSave="true"/>
               </Actions>
             </MenuItem>
           </MenuItems>

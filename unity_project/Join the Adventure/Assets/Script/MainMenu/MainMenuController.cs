@@ -18,6 +18,8 @@ public class MainMenuController : MonoBehaviour
     public InputField pathField;
     public Button loadButton;
 
+    public ModalMenuController StoredGameLoaderMenu;
+
     private event EventHandler<EventArgs> OnLoadingProcessFinished;
     private event EventHandler<ExceptionEventArgs> OnLoadingProcessException;
 
@@ -34,6 +36,8 @@ public class MainMenuController : MonoBehaviour
         OnLoadingProcessFinished += new EventHandler<EventArgs>(LoadGameMenuScene);
         OnLoadingProcessException += new EventHandler<ExceptionEventArgs>(HandleLoadingProcessException);
         isLoadFinished = false;
+
+        InitStoredGameLoaderMenu();
     }
 
     private void Update()
@@ -64,6 +68,16 @@ public class MainMenuController : MonoBehaviour
 #endif
     }
 
+    private void InitStoredGameLoaderMenu()
+    {
+        List<string> storedGameNames = PersistanceHelper.GetStoredGameNames();
+        foreach(string storedGameName in storedGameNames)
+        {
+            StoredGameLoaderMenu.AddButton(storedGameName, delegate { LoadStoredGame(storedGameName); });
+        }
+        StoredGameLoaderMenu.AddBackButton();
+    }
+
     private void LoadGameMenuScene(object sender, EventArgs e)
     {
         Debug.Log("Descriptor loading is finished!");
@@ -77,10 +91,34 @@ public class MainMenuController : MonoBehaviour
     }
 
 
-    public void LoadGame()
+    public void LoadDescriptor()
     {
         Thread loadingThread = new Thread( () => DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException));
         loadingThread.Start();
+    }
+
+    private void LoadStoredGame(string gameName)
+    {
+        Thread loadingThread = new Thread(() => StartStoredGameLoading(gameName, OnLoadingProcessFinished, OnLoadingProcessException));
+        loadingThread.Start();
+    }
+
+    private void StartStoredGameLoading(string gameName, EventHandler<EventArgs> OnFinished, EventHandler<MainMenuController.ExceptionEventArgs> OnError)
+    {
+        try
+        {
+            Injector.DescriptorProcessor.SetExistingGemAsCurrent(gameName);
+            OnFinished(null, EventArgs.Empty);
+        }
+        catch (System.Exception e)
+        {
+            OnError(null, new MainMenuController.ExceptionEventArgs("Error occoured during the loading of the stored game: " + gameName + "!", e));
+        }
+    }
+
+    public void OpenLoadStoredGamesMenu()
+    {
+        StoredGameLoaderMenu.OpenMenu(false);
     }
 
     //Reading from Application.streamingAssetsPath.

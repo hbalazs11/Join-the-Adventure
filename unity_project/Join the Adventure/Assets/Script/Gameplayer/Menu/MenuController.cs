@@ -65,7 +65,7 @@ public class MenuController : MonoBehaviour {
     {
         if (!canvasGroup.interactable)
             return;
-#if UNITY_ANDROID //&& !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (ActiveBackMI != null)
@@ -74,7 +74,7 @@ public class MenuController : MonoBehaviour {
             }
         }
 #endif
-#if UNITY_STANDALONE //|| UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
         
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
@@ -115,7 +115,7 @@ public class MenuController : MonoBehaviour {
 
     public void SetDefaultMenuButtonSelection()
     {
-#if UNITY_STANDALONE //|| UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
         if (currentBundle.GetFirstActiveMenuItem() != null)
         {
             EventSystem.current.SetSelectedGameObject(currentBundle.GetFirstActiveMenuItem().MenuItemGO);

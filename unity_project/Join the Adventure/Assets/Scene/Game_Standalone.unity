@@ -678,6 +678,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 900132172}
     m_Modifications:
+    - target: {fileID: 114047166001882046, guid: a32fa0f7be3a2b64c93594a2e5c12478,
+        type: 2}
+      propertyPath: blockedCanvasGroups.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224380427814736562, guid: a32fa0f7be3a2b64c93594a2e5c12478,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -807,6 +812,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114047166001882046, guid: a32fa0f7be3a2b64c93594a2e5c12478,
+        type: 2}
+      propertyPath: blockedCanvasGroups.Array.data[0]
+      value: 
+      objectReference: {fileID: 1148124676}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a32fa0f7be3a2b64c93594a2e5c12478, type: 2}
   m_IsPrefabParent: 0
@@ -1303,7 +1313,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.682964, y: 0}
+  m_AnchoredPosition: {x: 4.6829643, y: 0}
   m_SizeDelta: {x: -9.365906, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1349620903

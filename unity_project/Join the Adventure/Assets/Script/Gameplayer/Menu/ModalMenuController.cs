@@ -11,6 +11,7 @@ public class ModalMenuController : MonoBehaviour {
     public ModalMenuController parentModalController;
     public List<CanvasGroup> blockedCanvasGroups;
 
+    private bool openedFromParent = false;
     private Dictionary<string, GameObject> menuButtons = new Dictionary<string, GameObject>();
 
     //void Awake()
@@ -61,30 +62,33 @@ public class ModalMenuController : MonoBehaviour {
     public void CloseMenu()
     {
         this.gameObject.SetActive(false);
-        if(parentModalController != null)
+        if(parentModalController != null && openedFromParent)
         {
             parentModalController.OpenMenu();
         }
-        foreach (CanvasGroup cg in blockedCanvasGroups)
-        {
-            cg.interactable = true;
-        }
+        SetCanvasesInteractable(blockedCanvasGroups, true);
     }
 
-    public void OpenMenu()
+    public void OpenMenu(bool fromParent = true)
     {
         this.gameObject.SetActive(true);
-        if (parentModalController != null)
+        openedFromParent = fromParent;
+        if (parentModalController != null && fromParent)
         {
             parentModalController.CloseMenu();
-            foreach (CanvasGroup cg in parentModalController.blockedCanvasGroups)
-            {
-                cg.interactable = false;
-            }
+            SetCanvasesInteractable(parentModalController.blockedCanvasGroups, false);
         }
-        foreach(CanvasGroup cg in blockedCanvasGroups)
+        SetCanvasesInteractable(blockedCanvasGroups, false);
+    }
+
+    private void SetCanvasesInteractable(List<CanvasGroup> canvasGroups, bool interactable)
+    {
+        if (canvasGroups != null)
         {
-            cg.interactable = false;
+            foreach (CanvasGroup cg in canvasGroups)
+            {
+                cg.interactable = interactable;
+            }
         }
     }
 

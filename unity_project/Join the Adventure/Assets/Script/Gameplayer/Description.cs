@@ -71,6 +71,7 @@ public class Description : MonoBehaviour {
 
     public void AddDescriptionText(string text)
     {
+        if (text.Equals("")) return;
         this.descriptionText.text += ConvertText(BR + BR + text);
     }
 

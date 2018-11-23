@@ -6,5 +6,5 @@ using UnityEngine;
 public interface IDescriptorProcessor  {
 
     void ProcessMultipleGameDescriptor(List<GameDescriptor> gameDescriptors, Dictionary<string, MemoryStream> images);
-
+    void SetExistingGemAsCurrent(string gameName);
 }

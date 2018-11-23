@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour {
         escapeMenuController.SetMenuName(LabelUtility.Instance.GetLabel(LabelNames.MENU));
         if (Injector.GameElementManager.GameProperties.IsMenuSaveAvailable)
         {
-            escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), OpenSaverMenu);
+            escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), delegate { OpenSaverMenu(); });
         }
         escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.LOAD), savedGameLoader.OpenLoadMenu);
         escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.EXIT), GameMMExit);
@@ -62,9 +62,14 @@ public class GameController : MonoBehaviour {
         escapeMenuController.SetActive(false);
     }
 
-    public void OpenSaverMenu()
+    public void OpenSaverMenu(bool fromEscMenu = true)
     {
-        saverMenu.OpenMenu(Injector.GameElementManager);
+        saverMenu.OpenMenu(Injector.GameElementManager, fromEscMenu);
+    }
+
+    public void SaveGameWithTimetag(string source)
+    {
+        saverMenu.SaveGameWithTimetag(source);
     }
 
     public void LoadCurrentRoom()
@@ -144,6 +149,11 @@ public class GameController : MonoBehaviour {
 
     private void GameMMExit()
     {
-        SceneManager.LoadScene("MainMenu");
+#if UNITY_ANDROID //&& !UNITY_EDITOR
+        SceneManager.LoadScene("MainMenu_Android");
+#endif
+#if UNITY_STANDALONE //|| UNITY_EDITOR
+        SceneManager.LoadScene("MainMenu_Standalone");
+#endif
     }
 }

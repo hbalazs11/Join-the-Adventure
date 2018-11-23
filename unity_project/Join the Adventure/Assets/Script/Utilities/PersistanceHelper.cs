@@ -7,9 +7,10 @@ using System.Text;
 
 public static class PersistanceHelper
 {
-    public static string PersistentDataPath { get; set; }
-
-    private const string SEP = "/";
+    public static string PersistentDataPath { set { StoredGamesPath = value + SEP + STORED_GAMES_DIR; } }
+    private static string StoredGamesPath { get; set; }
+    private static readonly string SEP = System.IO.Path.DirectorySeparatorChar.ToString();
+    private const string STORED_GAMES_DIR = "stored_games";
     private const string InitialGemName = "initial";
     private const string Extension = ".dat";
     private const string ImageStore = "images";
@@ -17,9 +18,9 @@ public static class PersistanceHelper
     private const string AutoSaveName = "autosave_";
     private const string DateFormat = "yyyyMMdd-HHmmss";
 
-    public static bool CheckDirectory(string dirName)
+    public static bool CheckGameDirectory(string dirName)
     {
-        return Directory.Exists(PersistentDataPath + SEP + dirName);
+        return Directory.Exists(StoredGamesPath + SEP + dirName);
     }
 
     public static GameElementManager GetGEM(string dirName, string fileName, bool isSavedGame = false)
@@ -28,10 +29,10 @@ public static class PersistanceHelper
         string filePath;
         if (isSavedGame)
         {
-            filePath = BuildPath(PersistentDataPath, dirName, SavedGamesStore, fileName + Extension);
+            filePath = BuildPath(StoredGamesPath, dirName, SavedGamesStore, fileName + Extension);
         } else
         {
-            filePath = BuildPath(PersistentDataPath, dirName, fileName + Extension);
+            filePath = BuildPath(StoredGamesPath, dirName, fileName + Extension);
         }
         if (File.Exists(filePath))
         {
@@ -57,11 +58,11 @@ public static class PersistanceHelper
         string filePath;
         if (isSavedGame)
         {
-            filePath = BuildPath(PersistentDataPath, dirName, SavedGamesStore, fileName + Extension);
+            filePath = BuildPath(StoredGamesPath, dirName, SavedGamesStore, fileName + Extension);
         }
         else
         {
-            filePath = BuildPath(PersistentDataPath, dirName, fileName + Extension);
+            filePath = BuildPath(StoredGamesPath, dirName, fileName + Extension);
         }
         using (file = File.Open(filePath, FileMode.Create))
         {
@@ -78,7 +79,7 @@ public static class PersistanceHelper
     {
         foreach(string fileName in images.Keys)
         {
-            using (FileStream streamWriter = File.Create(BuildPath(PersistentDataPath, dirName, ImageStore, fileName)))
+            using (FileStream streamWriter = File.Create(BuildPath(StoredGamesPath, dirName, ImageStore, fileName)))
             {
                 images[fileName].Position = 0;
                 StreamCopyTo(images[fileName], streamWriter);
@@ -88,7 +89,7 @@ public static class PersistanceHelper
 
     public static byte[] GetImage(string dirName, string imageName)
     {
-        return File.ReadAllBytes(BuildPath(PersistentDataPath, dirName, ImageStore, imageName));
+        return File.ReadAllBytes(BuildPath(StoredGamesPath, dirName, ImageStore, imageName));
     }
 
     public static void StoreSavedGameGEM(string dirName, string fileName, GameElementManager gem)
@@ -99,19 +100,19 @@ public static class PersistanceHelper
     public static string StoreAutoSavedGameGEM(string dirName, GameElementManager gem)
     {
         string savedGameName = AutoSaveName + GetCurrentTime();
-        StoreGEM(dirName, savedGameName, gem);
-        ManageSavedGames(dirName);
+        StoreGEM(dirName, savedGameName, gem, true);
+        ManageAutoSavedGames(dirName);
         return savedGameName;
     }
 
     public static string StoreSaveStationSavedGameGEM(string dirName, string saveStationId, GameElementManager gem)
     {
-        string saveName = saveStationId + GetCurrentTime();
-        StoreGEM(dirName, saveName, gem);
+        string saveName = saveStationId + "_" + GetCurrentTime();
+        StoreGEM(dirName, saveName, gem, true);
         return saveName;
     }
 
-    private static void ManageSavedGames(string dirName)
+    private static void ManageAutoSavedGames(string dirName)
     {
         List<string> savedGameNames = GetSavedGameNames(dirName, AutoSaveName);
         if (savedGameNames.Count < 5) return;
@@ -124,11 +125,11 @@ public static class PersistanceHelper
         string filePath;
         if (isSavedGame)
         {
-            filePath = BuildPath(PersistentDataPath, dirName, SavedGamesStore, gemName + Extension);
+            filePath = BuildPath(StoredGamesPath, dirName, SavedGamesStore, gemName + Extension);
         }
         else
         {
-            filePath = BuildPath(PersistentDataPath, dirName, gemName + Extension);
+            filePath = BuildPath(StoredGamesPath, dirName, gemName + Extension);
         }
         if (File.Exists(filePath))
         {
@@ -144,10 +145,19 @@ public static class PersistanceHelper
 
     public static List<string> GetSavedGameNames(string dirName, string namePrefix = "")
     {
-        string[] files = Directory.GetFiles(BuildPath(PersistentDataPath, dirName, SavedGamesStore), namePrefix + "*" + Extension);
+        string[] files = Directory.GetFiles(BuildPath(StoredGamesPath, dirName, SavedGamesStore), namePrefix + "*" + Extension);
         for (int i = 0; i < files.Length; i++)
             files[i] = Path.GetFileNameWithoutExtension(files[i]);
         List<string> ret = new List<string>(files);
+        return ret;
+    }
+
+    public static List<string> GetStoredGameNames()
+    {
+        string[] dirs = Directory.GetDirectories(StoredGamesPath);
+        for (int i = 0; i < dirs.Length; i++)
+            dirs[i] = Path.GetFileName(dirs[i]);
+        List<string> ret = new List<string>(dirs);
         return ret;
     }
 
@@ -158,10 +168,11 @@ public static class PersistanceHelper
 
     public static void CreateStorage(string dirName)
     {
-        if (CheckDirectory(dirName)) return;
-        System.IO.Directory.CreateDirectory(BuildPath(PersistentDataPath, dirName));
-        System.IO.Directory.CreateDirectory(BuildPath(PersistentDataPath, dirName, ImageStore));
-        System.IO.Directory.CreateDirectory(BuildPath(PersistentDataPath, dirName, SavedGamesStore));
+        if (CheckGameDirectory(dirName)) return;
+        System.IO.Directory.CreateDirectory(StoredGamesPath);
+        System.IO.Directory.CreateDirectory(BuildPath(StoredGamesPath, dirName));
+        System.IO.Directory.CreateDirectory(BuildPath(StoredGamesPath, dirName, ImageStore));
+        System.IO.Directory.CreateDirectory(BuildPath(StoredGamesPath, dirName, SavedGamesStore));
     }
 
     private static string BuildPath(params string[] pathParams)

@@ -32,7 +32,7 @@ public class GameSaverMenu : MonoBehaviour {
         return FindObjectOfType<GameSaverMenu>();
     }
 
-    public void OpenMenu(GameElementManager gem)
+    public void OpenMenu(GameElementManager gem, bool fromParent)
     {
         if (elementManager == null || elementManager != gem)
         {
@@ -41,7 +41,7 @@ public class GameSaverMenu : MonoBehaviour {
             RefreshNames();
         }
         inputField.text = "";
-        menuController.OpenMenu();
+        menuController.OpenMenu(fromParent);
     }
 
     private void RefreshNames()

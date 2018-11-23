@@ -16,7 +16,8 @@ public class MIGameElementAction : MenuItem
     protected override void Execute()
     {
         string response = geMenuItem.Execute();
-        description.AddDescriptionText(response);
+        if(response.Length != 0)
+            description.AddDescriptionText(response);
     }
 
     public override void SetActive(bool value)

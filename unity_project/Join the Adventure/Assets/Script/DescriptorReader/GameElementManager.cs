@@ -82,7 +82,7 @@ public class GameElementManager : IGameElementManager {
     {
         if(id == null)
         {
-            return null;
+            return GEText.GETextEmpty.Instance;
         }
         return GetFromDic(texts, id, log);
     }

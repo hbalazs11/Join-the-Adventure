@@ -42,11 +42,9 @@ public class DescriptorProcessor : IDescriptorProcessor
         string gameName = root.gameName;
         string version = root.version ?? "";
         string gameStorageName = gameName + "_" + version;
-        if (PersistanceHelper.CheckDirectory(gameStorageName))
+        if (PersistanceHelper.CheckGameDirectory(gameStorageName))
         {
-            elementManager = PersistanceHelper.GetInitialGEM(gameStorageName);
-            elementManager.savedGameNames = PersistanceHelper.GetSavedGameNames(gameStorageName);
-            Injector.GameElementManager = elementManager;
+            SetExistingGemAsCurrent(gameStorageName);
             return;
         }
 
@@ -65,7 +63,13 @@ public class DescriptorProcessor : IDescriptorProcessor
         PersistanceHelper.StoreInitialGEM(gameStorageName, elementManager);
         Injector.GameElementManager = elementManager;
     }
-    
+
+    public void SetExistingGemAsCurrent(string gameStorageName)
+    {
+        elementManager = PersistanceHelper.GetInitialGEM(gameStorageName);
+        elementManager.savedGameNames = PersistanceHelper.GetSavedGameNames(gameStorageName);
+        Injector.GameElementManager = elementManager;
+    }
 
     private GameDescriptor GetRootDescriptor(List<GameDescriptor> gameDescriptors)
     {

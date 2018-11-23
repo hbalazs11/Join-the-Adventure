@@ -10,6 +10,8 @@ public class GEText : GameElement {
     [NonSerialized]
     ILogger logger;
 
+    public static GEText EMPTY = new GEText("", "", "", EMPTYTEXT);
+
     public GEText(string id, string defLang) : base(id)
     {
         this.defLang = defLang;
@@ -57,7 +59,7 @@ public class GEText : GameElement {
         return null;
     }
 
-    public string GetText()
+    public virtual string GetText()
     {
         return GetText(Injector.GameElementManager.CurrentLang);
     }
@@ -76,6 +78,30 @@ public class GEText : GameElement {
         get
         {
             return defLang;
+        }
+    }
+
+    [Serializable]
+    public class GETextEmpty : GEText
+    {
+        private static GETextEmpty instance;
+
+        public static GETextEmpty Instance
+        {
+            get
+            {
+                if (instance == null) instance = new GETextEmpty();
+                return instance;
+            }
+        }
+
+        private GETextEmpty() : base("", "")
+        {
+        }
+
+        public override string GetText()
+        {
+            return "";
         }
     }
 }

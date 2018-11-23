@@ -142,10 +142,10 @@ public class GEAction
         {
             if (isAutoSave)
             {
-                GameSaverMenu.GetInstance().SaveGameWithTimetag(saveStationId);
+                GameController.GetInstance().SaveGameWithTimetag(saveStationId);
             } else
             {
-                GameController.GetInstance().OpenSaverMenu();
+                GameController.GetInstance().OpenSaverMenu(false);
             }
         }
     }

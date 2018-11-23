@@ -39,7 +39,7 @@ public class MenuItemBundleFactroy  {
         }
 
         newBundle.AddMenuItem(new MIBack(parent));
-
+        Description.GetInstance().AddDescriptionText(item.Description.GetText());
         return newBundle;
     }
     
