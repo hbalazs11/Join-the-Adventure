@@ -20,4 +20,7 @@ public class LabelNames {
     public static readonly string LANGUAGES = "jtaLabelLanguages";
     public static readonly string SAVEDGAMES = "jtaLabelSavedGames";
     public static readonly string SAVENAME = "jtaLabelSavedName";
+    public static readonly string EMPTYITEMLIST = "jtaLabelEmptyItemList";
+    public static readonly string EMPTYNEIGHBOURLIST = "jtaLabelEmptyNeighbourList";
+    public static readonly string EMPTYNPCLIST = "jtaLabelEmptyNpcList";
 }

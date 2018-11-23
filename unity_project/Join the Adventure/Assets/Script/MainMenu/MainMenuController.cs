@@ -18,7 +18,8 @@ public class MainMenuController : MonoBehaviour
     public InputField pathField;
     public Button loadButton;
 
-    public ModalMenuController StoredGameLoaderMenu;
+    public ModalMenuController storedGameLoaderMenu;
+    public StoredGameRemover storedGameRemover;
 
     private event EventHandler<EventArgs> OnLoadingProcessFinished;
     private event EventHandler<ExceptionEventArgs> OnLoadingProcessException;
@@ -70,12 +71,13 @@ public class MainMenuController : MonoBehaviour
 
     private void InitStoredGameLoaderMenu()
     {
+        storedGameLoaderMenu.menuName.text = "Load stored game";
         List<string> storedGameNames = PersistanceHelper.GetStoredGameNames();
         foreach(string storedGameName in storedGameNames)
         {
-            StoredGameLoaderMenu.AddButton(storedGameName, delegate { LoadStoredGame(storedGameName); });
+            storedGameLoaderMenu.AddButton(storedGameName, delegate { LoadStoredGame(storedGameName); });
         }
-        StoredGameLoaderMenu.AddBackButton();
+        storedGameLoaderMenu.AddBackButton();
     }
 
     private void LoadGameMenuScene(object sender, EventArgs e)
@@ -118,7 +120,19 @@ public class MainMenuController : MonoBehaviour
 
     public void OpenLoadStoredGamesMenu()
     {
-        StoredGameLoaderMenu.OpenMenu(false);
+        RefreshStoredGamesMenu();
+        storedGameLoaderMenu.OpenMenu(false);
+    }
+
+    private void RefreshStoredGamesMenu()
+    {
+        List<string> storedGameNames = PersistanceHelper.GetStoredGameNames();
+        storedGameLoaderMenu.KeepButtons(storedGameNames);
+    }
+
+    public void OpenManageStoredGamesMenu()
+    {
+        storedGameRemover.OpenMenu();
     }
 
     //Reading from Application.streamingAssetsPath.

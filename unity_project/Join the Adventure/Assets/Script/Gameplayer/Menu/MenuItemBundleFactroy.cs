@@ -47,6 +47,10 @@ public class MenuItemBundleFactroy  {
     public static MenuItemBundle CreateListBundle(string bundleName, List<GEItem> geItems, MenuItemBundle parent)
     {
         MenuItemBundle newBundle = new MenuItemBundle(bundleName, parent);
+        if(!ActivatableGameElement.IsActiveGEInList(geItems))
+        {
+            Description.GetInstance().AddDescriptionText(LabelUtility.Instance.GetLabel(LabelNames.EMPTYITEMLIST));
+        }
         foreach (GEItem item in geItems)
         {
             newBundle.AddMenuItem(new MIOpenBundle<GEItem>(item.ItemName.GetText(), item, newBundle));
@@ -61,6 +65,10 @@ public class MenuItemBundleFactroy  {
     public static MenuItemBundle CreateListBundle(string bundleName, List<GENeighbour> geNeighbours, MenuItemBundle parent)
     {
         MenuItemBundle newBundle = new MenuItemBundle(bundleName, parent);
+        if (!ActivatableGameElement.IsActiveGEInList(geNeighbours))
+        {
+            Description.GetInstance().AddDescriptionText(LabelUtility.Instance.GetLabel(LabelNames.EMPTYNEIGHBOURLIST));
+        }
         foreach (GENeighbour neighbour in geNeighbours)
         {
             newBundle.AddMenuItem(new MIRoomChange(neighbour.MenuText.GetText(), newBundle, neighbour));
@@ -97,7 +105,10 @@ public class MenuItemBundleFactroy  {
     public static MenuItemBundle CreateListBundle(string bundleName, List<GENpc> geNpcs, MenuItemBundle parent)
     {
         MenuItemBundle newBundle = new MenuItemBundle(bundleName, parent);
-        
+        if (!ActivatableGameElement.IsActiveGEInList(geNpcs))
+        {
+            Description.GetInstance().AddDescriptionText(LabelUtility.Instance.GetLabel(LabelNames.EMPTYNPCLIST));
+        }
         foreach (GENpc npc in geNpcs)
         {
             newBundle.AddMenuItem(new MIOpenBundle<GENpc>(npc.NameText.GetText(), npc, newBundle));

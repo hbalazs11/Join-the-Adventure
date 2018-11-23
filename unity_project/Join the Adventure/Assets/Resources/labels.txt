@@ -15,3 +15,6 @@ jtaLabelExit=Exit
 jtaLabelLanguages=Languages
 jtaLabelSavedGames=Saved games
 jtaLabelSavedName=Save name
+jtaLabelEmptyItemList=There are no items here
+jtaLabelEmptyNeighbourList=There are no neighbours here
+jtaLabelEmptyNpcList=There are no Npcs here

@@ -27,4 +27,14 @@ public abstract class ActivatableGameElement : GameElement, IActivatable {
             OnActivationChange(this, EventArgs.Empty);
         }
     }
+
+    public static bool IsActiveGEInList<T>(List<T> geList) where T : ActivatableGameElement
+    {
+        if (geList == null) return false;
+        foreach(ActivatableGameElement ge in geList)
+        {
+            if (ge.isActive) return true;
+        }
+        return false;
+    }
 }

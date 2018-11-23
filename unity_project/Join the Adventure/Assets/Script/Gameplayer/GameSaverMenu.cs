@@ -27,11 +27,6 @@ public class GameSaverMenu : MonoBehaviour {
 		
 	}
 
-    public static GameSaverMenu GetInstance()
-    {
-        return FindObjectOfType<GameSaverMenu>();
-    }
-
     public void OpenMenu(GameElementManager gem, bool fromParent)
     {
         if (elementManager == null || elementManager != gem)

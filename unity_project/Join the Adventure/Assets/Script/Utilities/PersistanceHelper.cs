@@ -138,6 +138,11 @@ public static class PersistanceHelper
 
     }
 
+    public static void RemoveStoredGame(string gameName)
+    {
+        Directory.Delete(BuildPath(StoredGamesPath, gameName), true);
+    }
+
     private static string GetCurrentTime()
     {
         return DateTime.Now.ToString(DateFormat);

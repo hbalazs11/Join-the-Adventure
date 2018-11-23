@@ -105,6 +105,34 @@ public class ModalMenuController : MonoBehaviour {
         menuButtons.Add(label, newButton);
     }
 
+    public void KeepButtons(List<string> buttonNamesToKeep)
+    {
+        foreach(string buttonName in menuButtons.Keys)
+        {
+            if (!buttonNamesToKeep.Contains(buttonName))
+            {
+                RemoveButton(buttonName);
+            }
+        }
+    }
+
+    public void RemoveButton(string label)
+    {
+        if (menuButtons.ContainsKey(label))
+        {
+            menuButtons[label].SetActive(false);
+        }
+    }
+
+    public Button GetButton(string label)
+    {
+        if (menuButtons.ContainsKey(label))
+        {
+            return menuButtons[label].GetComponent<Button>();
+        }
+        return null;
+    }
+
     public void AddBackButton(string label = "Back")
     {
         AddButton(label, CloseMenu);
