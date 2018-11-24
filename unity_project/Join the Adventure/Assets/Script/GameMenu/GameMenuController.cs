@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +13,8 @@ public class GameMenuController : MonoBehaviour {
     public ModalMenuController langMenuController;
     
     private ILogger logger;
+    private BcgImage bcgImageScript;
+    private byte[] imageBytes;
 
 
     void Awake()
@@ -23,12 +26,25 @@ public class GameMenuController : MonoBehaviour {
         logger = Injector.Logger;
         LoadTexts();
         InitLangMenu();
+        bcgImageScript = GetComponent<BcgImage>();
+        GameElementManager gem = Injector.GameElementManager;
+        Thread loadingThread = new Thread(() => StartLoadBcgImage(gem.GameStorageName, gem.GameProperties.MenuImgSrc));
+        loadingThread.Start();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
+        if(imageBytes != null)
+        {
+            bcgImageScript.SetImage("", imageBytes);
+            imageBytes = null;
+        }
 	}
+
+    private void StartLoadBcgImage(string gameStoreName, string imgName)
+    {
+        imageBytes = PersistanceHelper.GetImage(gameStoreName, imgName);
+    }
 
     public void StartGame()
     {

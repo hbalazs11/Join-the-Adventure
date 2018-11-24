@@ -84,7 +84,8 @@ public class GameElementManager : IGameElementManager {
         {
             return GEText.GETextEmpty.Instance;
         }
-        return GetFromDic(texts, id, log);
+        GEText ret = GetFromDic(texts, id, log);
+        return ret ?? GEText.GETextEmpty.Instance;
     }
 
 
@@ -101,7 +102,7 @@ public class GameElementManager : IGameElementManager {
     public string GetText(string id, string lang, bool log = true)
     {
         GEText text = GetTextElement(id);
-        if (text == null)
+        if (text == null || text.IsEmpty())
         {
             if (log)
             {
@@ -116,7 +117,7 @@ public class GameElementManager : IGameElementManager {
     public GEText AddText(string id, string txt, string lang)
     {
         GEText text = GetTextElement(id, false);
-        if (text == null)
+        if (text == null || text.IsEmpty())
         {
             text = new GEText(id, defLang, lang, txt);
             AddTextElement(text);

@@ -19,6 +19,13 @@ public class MenuItemBundleFactroy  {
         //NPC menuitem
         newBundle.AddMenuItem(MIOpenList<GENpc>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.NPCS), newBundle, room.Npcs.Values));
 
+        //Props menuItem
+        List<GEProperty> propsToShow = GEProperty.GetPropertiesWithNames(room.Properties.Values);
+        if (propsToShow.Count != 0)
+        {
+            newBundle.AddMenuItem(new MIShowDescription(LabelUtility.Instance.GetLabel(LabelNames.ROOMPROPS), newBundle, () => GEProperty.GetPropertyDescText(propsToShow)));
+        }
+
         //Back menuitem
         newBundle.AddMenuItem(new MIBack(parent));
 
@@ -36,6 +43,12 @@ public class MenuItemBundleFactroy  {
         {
             newBundle.AddMenuItem(new MIGameElementAction(action.MenuName.GetText(), newBundle, action));
             action.OnActivationChange += newBundle.RefreshOnEvent;
+        }
+        //Props menuItem
+        List<GEProperty> propsToShow = GEProperty.GetPropertiesWithNames(item.Properties.Values);
+        if (propsToShow.Count != 0)
+        {
+            newBundle.AddMenuItem(new MIShowDescription(LabelUtility.Instance.GetLabel(LabelNames.ITEMPROPS), newBundle, () => GEProperty.GetPropertyDescText(propsToShow)));
         }
 
         newBundle.AddMenuItem(new MIBack(parent));
@@ -88,6 +101,12 @@ public class MenuItemBundleFactroy  {
         {
             newBundle.AddMenuItem(new MIGameElementAction(action.MenuName.GetText(), newBundle, action));
             action.OnActivationChange += newBundle.RefreshOnEvent;
+        }
+        //Props menuItem
+        List<GEProperty> propsToShow = GEProperty.GetPropertiesWithNames(npc.Properties.Values);
+        if (propsToShow.Count != 0)
+        {
+            newBundle.AddMenuItem(new MIShowDescription(LabelUtility.Instance.GetLabel(LabelNames.NPCPROPS), newBundle, () => GEProperty.GetPropertyDescText(propsToShow)));
         }
 
         //newBundle.AddMenuItem(new MIShowDescription(LabelUtility.Instance.GetLabel(LabelNames.SHOWDESCRUPTION), newBundle, npc.DescText.GetText()));

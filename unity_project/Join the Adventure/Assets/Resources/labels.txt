@@ -18,3 +18,7 @@ jtaLabelSavedName=Save name
 jtaLabelEmptyItemList=There are no items here
 jtaLabelEmptyNeighbourList=There are no neighbours here
 jtaLabelEmptyNpcList=There are no Npcs here
+jtaLabelPlayerProprs=Stats
+jtaLabelRoomProprs=Stats
+jtaLabelItemProprs=Stats
+jtaLabelNpcProprs=Stats

@@ -275,7 +275,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         {
             saveAction = new GEAction.GESaveAction(actions.SaveGame.isAutoSave, parentId);
         }
-        GEAction processedAction = new GEAction(elementManager, null, activations, propSetter, saveAction, Int32.Parse(actions.OnUseIntervalTo));
+        GEAction processedAction = new GEAction(elementManager, null, activations, propSetter, saveAction, actions.onUseIntervalTo);
         OnReferenceProcessing += delegate (object o, EventArgs e)
         {
             processedAction.ResponseText = elementManager.GetTextElement(actions.responseTextId);
@@ -309,7 +309,7 @@ public class DescriptorProcessor : IDescriptorProcessor
     private void ProcessGameProperties(GamePropertiesType gameProperties)
     {
         if (gameProperties == null) return;
-        elementManager.GameProperties = new GEGameProperties(gameProperties.firstRoomId, gameProperties.defaultLang, null, null, gameProperties.menuSaveAvailable, gameProperties.checkpointsOn);
+        elementManager.GameProperties = new GEGameProperties(gameProperties.firstRoomId, gameProperties.defaultLang, null, gameProperties.menuImgSrc, null, gameProperties.menuSaveAvailable, gameProperties.checkpointsOn);
         elementManager.DefLang = gameProperties.defaultLang;
         this.defLang = gameProperties.defaultLang;
         OnReferenceProcessing += delegate (object o, EventArgs e)
@@ -384,6 +384,7 @@ public class DescriptorProcessor : IDescriptorProcessor
             GENpc newNpc = new GENpc(npc.id, npc.activeAtStart)
             {
                 Items = items,
+                Properties = ProcessProperties(npc.Properties),
                 Texts = texts,
                 MenuItems = menuItems
             };

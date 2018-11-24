@@ -51,6 +51,13 @@ public class GEText : GameElement {
                 return CheckNope(ret);
             }
         }
+        textByLang.TryGetValue(textByLang.Keys[0], out ret);
+        if (ret != null)
+        {
+            if(log)
+                logger.LogError(String.Format("There is no text with the given id and selected or default lang! id: {0}, lang: {1}, deflang: {2}", Id, lang, defLang));
+            return ret;
+        }
         if (log)
         {
             logger.LogError(String.Format("There is no text with the given id and lang or default lang! id: {0}, lang: {1}, deflang: {2}", Id, lang, defLang));
@@ -103,5 +110,10 @@ public class GEText : GameElement {
         {
             return "";
         }
+    }
+
+    public bool IsEmpty()
+    {
+        return GETextEmpty.Instance.Equals(this);
     }
 }

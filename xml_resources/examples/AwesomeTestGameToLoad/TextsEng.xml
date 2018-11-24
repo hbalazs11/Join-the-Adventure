@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:noNamespaceSchemaLocation="E:\temp\liquidproject\LiquidTest\Schemas\schema_test.xsd"
+                xsi:noNamespaceSchemaLocation="JtaDescriptor.xsd"
                 version="1" id="engText" root="false">
   <Texts defLang="eng">
     <Text id="playerHealthNameTxt">Hitpoints</Text>
@@ -44,7 +44,7 @@
     <Text id="paperDescTxt">You read the following on the paper:\n"This was the first testgame for the Join-the-Adventure!\nThank you for tryin' it!"</Text>
     <Text id="neigbourBigToSmallMenuTxt">Back to the small room</Text>
     <Text id="npcBlacksmithNameTxt">Blacksmith</Text>
-    <Text id="npcBlacksmithDescTxt">The blackmisth is standing in the other part of the room. By the way, he is really ugly.</Text>
+    <!--<Text id="npcBlacksmithDescTxt">The blackmisth is standing in the other part of the room. By the way, he is really ugly.</Text> -->
     <Text id="gameNameTxt">Awesome Test Game</Text>
     <Text id="gameDescTxt">This is only a test game.</Text>
     <Text id="appleDeathTxt">The apple was great. But when u finish with the last bite, you can feel something wrong.\nSuddenly you fall down dead.\nGame Over.</Text>

@@ -95,6 +95,7 @@ public class MainMenuController : MonoBehaviour
 
     public void LoadDescriptor()
     {
+        //DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException);
         Thread loadingThread = new Thread( () => DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException));
         loadingThread.Start();
     }

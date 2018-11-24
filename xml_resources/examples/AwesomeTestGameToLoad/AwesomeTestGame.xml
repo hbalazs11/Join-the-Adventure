@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- Created with Liquid Studio 2018 (https://www.liquid-technologies.com) -->
 <GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:noNamespaceSchemaLocation="E:\temp\liquidproject\LiquidTest\Schemas\schema_test.xsd"
+                xsi:noNamespaceSchemaLocation="JtaDescriptor.xsd"
                 gameName="AwesomeTestGame"
                 version="1" id="id" root="true">
-  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="false" menuSaveAvailable="true"/>
+  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="false" menuSaveAvailable="true"
+                  menuImgSrc="menuImg.png"/>
   <Player>
     <Properties>
       <Property id="playerHealth" nameTextId="playerHealthNameTxt" minValue="0" maxValue="100" defValue="100" />
@@ -26,7 +27,7 @@
           </MenuItem>
         </MenuItems>
         <Properties>
-          <Property id="torchSwitch" nameTextId="torchSwitchNameTxt" minValue="0" maxValue="1" defValue="0" />
+          <Property id="torchSwitch" minValue="0" maxValue="1" defValue="0" />
         </Properties>
         <Texts>
           <Text id="playerHealthNameTxt">Életerő</Text>
@@ -36,7 +37,6 @@
           <Text id="torchSwitchOnResponseTxt">Felkapcsoltad a zseblámpát.</Text>
           <Text id="torchSwitchOffMenuTxt">Lekapcsol</Text>
           <Text id="torchSwitchOffResponseTxt">Lekapcsoltad a zseblámpát.</Text>
-          <Text id="torchSwitchNameTxt">Zseblámpa</Text>
         </Texts>
       </Item>
     </Items>
@@ -85,19 +85,30 @@
             </MenuItem>
           </MenuItems>
         </Item>
-        <Item id="saveStation" activeAtStart="true" equipable="false" nameTextId="saveStationTxt" descTextId="saveStationDescTxt">
+        <Item id="saveStation" activeAtStart="true" equipable="false" nameTextId="saveStationTxt" descTextId="saveStationDescTxt" >
           <MenuItems>
             <MenuItem id="saveMItem" activeAtStart="true" menuTextId="saveTxt">
-              <Actions responseTextId="saveResponseTxt">
+              <Actions responseTextId="saveResponseTxt" onUseIntervalTo="2">
+                <setPropertyValue refId="saveStationPropUsability" change="dec" value="1" />
+                <saveGame isAutoSave="true"/>
+              </Actions>
+              <Actions responseTextId="lastSaveResponseTxt" onUseIntervalTo="3">
+                <setActive refId="saveMItem" value="false" />
+                <setPropertyValue refId="saveStationPropUsability" change="dec" value="1" />
                 <saveGame isAutoSave="true"/>
               </Actions>
             </MenuItem>
           </MenuItems>
+          <Properties>
+            <Property id="saveStationPropUsability" defValue="3" nameTextId="saveStationPropUsabilityTxt" minValue="0"/>
+          </Properties>
           <Texts>
             <Text id="saveStationTxt">Mentés állomás</Text>
             <Text id="saveStationDescTxt">Egy szerkezet, amivel el lehet menteni a jelenlegi állást.</Text>
             <Text id="saveTxt">Mentés</Text>
             <Text id="saveResponseTxt">##NOPE##</Text>
+            <Text id="saveStationPropUsabilityTxt">Hátramaradt mentési lehetőségek száma</Text>
+            <Text id="lastSaveResponseTxt">Elfogytak a mentési lehetőségeid</Text>
           </Texts>
         </Item>
       </Items>
@@ -192,7 +203,7 @@
         <Text id="paperDescTxt">A papíron a kövezkező szöveget olvasod:\n"Ez a Join-the-Adventure játékszerkesztő első tesztjátéka volt!\nKöszönöm hogy kipróbáltad!"</Text>
         <Text id="neigbourBigToSmallMenuTxt">Vissza a kisszobába</Text>
         <Text id="npcBlacksmithNameTxt">Kovács</Text>
-        <Text id="npcBlacksmithDescTxt">A kovács a szoba túlsó végében áll. Egyébként nagyon csúnya.</Text>
+        <!--<Text id="npcBlacksmithDescTxt">A kovács a szoba túlsó végében áll. Egyébként nagyon csúnya.</Text>-->
       </Texts>
     </Room>
   </Rooms>
@@ -221,5 +232,11 @@
     <Text id="jtaLabelLanguages">Nyelvek</Text>
     <Text id="jtaLabelSavedGames">Mentések</Text>
     <Text id="jtaLabelSavedName">Mentés név...</Text>
+    <Text id="jtaLabelEmptyItemList">Itt nincs semmi...</Text>
+    <Text id="jtaLabelEmptyNeighbourList">Innen nincs kiút</Text>
+    <Text id="jtaLabelEmptyNpcList">Itt nincs kivel beszélni...</Text>
+    <Text id="jtaLabelPlayerProprs">Értékeim</Text>
+    <Text id="jtaLabelItemProprs">Tulajdonságok</Text>
+    <Text id="jtaLabelNpcProprs">Tulajdonságok</Text>
   </Texts>
 </GameDescriptor>

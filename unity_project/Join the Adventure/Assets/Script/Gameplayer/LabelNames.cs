@@ -23,4 +23,8 @@ public class LabelNames {
     public static readonly string EMPTYITEMLIST = "jtaLabelEmptyItemList";
     public static readonly string EMPTYNEIGHBOURLIST = "jtaLabelEmptyNeighbourList";
     public static readonly string EMPTYNPCLIST = "jtaLabelEmptyNpcList";
+    public static readonly string PLAYERPROPS = "jtaLabelPlayerProprs";
+    public static readonly string ROOMPROPS = "jtaLabelRoomProprs";
+    public static readonly string ITEMPROPS = "jtaLabelItemProprs";
+    public static readonly string NPCPROPS = "jtaLabelNpcProprs";
 }

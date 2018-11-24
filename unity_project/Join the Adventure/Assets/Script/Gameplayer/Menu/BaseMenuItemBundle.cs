@@ -7,12 +7,18 @@ public class BaseMenuItemBundle : MenuItemBundle
 {
 
     MenuItem roomMenu;
+    MenuItem propertiesMenu;
     MenuItem inventoryMenu;
     MenuItem gotoMenu;
 
     public BaseMenuItemBundle() : base(LabelUtility.Instance.GetLabel(LabelNames.MENU), null)
     {
         inventoryMenu = MIOpenList<GEItem>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.INVENTORY), this, Injector.GameElementManager.Player.Items.Values);
+        List<GEProperty> propsToShow = GEProperty.GetPropertiesWithNames(Injector.GameElementManager.Player.Properties.Values);
+        if (propsToShow.Count != 0)
+        {
+            propertiesMenu = new MIShowDescription(LabelUtility.Instance.GetLabel(LabelNames.PLAYERPROPS), this, () => GEProperty.GetPropertyDescText(propsToShow));
+        }
     }
 
     public void SetRoom(GERoom room)
@@ -42,6 +48,10 @@ public class BaseMenuItemBundle : MenuItemBundle
         {
             this.isActive = value;
             inventoryMenu.SetActive(value);
+            if(propertiesMenu != null)
+            {
+                propertiesMenu.SetActive(value);
+            }
             roomMenu.SetActive(value);
             gotoMenu.SetActive(value);
             if (isActive)

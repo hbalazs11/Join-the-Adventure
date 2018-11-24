@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour {
     private BcgImage bcgImageScript;
     private SavedGameLoader savedGameLoader;
 
+    private ImgLoaderArgs bcgImgArgs;
+
     void Awake()
     {
         //logger = Injector.Logger;
@@ -100,12 +102,9 @@ public class GameController : MonoBehaviour {
         };
         OnFinished(null, args);
     }
-    private ImgLoaderArgs bcgImgArgs;
-
 
     private void LoadBcgImage(object sender, ImgLoaderArgs e )
     {
-        //bcgImageScript.SetImage(e.imgName, e.bytes);
         bcgImgArgs = e;
     }
 

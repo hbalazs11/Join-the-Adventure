@@ -38,6 +38,8 @@ public class GEAction
         {
             saveAction.Execute();
         }
+        if (responseText == null)
+            responseText = GEText.GETextEmpty.Instance;
         return responseText;
     }
 

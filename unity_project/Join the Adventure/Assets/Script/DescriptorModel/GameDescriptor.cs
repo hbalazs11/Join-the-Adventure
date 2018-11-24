@@ -421,6 +421,9 @@ public partial class GamePropertiesType
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string defaultLang { get; set; }
 
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public string menuImgSrc { get; set; }
+
 
     public GamePropertiesType()
     {
@@ -863,6 +866,7 @@ public partial class NPCsType
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 public partial class NPCsTypeNPC
 {
+    private PropertiesWithRefType propertiesField;
 
     private List<NPCsTypeNPCConversation> conversationField;
 
@@ -924,7 +928,20 @@ public partial class NPCsTypeNPC
         }
     }
 
-    [System.Xml.Serialization.XmlElementAttribute("Items", Order = 2)]
+    [System.Xml.Serialization.XmlElementAttribute("Properties", Order = 2)]
+    public PropertiesWithRefType Properties
+    {
+        get
+        {
+            return this.propertiesField;
+        }
+        set
+        {
+            this.propertiesField = value;
+        }
+    }
+
+    [System.Xml.Serialization.XmlElementAttribute("Items", Order = 3)]
     public ItemsWithRefsType Items
     {
         get
@@ -941,7 +958,7 @@ public partial class NPCsTypeNPC
         }
     }
 
-    [System.Xml.Serialization.XmlElementAttribute("Texts", Order = 3)]
+    [System.Xml.Serialization.XmlElementAttribute("Texts", Order = 4)]
     public TextsType Texts
     {
         get
@@ -4432,7 +4449,7 @@ public partial class MenuItemsTypeMenuItem
 public partial class ActionsType
 {
 
-    private string onUseIntervalTo;
+    private int onUseIntervalToField;
 
     private List<ActionsTypeSetActive> setActiveField;
 
@@ -4442,23 +4459,24 @@ public partial class ActionsType
 
     public ActionsType()
     {
-        onUseIntervalTo = "0";
+        onUseIntervalToField = 0;
     }
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string responseTextId { get; set; }
 
-    [System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
-    [System.ComponentModel.DefaultValueAttribute("0")]
-    public string OnUseIntervalTo {
+    //[System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
+    //[System.ComponentModel.DefaultValueAttribute("0")]
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public int onUseIntervalTo {
         get
         {
-            return onUseIntervalTo;
+            return onUseIntervalToField;
         }
             
         set
         {
-            this.onUseIntervalTo = value;
+            this.onUseIntervalToField = value;
         }
     }
 
@@ -6184,13 +6202,12 @@ public partial class PropertiesTypeProperty
 
     private double defValueField;
 
+    private double? maxValueField;
+
     private static System.Xml.Serialization.XmlSerializer serializer;
 
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string id { get; set; }
-
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public double maxValue { get; set; }
 
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool maxValueSpecified { get; set; }
@@ -6203,6 +6220,20 @@ public partial class PropertiesTypeProperty
     {
         this.minValueField = 0D;
         this.defValueField = 0D;
+        this.maxValueField = null;
+    }
+
+    [System.Xml.Serialization.XmlAttributeAttribute()]
+    public double? maxValue
+    {
+        get
+        {
+            return this.maxValueField;
+        }
+        set
+        {
+            this.maxValueField = value;
+        }
     }
 
     [System.Xml.Serialization.XmlAttributeAttribute()]

@@ -19,6 +19,8 @@ public class GENpc : ActivatableGameElement
         this.isActive = isActive;
     }
 
+    public SortedList<string, GEProperty> Properties { get; set; }
+
     public GEConversation ActiveConversation
     {
         get

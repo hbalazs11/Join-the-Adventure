@@ -159,6 +159,10 @@ public static class PersistanceHelper
 
     public static List<string> GetStoredGameNames()
     {
+        if (!Directory.Exists(StoredGamesPath))
+        {
+            Directory.CreateDirectory(StoredGamesPath);
+        }
         string[] dirs = Directory.GetDirectories(StoredGamesPath);
         for (int i = 0; i < dirs.Length; i++)
             dirs[i] = Path.GetFileName(dirs[i]);

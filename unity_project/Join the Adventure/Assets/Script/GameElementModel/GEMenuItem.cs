@@ -19,10 +19,15 @@ public class GEMenuItem : ActivatableGameElement
     {
         this.menuName = menuName;
         this.actions = actions;
+        actions.Sort((a1, a2) =>
+        {
+            return a1.UseInterval - a2.UseInterval;
+        });
         isActive = true;
         maxUseNumber = 0; //infinit representations
         ActionCounter = 0;
     }
+    
 
     public GEMenuItem(string id, GEText menuName, List<GEAction> actions, GERequirement requirements, SortedList<string, GEText> texts, bool? isActive, int? maxUseNumber) : this(id, menuName, actions)
     {
@@ -46,22 +51,16 @@ public class GEMenuItem : ActivatableGameElement
 
     private GEAction GetCurrentActionset()
     {
-        GEAction selectedAction = actions[0];
-        if(actions.Count == 1)
+        if (actions.Count == 1)
         {
-            return selectedAction;
+            return actions[0];
         }
-        for(int i = 1; i < actions.Count; i++)
+        foreach(GEAction act in actions)
         {
-            GEAction currentAction = actions[i];
-            if (currentAction.UseInterval < ActionCounter) continue;
-            if (selectedAction.UseInterval > currentAction.UseInterval)
-            {
-                selectedAction = currentAction;
-            }
+            if (act.UseInterval < ActionCounter + 1) continue;
+            return act;
         }
-        //if (selectedAction.UseInterval < ActionCounter) return null;
-        return selectedAction;
+        return actions[actions.Count-1];
     }
 
     public GEText MenuName

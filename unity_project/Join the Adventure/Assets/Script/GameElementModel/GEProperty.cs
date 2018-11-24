@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 [Serializable]
 public class GEProperty : GameElement{
@@ -25,7 +26,7 @@ public class GEProperty : GameElement{
         this.value = defValue;
     }
 
-    public GEProperty(string id, GEText name, double defValue, double minValue, double maxValue) : this(id, name, defValue) 
+    public GEProperty(string id, GEText name, double defValue, double minValue, double? maxValue) : this(id, name, defValue) 
     {
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -113,5 +114,30 @@ public class GEProperty : GameElement{
         {
             defValue = value;
         }
+    }
+
+    public static List<GEProperty> GetPropertiesWithNames(IList<GEProperty> properties)
+    {
+        List<GEProperty> ret = new List<GEProperty>();
+        if (properties == null) return ret;
+        foreach(GEProperty prop in properties)
+        {
+            if (!prop.Name.Equals(GEText.GETextEmpty.Instance))
+            {
+                ret.Add(prop);
+            }
+        }
+        return ret;
+    }
+
+    public static string GetPropertyDescText(IList<GEProperty> properties)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach(GEProperty prop in properties)
+        {
+            sb.Append(prop.Name.GetText()).Append(": ").Append(prop.Value).Append("\\n");
+        }
+        sb.Remove(sb.Length - 2, 2);
+        return sb.ToString();
     }
 }
