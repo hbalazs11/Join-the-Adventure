@@ -4,7 +4,7 @@
                 xsi:noNamespaceSchemaLocation="JtaDescriptor.xsd"
                 gameName="AwesomeTestGame"
                 version="1" id="id" root="true">
-  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="false" menuSaveAvailable="true"
+  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="true" menuSaveAvailable="true"
                   menuImgSrc="menuImg.png"/>
   <Player>
     <Properties>
@@ -42,7 +42,7 @@
     </Items>
   </Player>
   <Rooms>
-    <Room id="smallRoom" nameTextId="smallRoomNameTxt" descTextId="smallRoomDescTxt" imgSrc="testJpg1.jpg" activeAtStart="true">
+    <Room id="smallRoom" nameTextId="smallRoomNameTxt" descTextId="smallRoomDescTxt" imgSrc="testJpg1.jpg" activeAtStart="true" isCheckpoint="true">
       <MenuItems>
         <MenuItem id="searchRoom" menuTextId="searchRoomMenuTxt" activeAtStart="true">
           <Requirements textOnFail="searchFailedTxt" >
@@ -76,7 +76,7 @@
         <Text id="doorIsClosedTxt">Az ajtó zárva van.</Text>
       </Texts>
     </Room>
-    <Room id="bigRoom" nameTextId="bigRoomNameTxt" descTextId="bigRoomDescTxt" imgSrc="testJpg2.jpg" activeAtStart="true">
+    <Room id="bigRoom" nameTextId="bigRoomNameTxt" descTextId="bigRoomDescTxt" imgSrc="testJpg2.jpg" activeAtStart="true" isCheckpoint="false">
       <Items>
         <Item id="paper" nameTextId="paperNameTxt" equipable="false" >
           <MenuItems>
@@ -203,7 +203,7 @@
         <Text id="paperDescTxt">A papíron a kövezkező szöveget olvasod:\n"Ez a Join-the-Adventure játékszerkesztő első tesztjátéka volt!\nKöszönöm hogy kipróbáltad!"</Text>
         <Text id="neigbourBigToSmallMenuTxt">Vissza a kisszobába</Text>
         <Text id="npcBlacksmithNameTxt">Kovács</Text>
-        <!--<Text id="npcBlacksmithDescTxt">A kovács a szoba túlsó végében áll. Egyébként nagyon csúnya.</Text>-->
+        <Text id="npcBlacksmithDescTxt">A kovács a szoba túlsó végében áll. Egyébként nagyon csúnya.</Text>
       </Texts>
     </Room>
   </Rooms>

@@ -44,7 +44,7 @@
     <Text id="paperDescTxt">You read the following on the paper:\n"This was the first testgame for the Join-the-Adventure!\nThank you for tryin' it!"</Text>
     <Text id="neigbourBigToSmallMenuTxt">Back to the small room</Text>
     <Text id="npcBlacksmithNameTxt">Blacksmith</Text>
-    <!--<Text id="npcBlacksmithDescTxt">The blackmisth is standing in the other part of the room. By the way, he is really ugly.</Text> -->
+    <Text id="npcBlacksmithDescTxt">The blackmisth is standing in the other part of the room. By the way, he is really ugly.</Text>
     <Text id="gameNameTxt">Awesome Test Game</Text>
     <Text id="gameDescTxt">This is only a test game.</Text>
     <Text id="appleDeathTxt">The apple was great. But when u finish with the last bite, you can feel something wrong.\nSuddenly you fall down dead.\nGame Over.</Text>

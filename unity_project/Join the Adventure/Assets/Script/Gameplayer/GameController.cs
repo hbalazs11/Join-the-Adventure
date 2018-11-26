@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
     private MenuController menuController;
     private BcgImage bcgImageScript;
     private SavedGameLoader savedGameLoader;
+    private GameSaver gameSaver;
 
     private ImgLoaderArgs bcgImgArgs;
 
@@ -28,7 +29,8 @@ public class GameController : MonoBehaviour {
         desctiptionScript = FindObjectOfType<Description>();
         menuController = FindObjectOfType<MenuController>();
         bcgImageScript = FindObjectOfType<BcgImage>();
-        savedGameLoader = FindObjectOfType<SavedGameLoader>();
+        savedGameLoader = GetComponent<SavedGameLoader>();
+        gameSaver = GetComponent<GameSaver>();
     }
 
     // Use this for initialization
@@ -71,7 +73,7 @@ public class GameController : MonoBehaviour {
 
     public void SaveGameWithTimetag(string source)
     {
-        saverMenu.SaveGameWithTimetag(source);
+        gameSaver.SaveGameWithTimetag(source);
     }
 
     public void LoadCurrentRoom()
@@ -80,13 +82,29 @@ public class GameController : MonoBehaviour {
         desctiptionScript.SetRoomName(elementManager.CurrentRoom.NameText.GetText());
         desctiptionScript.SetDescriptionText(elementManager.CurrentRoom.DescText.GetText());
         menuController.LoadRoom(elementManager.CurrentRoom);
-        string imgName = elementManager.CurrentRoom.ImgPath;
-        //bcgImageScript.SetImage(imgName, elementManager.ImgResources[imgName].ToArray());
 
+        HandleAutosave(elementManager);
+        HandleBackgroundImage(elementManager);
+
+        elementManager.CurrentRoom.IsVisited = true;
+    }
+
+    private void HandleBackgroundImage(GameElementManager elementManager)
+    {
+        string imgName = elementManager.CurrentRoom.ImgPath;
         OnBcgImageLoadFinished += new EventHandler<ImgLoaderArgs>(LoadBcgImage);
         Thread loadingThread = new Thread(() => StartLoadBcgImage(elementManager.GameStorageName, imgName, OnBcgImageLoadFinished));
         loadingThread.Start();
     }
+
+    private void HandleAutosave(GameElementManager elementManager)
+    {
+        if (elementManager.GameProperties.IsCheckpointOn && elementManager.CurrentRoom.IsCheckPoint && !elementManager.CurrentRoom.IsVisited)
+        {
+            gameSaver.AutoSave();
+        }
+    }
+
     public class ImgLoaderArgs : EventArgs
     {
         public string imgName;
@@ -128,10 +146,10 @@ public class GameController : MonoBehaviour {
         List<string> savedNames = Injector.GameElementManager.savedGameNames;
         Injector.GameElementManager = GameElementManager.GetInitialGEM();
         Injector.GameElementManager.savedGameNames = savedNames;
-#if UNITY_ANDROID //&& !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
         SceneManager.LoadScene("GameMenu_Android");
 #endif
-#if UNITY_STANDALONE //|| UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
         SceneManager.LoadScene("GameMenu_Standalone");
 #endif
     }
@@ -148,10 +166,10 @@ public class GameController : MonoBehaviour {
 
     private void GameMMExit()
     {
-#if UNITY_ANDROID //&& !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
         SceneManager.LoadScene("MainMenu_Android");
 #endif
-#if UNITY_STANDALONE //|| UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
         SceneManager.LoadScene("MainMenu_Standalone");
 #endif
     }

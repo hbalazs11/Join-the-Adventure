@@ -9,6 +9,7 @@ public class GERoom : ActivatableGameElement
     private GEText descText;
     private string imgPath;
     private bool isCheckPoint;
+    private bool isVisited;
 
     public GERoom(string id, GEText nameText, string imgPath) : base(id)
     {
@@ -16,6 +17,7 @@ public class GERoom : ActivatableGameElement
         this.imgPath = imgPath;
         this.isActive = true;
         this.isCheckPoint = false;
+        this.isVisited = false;
     }
 
     public SortedList<string, GEProperty> Properties { get; set; }
@@ -81,6 +83,19 @@ public class GERoom : ActivatableGameElement
         set
         {
             descText = value;
+        }
+    }
+
+    public bool IsVisited
+    {
+        get
+        {
+            return isVisited;
+        }
+
+        set
+        {
+            isVisited = value;
         }
     }
 }

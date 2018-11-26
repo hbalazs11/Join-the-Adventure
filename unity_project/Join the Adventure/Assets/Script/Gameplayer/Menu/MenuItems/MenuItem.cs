@@ -37,14 +37,17 @@ public abstract class MenuItem {
 
     public virtual void SetActive(bool value)
     {
+        Debug.Log("MenuItem.SetActive() - value: " + value + ", itemName: " + menuText);
         if(/*value &&*/ thisGOMenuItem == null)
         {
             InstantiateMenuButton();
+            Debug.Log("MenuItem.SetActive() - instantiation... [" + menuText + "]");
         }
         isActive = value;
         if (thisGOMenuItem != null)
         {
             thisGOMenuItem.SetActive(value);
+            Debug.Log("MenuItem.SetActive() - GOActivation... [" + menuText + "]");
         }
     }
 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: c36e441c29b602b4abc595bdef52d1ba
+timeCreated: 1543246463
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Eight Bit Dragon
+  fontNames:
+  - Eight Bit Dragon
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

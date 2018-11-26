@@ -16,6 +16,7 @@ public class ZipUtility {
             //use MemoryStream!!!!
             using (var mstrm = new MemoryStream(data))
             {
+                ZipConstants.DefaultCodePage = 0;
                 zf = new ZipFile(mstrm);
 
                 foreach (ZipEntry zipEntry in zf)
@@ -24,7 +25,6 @@ public class ZipUtility {
                     {
                         continue;
                     }
-
                     string entryFileName = GetFileName(zipEntry.Name);
                     byte[] buffer = new byte[4096];     // 4K is optimum
                     Stream zipStream = zf.GetInputStream(zipEntry);

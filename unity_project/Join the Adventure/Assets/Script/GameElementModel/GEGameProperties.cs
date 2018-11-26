@@ -8,7 +8,7 @@ class GEGameProperties
     public string defLang;
     private GEText gameNameText;
     private GEText greetingText;
-    public bool checkpointsOn;
+    private bool checkpointsOn;
     private string menuImgSrc;
 
     public bool IsMenuSaveAvailable { get; set; }
@@ -61,6 +61,14 @@ class GEGameProperties
         set
         {
             gameNameText = value;
+        }
+    }
+
+    public bool IsCheckpointOn
+    {
+        get
+        {
+            return checkpointsOn;
         }
     }
 }

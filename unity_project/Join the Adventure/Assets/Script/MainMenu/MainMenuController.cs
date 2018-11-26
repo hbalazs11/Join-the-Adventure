@@ -17,9 +17,12 @@ public class MainMenuController : MonoBehaviour
 
     public InputField pathField;
     public Button loadButton;
+    public CanvasGroup mainCanvas;
 
     public ModalMenuController storedGameLoaderMenu;
     public StoredGameRemover storedGameRemover;
+
+    private StatusText statusText;
 
     private event EventHandler<EventArgs> OnLoadingProcessFinished;
     private event EventHandler<ExceptionEventArgs> OnLoadingProcessException;
@@ -37,7 +40,7 @@ public class MainMenuController : MonoBehaviour
         OnLoadingProcessFinished += new EventHandler<EventArgs>(LoadGameMenuScene);
         OnLoadingProcessException += new EventHandler<ExceptionEventArgs>(HandleLoadingProcessException);
         isLoadFinished = false;
-
+        statusText = FindObjectOfType<StatusText>();
         InitStoredGameLoaderMenu();
     }
 
@@ -53,15 +56,15 @@ public class MainMenuController : MonoBehaviour
         if (isLoadFinished)
         {
             isLoadFinished = false;
-#if UNITY_ANDROID //&& !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
             SceneManager.LoadScene("GameMenu_Android");
 #endif
-#if UNITY_STANDALONE //|| UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
             SceneManager.LoadScene("GameMenu_Standalone");
 #endif
         }
 
-#if UNITY_ANDROID //&& !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
              Application.Quit();
@@ -89,12 +92,15 @@ public class MainMenuController : MonoBehaviour
     private void HandleLoadingProcessException(object sender, ExceptionEventArgs args)
     {
         Debug.LogError(args.Msg + "\\n" + args.Exc, this);
-        //TODO error message on UI
+        mainCanvas.interactable = true;
+        statusText.SetStatus("An error occured during loading!", 2f);
     }
 
 
     public void LoadDescriptor()
     {
+        statusText.SetStatus("Loading from descriptor. Please wait...");
+        mainCanvas.interactable = false;
         //DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException);
         Thread loadingThread = new Thread( () => DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException));
         loadingThread.Start();
@@ -102,6 +108,8 @@ public class MainMenuController : MonoBehaviour
 
     private void LoadStoredGame(string gameName)
     {
+        statusText.SetStatus("Loading game. Please wait...");
+        mainCanvas.interactable = false;
         Thread loadingThread = new Thread(() => StartStoredGameLoading(gameName, OnLoadingProcessFinished, OnLoadingProcessException));
         loadingThread.Start();
     }
