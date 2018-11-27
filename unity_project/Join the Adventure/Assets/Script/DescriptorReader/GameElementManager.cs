@@ -37,6 +37,8 @@ public class GameElementManager : IGameElementManager {
     private Dictionary<string, GENpc.GEConversation> npcConvs;
 
     private Dictionary<string, GENpc.GELine> npcConvLines;
+
+    private Dictionary<string, GENeighbour> neighbours;
     
 
     public string GameStorageName { get; set; }
@@ -60,6 +62,7 @@ public class GameElementManager : IGameElementManager {
         gameEnds = new Dictionary<string, GEGameEnd>();
         npcConvs = new Dictionary<string, GENpc.GEConversation>();
         npcConvLines = new Dictionary<string, GENpc.GELine>();
+        neighbours = new Dictionary<string, GENeighbour>();
         AvailableLangs = new List<string>();
         savedGameNames = new List<string>();
     }
@@ -217,6 +220,16 @@ public class GameElementManager : IGameElementManager {
         AddToDic(npcConvLines, line);
     }
 
+    public GENeighbour GetNeighbour(string id)
+    {
+        return GetFromDic(neighbours, id);
+    }
+
+    public void AddNeighbour(GENeighbour neighbour)
+    {
+        AddToDic(neighbours, neighbour);
+    }
+
     private void AddToDic<T>(Dictionary<string,T> dictionary, T value) where T : GameElement
     {
         string id = value.Id;
@@ -267,7 +280,10 @@ public class GameElementManager : IGameElementManager {
         {
             return npcConvs[id];
         }
-        //...
+        if (neighbours.ContainsKey(id))
+        {
+            return neighbours[id];
+        }
         return null;
     }
 

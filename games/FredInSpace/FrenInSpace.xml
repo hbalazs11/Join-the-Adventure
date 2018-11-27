@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="JtaDescriptor.xsd"
+                gameName="FredInSpace"
+                version="v1.0" id="main" root="true">
+  <GameProperties firstRoomId="Spaceship" defaultLang="hun" greetingTextId="gameGreetingTxt" menuSaveAvailable="false" checkpointsOn="false" gameNameTextId="gameNametxt" menuImgSrc="menuImg.jpg"/>
+  <Player>
+    <Items>
+      <Item id="pocketKnife" activeAtStart="true" descTextId="pocketKnifeDescTxt" nameTextId="pocketKnifeNameTxt">
+        <MenuItems>
+          <MenuItem id="pocketKnifeTryMI" activeAtStart="true" menuTextId="pocketKnifeTryMINameTxt">
+            <Requirements textOnFail="pocketKnifeNotSharpTxt">
+              <propertyCondition refId="pocketKnifePropSharpnes" condition="eq" value="1"/>
+            </Requirements>
+            <Actions responseTextId="pocketKnifeSharpTxt" />
+            <Texts>
+              <Text id="pocketKnifeTryMINameTxt">Penge ellenőrzése</Text>
+              <Text id="pocketKnifeNotSharpTxt">Hát ez már a vajat se vinné...</Text>
+              <Text id="pocketKnifeSharpTxt">Na ez már penge! Éles mint egy Hattori Hanzo kard!</Text>
+            </Texts>
+          </MenuItem>
+        </MenuItems>
+        <Properties>
+          <Property id="pocketKnifePropSharpnes" defValue="0" minValue="0" maxValue="1" />
+          <Property id="gotLaika" defValue="0" minValue="0" maxValue="1" />
+        </Properties>
+        <Texts>
+          <Text id="pocketKnifeNameTxt">Bicska</Text>
+          <Text id="pocketKnifeDescTxt">A kedvenc bicskám. Néha meg kéne éleznem...</Text>
+        </Texts>
+      </Item>
+    </Items>
+  </Player>
+  <Rooms>
+    <Room id="Spaceship" activeAtStart="true" nameTextId="spaceshipNameTxt" descTextId="spaceshipDescTxt" imgSrc="spaceship.jpg">
+      <Items>
+        <Item id="shipDiary" activeAtStart="true" nameTextId="shipDiaryNameTxt" descTextId="shipDiaryDescTxt">
+          <MenuItems>
+            <MenuItem id="log1" activeAtStart="true" menuTextId="log1MenuTxt">
+              <Actions responseTextId="log1Txt" />
+            </MenuItem>
+            <MenuItem id="log2" activeAtStart="true" menuTextId="log2MenuTxt">
+              <Actions responseTextId="log2Txt" />
+            </MenuItem>
+            <MenuItem id="log3" activeAtStart="true" menuTextId="log3MenuTxt">
+              <Actions responseTextId="log3Txt" />
+            </MenuItem>
+            <MenuItem id="log4" activeAtStart="false" menuTextId="log4MenuTxt">
+              <Actions responseTextId="log4Txt" />
+            </MenuItem>
+            <MenuItem id="log5" activeAtStart="false" menuTextId="log5MenuTxt">
+              <Actions responseTextId="log5Txt" />
+            </MenuItem>
+            <MenuItem id="log6" activeAtStart="false" menuTextId="log6MenuTxt">
+              <Actions responseTextId="log6Txt" />
+            </MenuItem>
+            <MenuItem id="writeLog" activeAtStart="false" menuTextId="writeLogTxt">
+              <Actions responseTextId="writeLogRespTxt" onUseIntervalTo="1">
+                <setActive refId="log4" value="true"/>
+                <setActive refId="writeLog" value="false"/>
+              </Actions>
+              <Actions responseTextId="writeLogRespTxt" onUseIntervalTo="2">
+                <setActive refId="log4" value="true"/>
+                <setActive refId="log5" value="true"/>
+                <setActive refId="writeLog" value="false"/>
+              </Actions>
+              <Actions responseTextId="writeLogRespTxt" onUseIntervalTo="3">
+                <setActive refId="log4" value="true"/>
+                <setActive refId="log5" value="true"/>
+                <setActive refId="log6" value="true"/>
+                <setActive refId="writeLog" value="false"/>
+              </Actions>
+            </MenuItem>
+          </MenuItems>
+          <Texts>
+            <Text id="shipDiaryNameTxt">Hajónapló</Text>
+            <Text id="shipDiaryDescTxt">A múltkor láttam egy régi filmet, amiben ilyen hajónaplót vezetett a csatahajó kapitánya. Gondoltam ez ilyen kapitányos dolog. Aztán lévén én is kapitány lennék, hát én is elkezdtem vezetni a kalandjaimat, és igyekszem minden fontosat lejegyezni. Igaz kezdem látni, hogy az írás nem az erősségem. No de valahol el kell kezdeni...</Text>
+            <Text id="log1MenuTxt">1. Bejegyzés olvasása</Text>
+            <Text id="log2MenuTxt">2. Bejegyzés olvasása</Text>
+            <Text id="log3MenuTxt">3. Bejegyzés olvasása</Text>
+            <Text id="log4MenuTxt">4. Bejegyzés olvasása</Text>
+            <Text id="log5MenuTxt">5. Bejegyzés olvasása</Text>
+            <Text id="log6MenuTxt">6. Bejegyzés olvasása</Text>
+            <Text id="log1Txt">Ma egész nap nem csináltam semmit, csak sorozatokat néztem. Ezt lehet hogy nem is kéne lejegyezni, de a kapitányok mindent lejegyeznek...</Text>
+            <Text id="log2Txt">Végre valaki reagált a hírdetésemre SpaceBook-on! Le is beszéltük, hogy találkozunk a Hármas szektorban, és megbeszéljük a részleteket. Már úton is vagyok a Ceres-III-ra.</Text>
+            <Text id="log3Txt">Megvolt az egyeztetés az ürgével... Egy kocsmában találkoztunk, ami nem volt túl bíztató. A megbízás egyszerű: elmenni a Mars-XI-re, ott felvenni egy csomagot, és visszahozni ide. Nem akrtam tovább időzni, úgyhogy rögtön el is indultam. Pontos címet nem kaptam, csak hogy valami elhagyatott helyet keressek, ahova egy nagy teherhajó is le tud szállni.</Text>
+            <Text id="log4Txt">TODO:Ide jön a 4. log</Text>
+            <Text id="log5Txt">TODO:Ide jön a 5. log</Text>
+            <Text id="log6Txt">TODO:Ide jön a 6. log</Text>
+            <Text id="writeLogTxt">Új bejegyzés írása</Text>
+            <Text id="writeLogRespTxt">"Napról napra jobb író leszek!"</Text>
+          </Texts>
+        </Item>
+        <Item id="saveStation" activeAtStart="true" nameTextId="saveStationNameTxt" descTextId="nope">
+          <MenuItems>
+            <MenuItem id="saveMI" activeAtStart="true" menuTextId="saveMenuTxt">
+              <Actions responseTextId="saveRespTxt">
+                <saveGame isAutoSave="false"/>
+              </Actions>
+            </MenuItem>
+          </MenuItems>
+          <Texts>
+            <Text id="saveStationNameTxt">Save station</Text>
+            <Text id="saveMenuTxt">Mentés</Text>
+            <Text id="saveRespTxt">Állapot elmentve.</Text>
+          </Texts>
+        </Item>
+      </Items>
+      <Neighbours>
+        <Neighbour id="nbMarsXI" activeAtStart="true" roomRefId="MarsXI" nameTextId="marsXINameTxt"/>
+        <Neighbour id="nbSun" activeAtStart="true" roomRefId="Sun" nameTextId="flyToSunTxt"/>
+      </Neighbours>
+      <Texts>
+        <Text id="spaceshipNameTxt">Fred hajója</Text>  
+        <Text id="spaceshipDescTxt">Egy átlagos kisméretű teherszállító hajó. Fred még a ballagására kapta. Az óvodásra.</Text>  
+        <Text id="flyToSunTxt">Belerepülés a Napba</Text>  
+      </Texts>
+    </Room>
+    <Room id="Sun" activeAtStart="true" descTextId="sunDescTxt" imgSrc="sun.jpg" nameTextId="sunNameTxt">
+      <MenuItems>
+        <MenuItem id="shieldsFailMI" activeAtStart="true" menuTextId="shieldsOnMINameTxt">
+          <Actions responseTextId="nope">
+            <setActive refId="sunDeath" value="true"/>
+          </Actions>
+        </MenuItem>
+        <MenuItem id="shieldsWorksMI" activeAtStart="false" menuTextId="shieldsOnMINameTxt">
+          <Actions responseTextId="superShieldOnTxt">
+            <setActive refId="nbSafeHouse" value="true"/>
+          </Actions>
+        </MenuItem>
+      </MenuItems>
+      <Neighbours>
+        <Neighbour id="nbSafeHouse" activeAtStart="false" nameTextId="toSafeHouseTxt" roomRefId="SafeHouse"/>
+      </Neighbours>
+      <Texts>
+        <Text id="sunNameTxt">A Nap</Text>
+        <Text id="sunDescTxt">A Nap elég meleg... Talán a pajzsok maximumon... Haha nem. Ez annál jóval melegebb. Lehet hogy nem volt jó ötlet belerepülni a napba?!</Text>
+        <Text id="toSafeHouseTxt">A menedékhez!</Text>
+        <Text id="shieldsOnMINameTxt">Pajzsok eneriájának maximalizálása</Text>
+        <Text id="superShieldOnTxt">Fred feltekerte a pajzsokat, de így is egyre melegebb van. Laika is nehezen tűri a meleget, furán kezd viselkedni. Nagyon is furán.\nEgyre inkább kékes ragyogásba kezd. Ezzel egyidejűleg a hajó műszerei is megbolondulnak, az energiakimutatások az egekbe szöknek. A pajzs több mint 9000-res szint felett üzemel. Így a Nap sugárzásának esélye sincs.</Text>
+      </Texts>
+    </Room>
+    <Room id="SafeHouse" activeAtStart="true" descTextId="safeHouseDescTxt" imgSrc="safehouse.jpg" nameTextId="safeHouseNameTxt">
+      <MenuItems>
+        <MenuItem id="finishMI" activeAtStart="true" menuTextId="finishMIText">
+          <Actions responseTextId="nope">
+            <setActive refId="hapyend" value="true"/>
+          </Actions>
+        </MenuItem>
+      </MenuItems>
+      <Texts>
+        <Text id="safeHouseNameTxt">Menedék</Text>
+        <Text id="safeHouseDescTxt">Az űrállomáson leszállva furcsa lények fogadják Fredet és Laikát. Furák, de barátságosak. Magukat ZaiGon-nak nevezik, de étellel és itallal kedveskednek. Egy ideig itt biztonságban lesznek.</Text>
+        <Text id="finishMIText">Epilógus</Text>
+      </Texts>
+    </Room>
+    <Room id="MarsXI" activeAtStart="true" nameTextId="marsXINameTxt" descTextId="marsXIDescTxt" imgSrc="marsxi.jpg">
+      <MenuItems>
+        <MenuItem id="searchArea" menuTextId="searchAreaMenuTxt" activeAtStart="true" useNumber="1">
+          <Actions responseTextId="searchAreaRespTxt">
+            <setActive refId="nbStorageArea" value="true" />
+            <setActive refId="nbEmptyMine" value="true" />
+          </Actions>
+        </MenuItem>
+      </MenuItems>
+      <Neighbours>
+        <Neighbour id="nbSpaceship" activeAtStart="true" roomRefId="Spaceship" nameTextId="shipTxt"/>
+        <Neighbour id="nbStorageArea" activeAtStart="false" roomRefId="StorageArea" nameTextId="landAtStorageAreaNameTxt"/>
+        <Neighbour id="nbEmptyMine" activeAtStart="false" roomRefId="EmptyMine" nameTextId="landAtEmptyMineNameTxt"/>
+      </Neighbours>
+      <Texts>
+        <Text id="marsXINameTxt">Mars-XI</Text>
+        <Text id="marsXIDescTxt">A mars tizenegyedik kolóniájának pályáján felett repülünk. Lepukkant környék. Mióta a körzet ércbányái kiapadtak az Egyesült Nemzetek semmilyen támogatást nem hagy jóvá. Nő a bűnözés és a mocsok...</Text>
+        <Text id="searchAreaMenuTxt">Terület felderítése</Text>
+        <Text id="searchAreaRespTxt">Körberepülve a kolóniát, két terület is megfelelt a leírásnak. Egy elhagyatott konténerraktár, és a kolónia másik végén egy kimerült bánya krátere is elég nagy egy nagyméretű teherhajónak.</Text>
+        <Text id="landAtStorageAreaNameTxt">Landolás a konténerraktárnál</Text>
+        <Text id="landAtEmptyMineNameTxt">Landolás a bányánál</Text>
+      </Texts>
+    </Room>
+    <Room id="StorageArea" activeAtStart="true" nameTextId="storageAreaNameTxt" descTextId="storageAreaDescTxt" imgSrc="storage.jpg">
+      <MenuItems>
+        <MenuItem id="lookAroundMI" activeAtStart="true" menuTextId="lookAroundMIMenuTxt" useNumber="1">
+          <Actions responseTextId="lookAroundRespTxt">
+            <setActive refId="moonStone" value="true" />
+          </Actions>
+        </MenuItem>
+      </MenuItems>
+      <Items>
+        <Item id="moonStone" activeAtStart="false" nameTextId="moonStoneNameTxt" descTextId="moonStoneDescTxt" equipable="true">
+          <MenuItems>
+            <MenuItem id="moonStoneUseMI" activeAtStart="true" menuTextId="moonStoneUseMIMenuTxt" useNumber="1">
+              <Requirements textOnFail="moonStoneNotUsableTxt">
+                <propertyCondition refId="gotLaika" condition="eq" value="1" />
+                <isEquipped refId="moonStone" value="true" />
+              </Requirements>
+              <Actions responseTextId="moonStoneUsedTxt">
+                <setActive refId="shieldsFailMI" value="false" />
+                <setActive refId="shieldsWorksMI" value="true" />
+              </Actions>
+            </MenuItem>
+          </MenuItems>
+        </Item>
+      </Items>
+      <Neighbours>
+        <Neighbour id="nbStorageOff" roomRefId="MarsXI" nameTextId="getOff" />
+      </Neighbours>
+      <Texts>
+        <Text id="storageAreaNameTxt">Raktártelep</Text>
+        <Text id="storageAreaDescTxt">Ez a raktártelep tényleg kihalt. Egy lélek sincs itt, mozgásnak sincs semmi nyoma.</Text>
+        <Text id="moonStoneNameTxt">Holdkő</Text>
+        <Text id="moonStoneDescTxt">Fred: "Valahol úgy hallottam, hogy az ilyen holdkövek sugárzása egyes lényekre erős hatással van."</Text>
+        <Text id="moonStoneUseMIMenuTxt">Használ</Text>
+        <Text id="moonStoneNotUsableTxt">Fred: "Most nem tudok ezzel mit csinálni!"</Text>
+        <Text id="moonStoneUsedTxt">Ahogy Fred előveszi a holdkövet, Laika azonnal odaugrik és egy harapással megeszi. Fred csak néz, nem érti mi volt ez.\nLaika vidáman nézi Fredet, mintha mi se történt volna, azonban valami megváltozott. Laika kéken kezd villogni, egyre nagyobb intenzitással, majd vakító fehérség árad belőle, elvakítva Fredet. Ahogy Fred kezdi visszaszerezni a látását, látja, hogy Laika ott liheg mellette, már nem villog, minden olyan mint azelőtt.\nFred: "weird flex, but ok."</Text>
+        <Text id="lookAroundMIMenuTxt">Körülnéz</Text>
+        <Text id="lookAroundRespTxt">Itt tényleg nagy a kihaltság... Fred valami kék ragyoást vesz észre az egyik konténerből. Ahogy közelebb megy, látja hogy egy aktív holdkő az.</Text>
+      </Texts>
+    </Room>
+    <Room id="EmptyMine" activeAtStart="true" nameTextId="emptyMineNameTxt" descTextId="emptyMineDescTxt" imgSrc="emptymine.jpg">
+      <NPCs>
+        <NPC id="asgardian" nameTextId="asgardianNameTxt" descTextId="asgardianDescTxt" activeAtStart="true">
+          <Conversation id="asgardConv" activeAtStart="true" firstLineId="asgardianLine1">
+            <Line id="asgardianLine1" lineTextId="asgardianLine1Txt">
+              <Answer id="asgardianAnswer1" textId="asgAnswOpt1Txt" nextLineId="asgardianLine3">
+                <Actions responseTextId="asgAnsw1Txt" />
+              </Answer>
+              <Answer id="asgardianAnswer2" textId="asgAnswOpt2Txt" nextLineId="asgardianLine2">
+                <Actions responseTextId="asgAnsw2Txt" />
+              </Answer>
+            </Line>
+            <Line id="asgardianLine2" lineTextId="asgardianLine2Txt">
+              <Answer id="asgardianAnswer3" textId="asgAnswOpt3Txt" nextLineId="asgardianLine3">
+                <Actions responseTextId="nope">
+                  <setActive refId="asgardianDeath" value="true" />
+                </Actions>
+              </Answer>
+            </Line>
+            <Line id="asgardianLine3" lineTextId="asgardianLine3Txt">
+              <Answer id="asgardianAnswer4" textId="asgAnswOpt4Txt" nextLineId="asgardianLine4">
+                <Actions responseTextId="asgAnsw4Txt" >
+                  <setActive refId="asgardConv" value="false" />
+                  <setPropertyValue refId="gotLaika" change="set" value="1" />
+                </Actions>
+              </Answer>
+            </Line>
+            <Line id="asgardianLine4" lineTextId="asgardianLine4Txt" isLastLine="true"/>
+          </Conversation>
+        </NPC>
+      </NPCs>
+      <Neighbours>
+        <Neighbour id="nbMineOff" roomRefId="MarsXI" nameTextId="getOff" />
+      </Neighbours>
+      <Texts>
+        <Text id="emptyMineNameTxt">Bánya</Text>
+        <Text id="emptyMineDescTxt">Egy hatalmas kráter az egész bánya. Látszik, hogy már évek óta nem dolgozik itt senki. A lerobbant hatalmas gépek ócskavasként roskadoznak a kráter széleinél. Fred figyelmét mégse ezek a monstrumok kötik le, hanem az érkezése után nemsokkal landoláshoz ereszkedő hajó.\n\nAhogy nagy robajjal talajt ér a teherhajó, rögtön nyílik is az ajtaja, és egy kis termetű Asgardi lény lép ki rajta, maga után pedig egy nagy láda lebegve követi amerre megy.</Text>
+        <Text id="asgardianNameTxt">Asgardi kereskedő</Text>
+        <Text id="asgardianDescTxt">Furcsa kis szerzet ez az asgardi. Frednek volt már dolga velük, és tudja, hogy körültekintően kell megválasztani a szavakat a velük való társalgáskor, mert könnyen ingerültté válnak.</Text>
+        <Text id="asgardianLine1Txt">"Twe vágy akit a Chul'ak küldhött?"</Text>
+        <Text id="asgAnswOpt1Txt">"Igen!"</Text>
+        <Text id="asgAnsw1Txt">Fred: "Igen, gondolom én lennék az!"</Text>
+        <Text id="asgAnswOpt2Txt">"Tessék?"</Text>
+        <Text id="asgAnsw2Txt">Fred: "Te meg mit mondasz? Milyen csulák?"</Text>
+        <Text id="asgardianLine2Txt">"Hwogy Mwerészwelsz ilyen hwangon welem bweszélni?"</Text>
+        <Text id="asgAnswOpt3Txt">"Akkor se értem."</Text>
+        <Text id="asgardianLine3Txt">"Iwtt a cswomag, wigyed a gwazdádhoz!"</Text>
+        <Text id="asgAnswOpt4Txt">Szállítmány elvétele</Text>
+        <Text id="asgAnsw4Txt">Fred odaszalad a ládához, és gyorsan elhúzza a hajója felé.</Text>
+        <Text id="asgardianLine4Txt">"Awsztán wigyázz rá mwert nagywon weszílyes!"\nEzzel visszaszált a hajójába és tovarepült.</Text>
+      </Texts>
+    </Room>
+  </Rooms>
+  <GameEnds>
+    <GameEnd id="sunDeath" textId="sunDeathTxt" gameOverTextId="gameOverTxt"/>
+    <GameEnd id="asgardianDeath" textId="asgardianDeathTxt" gameOverTextId="gameOverTxt"/>
+    <GameEnd id="hapyend" textId="hapyendTxt" gameOverTextId="theEndTxt"/>
+  </GameEnds>
+  <Texts>
+    <Text id="nope">##NOPE##</Text>
+    <Text id="gameGreetingTxt">Egy történet az űrben. Egy történet Fredről. Egy történet, melynek nincs se eleje, se vége.\nDe benne van Fred.</Text>
+    <Text id="gameNametxt">Fred in Space</Text>
+    <Text id="shipTxt">Hajó</Text>
+    <Text id="backToTheShip">Vissza a hajóra</Text>
+    <Text id="getOff">Felszállás</Text>
+    <Text id="sunDeathTxt">Hát tényleg nem egy nagy ötlet csak úgy belerepülni a napba. Mit vártál? Mindegy is. Fred és a hajója szénné égett.</Text>
+    <Text id="asgardianDeathTxt">Frednek válaszolni se volt már ideje. Az asgardi hajóról egy vakító sárga sugár lövellt ki felé, és eltüntette a föld színéről.</Text>
+    <Text id="hapyendTxt">Fred és Laika egy darabig jó helyen van a Zaigon-oknál. De hogy boldogan élnek míg meg nem halnak? Azt nem tudom.</Text>
+    <Text id="gameOverTxt">Game Over</Text>
+    <Text id="theEndTxt">The End</Text>
+  </Texts>
+</GameDescriptor>

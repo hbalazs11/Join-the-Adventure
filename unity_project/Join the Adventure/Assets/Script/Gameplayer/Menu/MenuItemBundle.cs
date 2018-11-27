@@ -11,6 +11,7 @@ public class MenuItemBundle  {
     private List<MenuItem> menuItems;
     private MenuItemBundle parent;
     public event EventHandler<EventArgs> OnExecutionSidefects;
+    private bool isBlocker;
 
     public MIBack BackButton { get; set; }
 
@@ -20,6 +21,7 @@ public class MenuItemBundle  {
         menuItems = new List<MenuItem>();
         menuController = MenuController.GetInstance();
         this.parent = parent;
+        this.isBlocker = false;
     }
 
     public void ExecuteSideEffects()
@@ -114,6 +116,19 @@ public class MenuItemBundle  {
         get
         {
             return parent;
+        }
+    }
+
+    public bool IsBlocker
+    {
+        get
+        {
+            return isBlocker;
+        }
+
+        set
+        {
+            isBlocker = value;
         }
     }
 

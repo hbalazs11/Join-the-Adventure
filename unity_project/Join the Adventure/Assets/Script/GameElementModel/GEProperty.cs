@@ -122,7 +122,7 @@ public class GEProperty : GameElement{
         if (properties == null) return ret;
         foreach(GEProperty prop in properties)
         {
-            if (!prop.Name.Equals(GEText.GETextEmpty.Instance))
+            if (prop.Name.GetText() != string.Empty)
             {
                 ret.Add(prop);
             }

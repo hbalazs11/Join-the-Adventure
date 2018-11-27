@@ -10,7 +10,7 @@ public class GEText : GameElement {
     [NonSerialized]
     ILogger logger;
 
-    public static GEText EMPTY = new GEText("", "", "", EMPTYTEXT);
+    public static GEText EMPTY = new GEText(string.Empty, string.Empty, string.Empty, EMPTYTEXT);
 
     public GEText(string id, string defLang) : base(id)
     {
@@ -75,7 +75,7 @@ public class GEText : GameElement {
     {
         if (EMPTYTEXT.Equals(txt))
         {
-            return "";
+            return string.Empty;
         }
         return txt;
     }
@@ -102,18 +102,18 @@ public class GEText : GameElement {
             }
         }
 
-        private GETextEmpty() : base("", "")
+        private GETextEmpty() : base(string.Empty, string.Empty)
         {
         }
 
         public override string GetText()
         {
-            return "";
+            return string.Empty;
         }
     }
 
     public bool IsEmpty()
     {
-        return GETextEmpty.Instance.Equals(this);
+        return GetText().Equals(string.Empty);
     }
 }

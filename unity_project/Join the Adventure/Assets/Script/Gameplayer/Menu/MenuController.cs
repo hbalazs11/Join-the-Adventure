@@ -17,6 +17,7 @@ public class MenuController : MonoBehaviour {
     List<MenuItemBundle> usedBundles;
 
     private CanvasGroup canvasGroup;
+    private bool isBlocked;
 
     public static MenuController GetInstance()
     {
@@ -33,11 +34,13 @@ public class MenuController : MonoBehaviour {
         }
         set
         {
+            if (isBlocked) return;
             if (currentBundle != null)
             {
                 currentBundle.IsActive = false;
             }
             currentBundle = value;
+            this.isBlocked = value.IsBlocker;
             currentBundle.IsActive = true;
             if (!currentBundle.Equals(baseBundle) && !usedBundles.Contains(currentBundle))
             {
@@ -106,6 +109,11 @@ public class MenuController : MonoBehaviour {
             bundle.DestroyItems();
         }
         usedBundles.Clear();
+    }
+
+    public void UnlockBlock()
+    {
+        this.isBlocked = false;
     }
 
     public void SetMenuHeaderText(string text)

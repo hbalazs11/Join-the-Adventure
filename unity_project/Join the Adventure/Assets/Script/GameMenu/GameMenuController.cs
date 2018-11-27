@@ -59,8 +59,8 @@ public class GameMenuController : MonoBehaviour {
 
     private void LoadTexts()
     {
-        gameNameTextUI.text = Injector.GameElementManager.GameProperties.GameNameText.GetText();
-        greetingTextUI.text = Injector.GameElementManager.GameProperties.GreetingText.GetText();
+        gameNameTextUI.text = System.Text.RegularExpressions.Regex.Unescape( Injector.GameElementManager.GameProperties.GameNameText.GetText());
+        greetingTextUI.text = System.Text.RegularExpressions.Regex.Unescape( Injector.GameElementManager.GameProperties.GreetingText.GetText());
     }
 
     private void InitLangMenu()

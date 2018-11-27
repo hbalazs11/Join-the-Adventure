@@ -6,9 +6,9 @@ public class GENeighbour : ActivatableGameElement
 
     private GERequirement requirements;
 
-    public GENeighbour(string id) : base(id)
+    public GENeighbour(string id, bool active) : base(id)
     {
-        isActive = true;
+        isActive = active;
     }
 
     public GERoom Room { get; set; }

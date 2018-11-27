@@ -14,6 +14,8 @@ public class Description : MonoBehaviour {
     private const string BR = "\n";
     private bool isDescTop = true;
 
+    private bool isBlocked = false;
+
     public static Description GetInstance()
     {
         return FindObjectOfType<Description>();
@@ -71,12 +73,26 @@ public class Description : MonoBehaviour {
 
     public void AddDescriptionText(string text)
     {
-        if (text.Equals("")) return;
+        if (isBlocked || text.Equals(string.Empty)) return;
         this.descriptionText.text += ConvertText(BR + BR + text);
     }
 
     public void SetDescriptionText(string text)
     {
+        if (isBlocked) return;
         this.descriptionText.text = ConvertText(text);
+    }
+
+    public bool IsBlocked
+    {
+        get
+        {
+            return isBlocked;
+        }
+
+        set
+        {
+            isBlocked = value;
+        }
     }
 }

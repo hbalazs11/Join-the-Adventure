@@ -85,6 +85,7 @@ public class MenuItemBundleFactroy  {
         foreach (GENeighbour neighbour in geNeighbours)
         {
             newBundle.AddMenuItem(new MIRoomChange(neighbour.MenuText.GetText(), newBundle, neighbour));
+            neighbour.OnActivationChange += newBundle.RefreshOnEvent;
         }
 
         newBundle.AddMenuItem(new MIBack(parent));

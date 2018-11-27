@@ -353,19 +353,20 @@ public class DescriptorProcessor : IDescriptorProcessor
     private SortedList<string, GENeighbour> ProcessNeighbours(NeighboursType neighbours)
     {
         SortedList<string, GENeighbour> processedNeighbours = new SortedList<string, GENeighbour>();
-
+        if (neighbours == null) return processedNeighbours;
         foreach(NeighboursTypeNeighbour neighbour in neighbours.Neighbour)
         {
             GERequirement requirements = ProcessRequirements(neighbour.Requirements);
             OnReferenceProcessing += delegate (object o, EventArgs e)
             {
-                    GENeighbour newNeighbour = new GENeighbour(neighbour.id)
-                    {
-                        MenuText = elementManager.GetTextElement(neighbour.nameTextId),
-                        Room = elementManager.GetRoom(neighbour.roomRefId),
-                        Requirements = requirements
-                    };
-                    processedNeighbours.Add(neighbour.id, newNeighbour);
+                GENeighbour newNeighbour = new GENeighbour(neighbour.id, neighbour.activeAtStart)
+                {
+                    MenuText = elementManager.GetTextElement(neighbour.nameTextId),
+                    Room = elementManager.GetRoom(neighbour.roomRefId),
+                    Requirements = requirements
+                };
+                processedNeighbours.Add(neighbour.id, newNeighbour);
+                elementManager.AddNeighbour(newNeighbour);
             };
         }
         return processedNeighbours;

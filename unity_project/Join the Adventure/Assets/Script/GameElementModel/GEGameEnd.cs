@@ -20,6 +20,8 @@ public class GEGameEnd : ActivatableGameElement {
         GameController.GetInstance().ShowGameOver(gameOverText.GetText());
         MenuItemBundle menuItemBundle = new MenuItemBundle("", null);
         menuItemBundle.AddMenuItem(new MIGameEnd("OK",null));
+        menuItemBundle.IsBlocker = true;
+        description.IsBlocked = true;
         MenuController.GetInstance().CurrentBundle = menuItemBundle;
     }
 

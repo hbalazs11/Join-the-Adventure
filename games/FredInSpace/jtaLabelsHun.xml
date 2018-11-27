@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="JtaDescriptor.xsd" id="hunJtaLabels" root="false" gameName="FredInSpace">
+  <Texts defLang="hun">
+    <Text id="jtaLabelInventory">Eszközeim</Text>
+    <Text id="jtaLabelGoNextRoom">Továbbhaladás...</Text>
+    <Text id="jtaLabelMenu">Menü</Text>
+    <Text id="jtaLabelPickUp">Eltesz</Text>
+    <Text id="jtaLabelBack">Vissza</Text>
+    <Text id="jtaLabelItems">Eszközök</Text>
+    <Text id="jtaLabelPickUpNotif">Eltetted a következőt:</Text>
+    <Text id="jtaLabelNpc">Személyek</Text>
+    <Text id="jtaLabelShowDescription">Megnézem magamnak...</Text>
+    <Text id="jtaLabelStartConversation">Odamegyek hozzá...</Text>
+    <Text id="jtaLabelConversationWith">Beszélgetés vele: </Text>
+    <Text id="jtaLabelLoad">Betöltés</Text>
+    <Text id="jtaLabelSave">Mentés</Text>
+    <Text id="jtaLabelExit">Kilépés</Text>
+    <Text id="jtaLabelLanguages">Nyelvek</Text>
+    <Text id="jtaLabelSavedGames">Mentések</Text>
+    <Text id="jtaLabelSavedName">Mentés név...</Text>
+    <Text id="jtaLabelEmptyItemList">Itt nincs semmi...</Text>
+    <Text id="jtaLabelEmptyNeighbourList">Innen nincs kiút</Text>
+    <Text id="jtaLabelEmptyNpcList">Itt nincs kivel beszélni...</Text>
+    <Text id="jtaLabelPlayerProprs">Értékeim</Text>
+    <Text id="jtaLabelItemProprs">Tulajdonságok</Text>
+    <Text id="jtaLabelNpcProprs">Tulajdonságok</Text>
+  </Texts>
+</GameDescriptor>

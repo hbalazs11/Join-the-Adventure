@@ -9,6 +9,8 @@ public class MIGameEnd : MenuItem
 
     protected override void Execute()
     {
+        menuController.UnlockBlock();
+        Description.GetInstance().IsBlocked = false;
         GameController.GetInstance().HeadBackToGameMenu();
     }
 }
