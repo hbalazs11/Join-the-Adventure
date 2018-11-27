@@ -138,7 +138,7 @@ public class GameController : MonoBehaviour {
     {
         gameOverTextLabel.text = gameOverTxt;
         gameOverTextLabel.gameObject.SetActive(true);
-        desctiptionScript.SetRoomName("");
+        desctiptionScript.SetRoomName(string.Empty);
     }
 
     public void HeadBackToGameMenu()

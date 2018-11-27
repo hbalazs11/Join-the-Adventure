@@ -124,7 +124,7 @@
                     <xs:attribute name="minValue" default="0" type="xs:double" use="optional" />
                     <xs:attribute name="maxValue" type="xs:double" use="optional" />
                     <xs:attribute name="defValue" default="0" type="xs:double" use="optional" />
-                    <xs:attribute name="nameTextId" type="xs:string" use="required" />
+                    <xs:attribute name="nameTextId" type="xs:string" use="optional" />
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
@@ -167,8 +167,9 @@
         <xs:attribute name="gameNameTextId" type="xs:string" use="required" />
         <xs:attribute name="greetingTextId" type="xs:string" />
         <xs:attribute name="checkpointsOn" default="false" type="xs:boolean" />
-		<xs:attribute name="menuSaveAvailable" default="true" type="xs:boolean" />
+		    <xs:attribute name="menuSaveAvailable" default="true" type="xs:boolean" />
         <xs:attribute name="defaultLang" type="xs:string" use="required" />
+        <xs:attribute name="menuImgSrc" type="xs:string" use="optional" />
     </xs:complexType>
     <xs:complexType name="NPCsType">
         <xs:sequence>
@@ -208,6 +209,7 @@
                             </xs:complexType>
                         </xs:element>
                         <xs:element name="MenuItems" type="MenuItemsWithRefsType" minOccurs="0" />
+                        <xs:element name="Properties" type="PropertiesWithRefType" minOccurs="0" />
                         <xs:element name="Items" type="ItemsWithRefsType" minOccurs="0" />
                         <xs:element name="Texts" type="TextsType" minOccurs="0" />
                     </xs:sequence>
@@ -243,9 +245,9 @@
                     <xs:attribute name="value" type="xs:double" use="required" />
                 </xs:complexType>
             </xs:element>
-			<xs:element name="saveGame" minOccurs="0" maxOccurs="1">
+			      <xs:element name="saveGame" minOccurs="0" maxOccurs="1">
                 <xs:complexType>
-					<xs:attribute name="isAutoSave" type="xs:boolean" default="false" />
+					          <xs:attribute name="isAutoSave" type="xs:boolean" default="false" />
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
