@@ -102,7 +102,7 @@ public class MainMenuController : MonoBehaviour
         statusText.SetStatus("Loading from descriptor. Please wait...");
         mainCanvas.interactable = false;
         //DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException);
-        Thread loadingThread = new Thread( () => DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException));
+        Thread loadingThread = new Thread(() => DescriptorLoaderUtility.LoadDescriptor(pathField.text, OnLoadingProcessFinished, OnLoadingProcessException));
         loadingThread.Start();
     }
 

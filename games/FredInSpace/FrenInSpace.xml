@@ -2,7 +2,7 @@
 <GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:noNamespaceSchemaLocation="JtaDescriptor.xsd"
                 gameName="FredInSpace"
-                version="v1.0" id="main" root="true">
+                version="v1.1" id="main" root="true">
   <GameProperties firstRoomId="Spaceship" defaultLang="hun" greetingTextId="gameGreetingTxt" menuSaveAvailable="false" checkpointsOn="false" gameNameTextId="gameNametxt" menuImgSrc="menuImg.jpg"/>
   <Player>
     <Items>
@@ -26,13 +26,18 @@
         </Properties>
         <Texts>
           <Text id="pocketKnifeNameTxt">Bicska</Text>
-          <Text id="pocketKnifeDescTxt">A kedvenc bicskám. Néha meg kéne éleznem...</Text>
+          <Text id="pocketKnifeDescTxt">"A kedvenc bicskám. Néha meg kéne éleznem..."</Text>
         </Texts>
       </Item>
     </Items>
   </Player>
   <Rooms>
     <Room id="Spaceship" activeAtStart="true" nameTextId="spaceshipNameTxt" descTextId="spaceshipDescTxt" imgSrc="spaceship.jpg">
+      <MenuItems>
+        <MenuItem id="runningStatusMI" activeAtStart="false" menuTextId="runningStatusMenuTxt" useNumber="1">
+          <Actions responseTextId="runningStatusRespTxt" />
+        </MenuItem>
+      </MenuItems>
       <Items>
         <Item id="shipDiary" activeAtStart="true" nameTextId="shipDiaryNameTxt" descTextId="shipDiaryDescTxt">
           <MenuItems>
@@ -51,9 +56,6 @@
             <MenuItem id="log5" activeAtStart="false" menuTextId="log5MenuTxt">
               <Actions responseTextId="log5Txt" />
             </MenuItem>
-            <MenuItem id="log6" activeAtStart="false" menuTextId="log6MenuTxt">
-              <Actions responseTextId="log6Txt" />
-            </MenuItem>
             <MenuItem id="writeLog" activeAtStart="false" menuTextId="writeLogTxt">
               <Actions responseTextId="writeLogRespTxt" onUseIntervalTo="1">
                 <setActive refId="log4" value="true"/>
@@ -62,12 +64,6 @@
               <Actions responseTextId="writeLogRespTxt" onUseIntervalTo="2">
                 <setActive refId="log4" value="true"/>
                 <setActive refId="log5" value="true"/>
-                <setActive refId="writeLog" value="false"/>
-              </Actions>
-              <Actions responseTextId="writeLogRespTxt" onUseIntervalTo="3">
-                <setActive refId="log4" value="true"/>
-                <setActive refId="log5" value="true"/>
-                <setActive refId="log6" value="true"/>
                 <setActive refId="writeLog" value="false"/>
               </Actions>
             </MenuItem>
@@ -80,13 +76,11 @@
             <Text id="log3MenuTxt">3. Bejegyzés olvasása</Text>
             <Text id="log4MenuTxt">4. Bejegyzés olvasása</Text>
             <Text id="log5MenuTxt">5. Bejegyzés olvasása</Text>
-            <Text id="log6MenuTxt">6. Bejegyzés olvasása</Text>
             <Text id="log1Txt">Ma egész nap nem csináltam semmit, csak sorozatokat néztem. Ezt lehet hogy nem is kéne lejegyezni, de a kapitányok mindent lejegyeznek...</Text>
             <Text id="log2Txt">Végre valaki reagált a hírdetésemre SpaceBook-on! Le is beszéltük, hogy találkozunk a Hármas szektorban, és megbeszéljük a részleteket. Már úton is vagyok a Ceres-III-ra.</Text>
             <Text id="log3Txt">Megvolt az egyeztetés az ürgével... Egy kocsmában találkoztunk, ami nem volt túl bíztató. A megbízás egyszerű: elmenni a Mars-XI-re, ott felvenni egy csomagot, és visszahozni ide. Nem akrtam tovább időzni, úgyhogy rögtön el is indultam. Pontos címet nem kaptam, csak hogy valami elhagyatott helyet keressek, ahova egy nagy teherhajó is le tud szállni.</Text>
-            <Text id="log4Txt">TODO:Ide jön a 4. log</Text>
-            <Text id="log5Txt">TODO:Ide jön a 5. log</Text>
-            <Text id="log6Txt">TODO:Ide jön a 6. log</Text>
+            <Text id="log4Txt">Átvettem a csomagot. Az egész nagyon fura volt. Az alak azt mondta hogy veszélyes a láda, de azon kívül hogy egyszer egy kicsit megmozdult, semmi félelmeteset nem tapasztaltam vele kapcsolatban.</Text>
+            <Text id="log5Txt">Nem tudtam magára hagyni a kis Laikát. Az az iszákos megkeserítette volna az életét. Na mondjuk az most emiatt lehet hogy pont nem lesz túl hosszú, mert ezek itt nagyon jönnek mögöttünk!</Text>
             <Text id="writeLogTxt">Új bejegyzés írása</Text>
             <Text id="writeLogRespTxt">"Napról napra jobb író leszek!"</Text>
           </Texts>
@@ -107,13 +101,18 @@
         </Item>
       </Items>
       <Neighbours>
-        <Neighbour id="nbMarsXI" activeAtStart="true" roomRefId="MarsXI" nameTextId="marsXINameTxt"/>
+        <Neighbour id="nbMarsXI" activeAtStart="true" roomRefId="MarsXI" nameTextId="flyToMarsXI"/>
         <Neighbour id="nbSun" activeAtStart="true" roomRefId="Sun" nameTextId="flyToSunTxt"/>
+        <Neighbour id="nbCeres" activeAtStart="true" roomRefId="Ceres" nameTextId="flyToCeresTxt"/>
       </Neighbours>
       <Texts>
         <Text id="spaceshipNameTxt">Fred hajója</Text>  
         <Text id="spaceshipDescTxt">Egy átlagos kisméretű teherszállító hajó. Fred még a ballagására kapta. Az óvodásra.</Text>  
+        <Text id="flyToMarsXI">Repülés a MarsXI-re</Text>  
         <Text id="flyToSunTxt">Belerepülés a Napba</Text>  
+        <Text id="flyToCeresTxt">Repülés a CeresIII-ra</Text>
+        <Text id="runningStatusMenuTxt">Helyzetjelentés</Text>
+        <Text id="runningStatusRespTxt">Chul'ak üldözi Fredet és Laikát. De nem egyedül, hozta a barátait is, és mind töltik a fegyvereiket. Kezdik bekeríteni Fred hajóját, csak a Nap felé maradt szabad röppálya.</Text>
       </Texts>
     </Room>
     <Room id="Sun" activeAtStart="true" descTextId="sunDescTxt" imgSrc="sun.jpg" nameTextId="sunNameTxt">
@@ -123,7 +122,7 @@
             <setActive refId="sunDeath" value="true"/>
           </Actions>
         </MenuItem>
-        <MenuItem id="shieldsWorksMI" activeAtStart="false" menuTextId="shieldsOnMINameTxt">
+        <MenuItem id="shieldsWorksMI" activeAtStart="false" menuTextId="shieldsOnMINameTxt" useNumber="1">
           <Actions responseTextId="superShieldOnTxt">
             <setActive refId="nbSafeHouse" value="true"/>
           </Actions>
@@ -173,7 +172,7 @@
         <Text id="marsXIDescTxt">A mars tizenegyedik kolóniájának pályáján felett repülünk. Lepukkant környék. Mióta a körzet ércbányái kiapadtak az Egyesült Nemzetek semmilyen támogatást nem hagy jóvá. Nő a bűnözés és a mocsok...</Text>
         <Text id="searchAreaMenuTxt">Terület felderítése</Text>
         <Text id="searchAreaRespTxt">Körberepülve a kolóniát, két terület is megfelelt a leírásnak. Egy elhagyatott konténerraktár, és a kolónia másik végén egy kimerült bánya krátere is elég nagy egy nagyméretű teherhajónak.</Text>
-        <Text id="landAtStorageAreaNameTxt">Landolás a konténerraktárnál</Text>
+        <Text id="landAtStorageAreaNameTxt">Landolás a raktárnál</Text>
         <Text id="landAtEmptyMineNameTxt">Landolás a bányánál</Text>
       </Texts>
     </Room>
@@ -196,6 +195,7 @@
               <Actions responseTextId="moonStoneUsedTxt">
                 <setActive refId="shieldsFailMI" value="false" />
                 <setActive refId="shieldsWorksMI" value="true" />
+                <setActive refId="moonStone" value="false" />
               </Actions>
             </MenuItem>
           </MenuItems>
@@ -238,8 +238,11 @@
             <Line id="asgardianLine3" lineTextId="asgardianLine3Txt">
               <Answer id="asgardianAnswer4" textId="asgAnswOpt4Txt" nextLineId="asgardianLine4">
                 <Actions responseTextId="asgAnsw4Txt" >
-                  <setActive refId="asgardConv" value="false" />
-                  <setPropertyValue refId="gotLaika" change="set" value="1" />
+                  <setActive refId="asgardian" value="false" />
+                  <setActive refId="writeLog" value="true" />
+                  <setActive refId="npcCail" value="true" />
+                  <setActive refId="npcLiver" value="true" />
+                  <setActive refId="sitAtTable" value="false" />
                 </Actions>
               </Answer>
             </Line>
@@ -256,22 +259,149 @@
         <Text id="asgardianNameTxt">Asgardi kereskedő</Text>
         <Text id="asgardianDescTxt">Furcsa kis szerzet ez az asgardi. Frednek volt már dolga velük, és tudja, hogy körültekintően kell megválasztani a szavakat a velük való társalgáskor, mert könnyen ingerültté válnak.</Text>
         <Text id="asgardianLine1Txt">"Twe vágy akit a Chul'ak küldhött?"</Text>
-        <Text id="asgAnswOpt1Txt">"Igen!"</Text>
+        <Text id="asgAnswOpt1Txt">Igen!</Text>
         <Text id="asgAnsw1Txt">Fred: "Igen, gondolom én lennék az!"</Text>
-        <Text id="asgAnswOpt2Txt">"Tessék?"</Text>
+        <Text id="asgAnswOpt2Txt">Tessék?</Text>
         <Text id="asgAnsw2Txt">Fred: "Te meg mit mondasz? Milyen csulák?"</Text>
         <Text id="asgardianLine2Txt">"Hwogy Mwerészwelsz ilyen hwangon welem bweszélni?"</Text>
-        <Text id="asgAnswOpt3Txt">"Akkor se értem."</Text>
+        <Text id="asgAnswOpt3Txt">Hogy mi?</Text>
         <Text id="asgardianLine3Txt">"Iwtt a cswomag, wigyed a gwazdádhoz!"</Text>
-        <Text id="asgAnswOpt4Txt">Szállítmány elvétele</Text>
+        <Text id="asgAnswOpt4Txt">Elvesz</Text>
         <Text id="asgAnsw4Txt">Fred odaszalad a ládához, és gyorsan elhúzza a hajója felé.</Text>
         <Text id="asgardianLine4Txt">"Awsztán wigyázz rá mwert nagywon weszílyes!"\nEzzel visszaszált a hajójába és tovarepült.</Text>
+      </Texts>
+    </Room>
+    <Room id="Ceres" activeAtStart="true" nameTextId="ceresNameTxt" descTextId="ceresDescTxt" imgSrc="ceres.jpg">
+      <MenuItems>
+        <MenuItem id="sitAtTable" activeAtStart="true" menuTextId="sitAtTableTxt">
+          <Actions responseTextId="nope">
+            <setActive refId="pubDeath" value="true" />
+          </Actions>
+        </MenuItem>
+        <MenuItem id="askABeer" activeAtStart="false" menuTextId="askABeerTxt">
+          <Actions responseTextId="nope">
+            <setActive refId="sadEnd" value="true" />
+          </Actions>
+        </MenuItem>
+      </MenuItems>
+      <NPCs>
+        <NPC id="npcCail" nameTextId="cailNameTxt" descTextId="cailDescTxt" activeAtStart="false">
+          <Conversation id="cailConv" firstLineId="cailGreeting" activeAtStart="true">
+            <Line id="cailGreeting" lineTextId="cailGreetingTxt">
+              <Answer id="cailGreetingAnsw" textId="cailGreetingShortAnswTxt" activeAtStart="true" nextLineId="cailOptions">
+                <Actions responseTextId="cailGreetingAnswTxt" />
+              </Answer>
+            </Line>
+            <Line id="cailOptions" lineTextId="cailOptionsTxt">
+              <Answer id="answKnifeSharpenig" textId="answKnifeSharpenigTxt" activeAtStart="true" nextLineId="cailOptions">
+                <Actions responseTextId="answKnifeSharpenigRespTxt">
+                  <setActive refId="answKnifeSharpenig" value="false"/>
+                  <setPropertyValue refId="pocketKnifePropSharpnes" change="set" value="1" />
+                </Actions>
+              </Answer>      
+              <Answer id="answAboutChulak" textId="answAboutChulakTxt" activeAtStart="true" nextLineId="cailOptions">
+                <Actions responseTextId="answAboutChulakRespTxt">
+                  <setActive refId="answAboutChulak" value="false"/>
+                  <setActive refId="npcChulak" value="true"/>
+                  <setActive refId="npcLiver" value="false"/>
+                </Actions>
+              </Answer>
+              <Answer id="answBye" textId="answByeShortTxt" activeAtStart="true" nextLineId="cailBye" >
+                <Requirements textOnFail="answByeTxt">
+                  <isActive refId="answKnifeSharpenig" value="false" />
+                  <isActive refId="answAboutChulak" value="false" />
+                </Requirements>
+                <Actions responseTextId="answByeTxt">
+                  <setActive refId="npcCail" value="false" />
+                </Actions>
+              </Answer>      
+            </Line>
+            <Line id="cailBye" lineTextId="cailByeTxt" isLastLine="true"/>
+          </Conversation>
+        </NPC>
+        <NPC id="npcLiver" nameTextId="liverNameTxt" descTextId="liverDescTxt" activeAtStart="false">
+          <Conversation id="liverConv" activeAtStart="true" firstLineId="liverLine">
+            <Line id="liverLine" lineTextId="liverLineTxt" isLastLine="true" />
+          </Conversation>
+        </NPC>
+        <NPC id="npcChulak" nameTextId="chulakNameTxt" descTextId="chulakDescTxt" activeAtStart="false">
+          <Conversation id="chulakConv" activeAtStart="true" firstLineId="chulakGreeting">
+            <Line id="chulakGreeting" lineTextId="chulakGreetingTxt">
+              <Answer id="answGivePackage" textId="givePackageShortTxt" nextLineId="chulakTakeDog">
+                <Actions responseTextId="givePackageTxt" />
+              </Answer>
+            </Line>
+            <Line id="chulakTakeDog" lineTextId="chulakTakeDogTxt">
+              <Answer id="answInterrupt" textId="answInterruptShortTxt" nextLineId="chulakFollow">
+                <Actions responseTextId="answInterruptTxt" >
+                  <setActive refId="npcChulak" value="false" />
+                  <setActive refId="npcCail" value="false" />
+                  <setActive refId="nbCeres" value="false" />
+                  <setActive refId="nbMarsXI" value="false" />
+                  <setActive refId="runningStatusMI" value="true" />
+                  <setActive refId="writeLog" value="true" />
+                  <setPropertyValue refId="gotLaika" change="set" value="1" />
+                </Actions>
+              </Answer>
+              <Answer id="answLetitgo" textId="answLetitgoShortTxt" nextLineId="chulakGohome">
+                <Actions responseTextId="answLetitgoTxt" >
+                  <setActive refId="npcChulak" value="false" />
+                  <setActive refId="nbBackShip" value="false" />
+                  <setActive refId="askABeer" value="true" />
+                </Actions>
+              </Answer>
+            </Line>
+            <Line id="chulakFollow" lineTextId="chulakFollowTxt" isLastLine="true"/>
+            <Line id="chulakGohome" lineTextId="chulakGohomeTxt" isLastLine="true"/>
+            <Texts>
+              <Text id="chulakGreetingTxt">"Na vééégre már, megérkezett! Már nagyon vártam! Végre tudom mivel biztosítani az energiát a házamhoz! Add csak ide!"</Text>
+              <Text id="givePackageShortTxt">Csomag átadás</Text>
+              <Text id="givePackageTxt">Fred átnyújtja a ládát, de Chul'ak már félúton kikapja a kezéből, és azonnal kinyitja a retinaszkennerrel. A ládában egy kék űrtacskó van, ami halványan világít.</Text>
+              <Text id="chulakTakeDogTxt">"Hát szevasz Laika! Most hazaviszlek, és bezárlak az otthoni energiacellába, és ott leszel életed végéig, amíg ki nem merülsz! HAHA! Hé Fred, nem is tudtad hogy milyen kincst hozol nekem, igaz?! Egy ilyen dög évtizedekig képes ellátni egy űrházat energiával. Csak jól be kell zárni!"\n- Közben Laika nagyon bánatosan nézett Fredre. Látszott rajta, hogy tudja milyen sors vár rá, és hogy Fred az egyetlen aki segíthet neki.\n-"Na itt a pénzed és most eredj!"</Text>
+              <Text id="answInterruptShortTxt">Ellenkez</Text>
+              <Text id="answInterruptTxt">Fred nem tudja állni a szegény űrtacskó tekintetét. Felrúgja az asztalt, ami arconvágja Chul'ak-ot, a haverja pedig a földre esik. Felkapja a kutyát, majd eliszkol.</Text>
+              <Text id="answLetitgoShortTxt">Pénz eltétele</Text>
+              <Text id="answLetitgoTxt">Fred:\n"Ok cső!"\n-mondta, de legbelül egy nagy űr kezdett nőni benne, mert tudta, hogy nem jól cselekedett.</Text>
+              <Text id="chulakFollowTxt">"Hogy mii? Felkelni! Azonnal utánna! Élesítsd a fegyvereket!"</Text>
+              <Text id="chulakGohomeTxt">"Öröm volt veled üzletelni!"\nAzzal hóna alá kapta a kutyát, felkeltette a haverjár és kiment a kocsmából.</Text>
+            </Texts>
+          </Conversation>
+        </NPC>
+      </NPCs>
+      <Neighbours>
+        <Neighbour id="nbBackShip" roomRefId="Spaceship" nameTextId="backToTheShip" activeAtStart="true" />
+      </Neighbours>
+      <Texts>
+        <Text id="ceresNameTxt">Ceres-III</Text>
+        <Text id="ceresDescTxt">A Ceres-III híres kocsmájában a King's-ben tartja törzshelyét a megrendelő. Sok itt a bútorrá vált vendég, állot sör és vizelet szag uralkodik itt. Cail, a pultos viszont elég jófej.</Text>
+        <Text id="sitAtTableTxt">Leülés egy asztalhoz</Text>
+        <Text id="cailNameTxt">Cail, a csapos</Text>
+        <Text id="cailDescTxt">Cail köztudottan jó csapos. Nem csak mert jól tud sört csapolni, de beszélgetni is kellemes vele, ismer mindenknit a környéken, és jó tanácsokkal szolgál. Most éppen a késeit feni a molekuláris késfenőjével.</Text>
+        <Text id="cailGreetingTxt">"Szeva szava Fredike, jól vagy? Minden oké? Egy korsó sör lesz? Kettő? Késed meg van élezve? Ülj le! Hozok sört!"</Text>
+        <Text id="cailGreetingShortAnswTxt">Köszi!</Text>
+        <Text id="cailGreetingAnswTxt">Fred:\n"Őőő köszönöm!"\nFred leül a pulthoz, közben Cail csapolja a sört.</Text>
+        <Text id="cailOptionsTxt">"Tüttürű tüttürű"</Text>
+        <Text id="answKnifeSharpenigTxt">Késélezés</Text>
+        <Text id="answKnifeSharpenigRespTxt">Fred:\n"Figyu Cail! Megéleznéd az én késemet is?!"\nCail:\n"Há' hogyne'"\nAzzal elveszi Fred bicskáját, megélezi a molekuláris késfenőben, majd visszaadja.</Text>
+        <Text id="answAboutChulakTxt">Chul'ak</Text>
+        <Text id="answAboutChulakRespTxt">Frad:\n"Figyu Cail! Mit tudsz erről a Chul'ak-ról?"\nCail:\n"Nem tudom honnan van pénze, de van neki sok. A nap nagyrészét itt tölti, és vedel. Annyit iszik, hogy a máját ki kellett helyezni az oldalára. De az addig nőtt, hogy saját személyisége lett, meg minden. Azóta felváltva isznak: amikor az egyik kidől, a másik folytatja... A nevét mondjuk senki se tudja. De mind a kettő agresszívra issza magát. Magukat. Na érted... Nézd, épp most váltanak"\nÉs tényleg. Chul'ak mája lehúzza az utolsó kortyot, majd lefejeli az asztalt. Erre Chul'ak felébred, és máris a pohár után nyúl.</Text>
+        <Text id="answByeShortTxt">Elköszön!</Text>
+        <Text id="answByeTxt">Fred:\n"Na köszi mindent! Később tala!"</Text>
+        <Text id="cailByeTxt">"Ok cső!"</Text>
+        <Text id="liverNameTxt">Chul'ak haverja</Text>
+        <Text id="liverDescTxt">Valami nagyon erős kötődés lehet kettejük között. Chul'ak épp az óráját nézi az üres övegek között, a haverja meg vedel.</Text>
+        <Text id="liverLineTxt">"Habl mi akarol? Nem latod hogy most Chul'ak pihenkél?"</Text>
+        <Text id="chulakNameTxt">Chul'ak</Text>
+        <Text id="chulakDescTxt">Chul'ak és a névtelen haverja elválaszthatatlanok. És mindig isznak.</Text>
+        <Text id="askABeerTxt">Kérj egy sört</Text>
       </Texts>
     </Room>
   </Rooms>
   <GameEnds>
     <GameEnd id="sunDeath" textId="sunDeathTxt" gameOverTextId="gameOverTxt"/>
     <GameEnd id="asgardianDeath" textId="asgardianDeathTxt" gameOverTextId="gameOverTxt"/>
+    <GameEnd id="pubDeath" textId="pubDeathTxt" gameOverTextId="gameOverTxt"/>
+    <GameEnd id="sadEnd" textId="sadEndTxt" gameOverTextId="gameOverTxt"/>
     <GameEnd id="hapyend" textId="hapyendTxt" gameOverTextId="theEndTxt"/>
   </GameEnds>
   <Texts>
@@ -283,6 +413,8 @@
     <Text id="getOff">Felszállás</Text>
     <Text id="sunDeathTxt">Hát tényleg nem egy nagy ötlet csak úgy belerepülni a napba. Mit vártál? Mindegy is. Fred és a hajója szénné égett.</Text>
     <Text id="asgardianDeathTxt">Frednek válaszolni se volt már ideje. Az asgardi hajóról egy vakító sárga sugár lövellt ki felé, és eltüntette a föld színéről.</Text>
+    <Text id="pubDeathTxt">Fred leül egy asztalhoz, de érzi hogy figyelik. Ahogy átrafordul látja hogy ott tornyosul mögötte Chul'ak és a haverja, aki mindig mellette van.\nChul'ak:\n"Neked nem a csomagomért kéne menned?! Miattad úszni fog az üzlet!"\nAhogy ezt kimondta, a haverja már fegyvert is ragadt és Fredre célzott, és lőtt.\nFred meghalt. Nem ő lőtt először.</Text>
+    <Text id="sadEndTxt">Fred leül egy asztalhoz, de érzi, hogy valami nincs rendben. A lelkiismerete nyomasztja. A kapott pénzből leissza magát, és várja a következő küldetést...Szomorúság van.</Text>
     <Text id="hapyendTxt">Fred és Laika egy darabig jó helyen van a Zaigon-oknál. De hogy boldogan élnek míg meg nem halnak? Azt nem tudom.</Text>
     <Text id="gameOverTxt">Game Over</Text>
     <Text id="theEndTxt">The End</Text>

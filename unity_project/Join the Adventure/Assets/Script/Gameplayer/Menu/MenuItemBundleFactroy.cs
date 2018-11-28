@@ -115,7 +115,9 @@ public class MenuItemBundleFactroy  {
         //FIXME: this runs only once, when the bundle is created. Feature or bug? We might not want it to see more thane once tho...
         Description.GetInstance().AddDescriptionText(npc.DescText.GetText()); 
 
-        newBundle.AddMenuItem(new MIConversation(LabelUtility.Instance.GetLabel(LabelNames.STARTCONVERSATION), newBundle, npc));
+        
+        newBundle.AddMenuItem(new MIConversation(LabelUtility.Instance.GetLabel(LabelNames.STARTCONVERSATION), parent, npc));
+
 
         newBundle.AddMenuItem(new MIBack(parent));
 
@@ -149,21 +151,32 @@ public class MenuItemBundleFactroy  {
         {
             descriptionPanel.AddDescriptionText(talkerName + ":\n" + line.LineText.GetText());
         };
-
-        int i = 1;
-        int j = 1;
-        foreach (GENpc.GEAnswer answer in line.Answers)
-        {
-            newBundle.AddMenuItem(new MIAnswer(i++.ToString(), answer, parent, talkerName));
-            answer.OnActivationChange += newBundle.RefreshOnEvent;
-            newBundle.OnExecutionSidefects += delegate (object o, EventArgs e)
-            {
-                descriptionPanel.AddDescriptionText(j++.ToString() + ": " + answer.AnswerText.GetText());
-            };
-        }
-        if (line.IsLastLine)
+        
+        if(line.Answers.Count == 0 || line.IsLastLine)
         {
             newBundle.AddMenuItem(new MIBack(parent));
+            return newBundle;
+        }
+
+        int i = 1;
+        bool isShort = GENpc.GEAnswer.IsAnswerShort(line.Answers, 12);
+        foreach (GENpc.GEAnswer answer in line.Answers)
+        {
+            if (isShort)
+            {
+                newBundle.AddMenuItem(new MIAnswer(answer.AnswerText.GetText(), answer, parent, talkerName));
+            }
+            else
+            {
+                MIAnswer item = new MIAnswer(i++.ToString(), answer, parent, talkerName);
+                newBundle.AddMenuItem(item);
+                newBundle.OnExecutionSidefects += delegate (object o, EventArgs e)
+                {
+                    if(answer.IsActive())
+                        descriptionPanel.AddDescriptionText(item.GetMenuText() + ": " + answer.AnswerText.GetText());
+                };
+            }
+            answer.OnActivationChange += newBundle.RefreshOnEvent;
         }
         return newBundle;
     }

@@ -22,7 +22,7 @@ public class MIAnswer : MenuItem
         }
         if (bundleInstance == null)
         {
-            bundleInstance = MenuItemBundleFactroy.CreateConversationLineBundle(parentBundle.Name, parentBundle, geAnswer.NextLine, answerTo);
+            bundleInstance = MenuItemBundleFactroy.CreateConversationLineBundle(LabelUtility.Instance.GetLabel(LabelNames.CONVERSATIONWITH) + geAnswer.ParentLine.ParentConv.ParentNpc.NameText.GetText(), parentBundle, geAnswer.NextLine, answerTo);
         }
         bundleInstance.ExecuteSideEffects();
         menuController.CurrentBundle = bundleInstance;

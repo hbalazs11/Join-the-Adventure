@@ -9,8 +9,7 @@ public class GEText : GameElement {
     private SortedList<string, string> textByLang;
     [NonSerialized]
     ILogger logger;
-
-    public static GEText EMPTY = new GEText(string.Empty, string.Empty, string.Empty, EMPTYTEXT);
+    
 
     public GEText(string id, string defLang) : base(id)
     {
@@ -114,6 +113,6 @@ public class GEText : GameElement {
 
     public bool IsEmpty()
     {
-        return GetText().Equals(string.Empty);
+        return textByLang.Keys.Count == 0;
     }
 }

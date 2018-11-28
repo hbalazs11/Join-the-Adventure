@@ -49,6 +49,7 @@ public class DescriptorProcessor : IDescriptorProcessor
         }
 
         elementManager = new GameElementManager(gameStorageName);
+        elementManager.DefLang = root.GameProperties.defaultLang;
         PersistanceHelper.CreateStorage(gameStorageName);
         PersistanceHelper.StoreImages(gameStorageName, images);
         foreach (GameDescriptor descripor in gameDescriptors)
@@ -485,6 +486,7 @@ public class DescriptorProcessor : IDescriptorProcessor
                 newAnser.NextLine = elementManager.GetNpcConvLine(answer.nextLineId);
             };
             processedAnswers.Add(newAnser);
+            elementManager.AddNpcAnswer(newAnser);
         }
 
         return processedAnswers;

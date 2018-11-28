@@ -11,8 +11,6 @@ public class GameElementManager : IGameElementManager {
 
     public static string persistentDataPath;
 
-    public static GameElementManager initialGEM;
-
     private string currentLang;
     private string defLang;
     public List<string> AvailableLangs { get; set; }
@@ -38,6 +36,8 @@ public class GameElementManager : IGameElementManager {
 
     private Dictionary<string, GENpc.GELine> npcConvLines;
 
+    private Dictionary<string, GENpc.GEAnswer> npcAnswers;
+
     private Dictionary<string, GENeighbour> neighbours;
     
 
@@ -62,6 +62,7 @@ public class GameElementManager : IGameElementManager {
         gameEnds = new Dictionary<string, GEGameEnd>();
         npcConvs = new Dictionary<string, GENpc.GEConversation>();
         npcConvLines = new Dictionary<string, GENpc.GELine>();
+        npcAnswers = new Dictionary<string, GENpc.GEAnswer>();
         neighbours = new Dictionary<string, GENeighbour>();
         AvailableLangs = new List<string>();
         savedGameNames = new List<string>();
@@ -74,11 +75,7 @@ public class GameElementManager : IGameElementManager {
 
     public static GameElementManager GetInitialGEM()
     {
-        if(initialGEM == null)
-        {
-            initialGEM = PersistanceHelper.GetInitialGEM(Injector.GameElementManager.GameStorageName);
-        }
-        return initialGEM;
+        return PersistanceHelper.GetInitialGEM(Injector.GameElementManager.GameStorageName);
     }
 
     public GEText GetTextElement(string id, bool log = true)
@@ -99,7 +96,7 @@ public class GameElementManager : IGameElementManager {
 
     public string GetText(string id)
     {
-        return GetText(id, currentLang, false);
+        return GetText(id, CurrentLang, false);
     }
 
     public string GetText(string id, string lang, bool log = true)
@@ -220,6 +217,16 @@ public class GameElementManager : IGameElementManager {
         AddToDic(npcConvLines, line);
     }
 
+    public GENpc.GEAnswer GetNpcAnswer(string id)
+    {
+        return GetFromDic(npcAnswers, id);
+    }
+
+    public void AddNpcAnswer(GENpc.GEAnswer answer)
+    {
+        AddToDic(npcAnswers, answer);
+    }
+
     public GENeighbour GetNeighbour(string id)
     {
         return GetFromDic(neighbours, id);
@@ -279,6 +286,10 @@ public class GameElementManager : IGameElementManager {
         if (npcConvs.ContainsKey(id))
         {
             return npcConvs[id];
+        }
+        if (npcAnswers.ContainsKey(id))
+        {
+            return npcAnswers[id];
         }
         if (neighbours.ContainsKey(id))
         {
@@ -364,9 +375,9 @@ public class GameElementManager : IGameElementManager {
         set
         {
             defLang = value;
-            if(currentLang == null)
+            if(CurrentLang == null)
             {
-                currentLang = defLang;
+                CurrentLang = defLang;
             }
         }
     }

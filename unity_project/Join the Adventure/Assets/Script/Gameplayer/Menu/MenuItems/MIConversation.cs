@@ -19,10 +19,26 @@ public class MIConversation : MenuItem
         descriptionPanel.ClearDescription();
         if (bundleInstance == null || (actualConv == null || actualConv != npc.ActiveConversation))
         {
+            if(actualConv != null)
+                actualConv.OnActivationChange -= parentBundle.RefreshOnEvent;
             actualConv = npc.ActiveConversation;
-            bundleInstance = MenuItemBundleFactroy.CreateConversationLineBundle(LabelUtility.Instance.GetLabel(LabelNames.CONVERSATIONWITH) + npc.NameText.GetText(), parentBundle, npc.ActiveConversation.FirstLine, npc.NameText.GetText());
+            bundleInstance = MenuItemBundleFactroy.CreateConversationLineBundle(LabelUtility.Instance.GetLabel(LabelNames.CONVERSATIONWITH) + npc.NameText.GetText(), parentBundle, actualConv.FirstLine, npc.NameText.GetText());
+            
+            actualConv.OnActivationChange += parentBundle.RefreshOnEvent;
         }
         bundleInstance.ExecuteSideEffects();
         menuController.CurrentBundle = bundleInstance;
+    }
+
+    public override void SetActive(bool value)
+    {
+        if (value)
+        {
+            base.SetActive(npc.ActiveConversation != null);
+        }
+        else
+        {
+            base.SetActive(value);
+        }
     }
 }

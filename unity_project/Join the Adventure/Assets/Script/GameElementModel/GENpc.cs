@@ -190,13 +190,25 @@ public class GENpc : ActivatableGameElement
             if (isActive)
             {
                 this.parentNPC.activeConversation = this;
+            } else
+            {
+                if (this.parentNPC.activeConversation == this)
+                    this.parentNPC.activeConversation = null;
             }
         }
 
         public override void SetActive(bool active)
         {
-            base.SetActive(active);
             OnActivation();
+            base.SetActive(active);
+        }
+
+        public GENpc ParentNpc
+        {
+            get
+            {
+                return parentNPC;
+            }
         }
 
     }
@@ -375,6 +387,15 @@ public class GENpc : ActivatableGameElement
             {
                 action = value;
             }
+        }
+
+        public static bool IsAnswerShort(List<GEAnswer> answers, int maxLength)
+        {
+            foreach(GEAnswer answer in answers)
+            {
+                if (answer.answerText.GetText().Length > maxLength) return false;
+            }
+            return true;
         }
     }
 
