@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid Studio 2018 (https://www.liquid-technologies.com)-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="GameDescriptor">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="GameProperties" type="GamePropertiesType" minOccurs="0" />
+                <xs:element name="Player" type="PlayerType" minOccurs="0" />
+                <xs:element name="Rooms" type="RoomsType" minOccurs="0" />
+                <xs:element name="MenuItems" type="MenuItemsType" minOccurs="0" maxOccurs="1" />
+                <xs:element name="Items" type="ItemsType" minOccurs="0" maxOccurs="1" />
+                <xs:element name="NPCs" type="NPCsType" minOccurs="0" />
+                <xs:element name="Properties" type="PropertiesType" minOccurs="0" />
+                <xs:element name="GameEnds" type="GameEndsType" minOccurs="0" />
+                <xs:element name="Texts" type="TextsType" minOccurs="0" />
+            </xs:sequence>
+			<xs:attribute name="gameName" type="xs:string" use="required" />
+            <xs:attribute name="version" type="xs:string" use="optional" />
+            <xs:attribute name="id" type="xs:string" use="optional" />
+            <xs:attribute name="root" default="false" type="xs:boolean" />
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="PlayerType">
+        <xs:sequence>
+            <xs:element name="Properties" type="PropertiesWithRefType" minOccurs="0" />
+            <xs:element name="Items" type="ItemsWithRefsType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RoomsType">
+        <xs:sequence>
+            <xs:element name="Room" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Properties" type="PropertiesWithRefType" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="MenuItems" type="MenuItemsWithRefsType" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="Items" type="ItemsWithRefsType" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="NPCs" type="NPCsWithRefType" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="Neighbours" type="NeighboursType" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="Texts" type="TextsType" minOccurs="0" maxOccurs="1" />
+                    </xs:sequence>
+                    <xs:attribute name="id" type="xs:string" use="required" />
+                    <xs:attribute name="activeAtStart" default="true" type="xs:boolean" use="optional" />
+                    <xs:attribute name="nameTextId" type="xs:string" use="required" />
+                    <xs:attribute name="descTextId" type="xs:string" use="optional" />
+                    <xs:attribute name="imgSrc" type="xs:string" use="required" />
+                    <xs:attribute name="isCheckpoint" default="false" type="xs:boolean" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MenuItemsType">
+        <xs:sequence>
+            <xs:element name="MenuItem" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Requirements" type="RequirementsType" minOccurs="0" maxOccurs="1" />
+                        <xs:element name="Actions" type="ActionsType" minOccurs="1" maxOccurs="unbounded" />
+                        <xs:element name="Texts" type="TextsType" minOccurs="0" />
+                    </xs:sequence>
+                    <xs:attribute name="id" type="xs:string" use="required" />
+                    <xs:attribute name="activeAtStart" default="true" type="xs:boolean" use="optional" />
+                    <xs:attribute name="useNumber" type="xs:integer" use="optional" />
+                    <xs:attribute name="menuTextId" type="xs:string" use="required" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MenuItemsWithRefsType">
+        <xs:complexContent>
+            <xs:extension base="MenuItemsType">
+                <xs:sequence>
+                    <xs:element name="MenuItemRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ItemsType">
+        <xs:sequence>
+            <xs:element name="Item" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="MenuItems" type="MenuItemsType" minOccurs="0" />
+                        <xs:element name="Properties" type="PropertiesWithRefType" minOccurs="0" />
+                        <xs:element name="Texts" type="TextsType" minOccurs="0" />
+                    </xs:sequence>
+                    <xs:attribute name="id" type="xs:string" use="required" />
+                    <xs:attribute name="activeAtStart" default="true" type="xs:boolean" use="optional" />
+                    <xs:attribute name="equipable" default="false" type="xs:boolean" use="optional" />
+                    <xs:attribute name="descTextId" type="xs:string" use="optional" />
+                    <xs:attribute name="nameTextId" type="xs:string" use="required" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ItemsWithRefsType">
+        <xs:complexContent>
+            <xs:extension base="ItemsType">
+                <xs:sequence>
+                    <xs:element name="ItemRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="TextsType">
+        <xs:sequence>
+            <xs:element name="Text" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="id" type="xs:string" use="required" />
+                            <xs:attribute name="lang" type="xs:string" use="optional" />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="defLang" type="xs:string" use="optional" />
+    </xs:complexType>
+    <xs:complexType name="PropertiesType">
+        <xs:sequence>
+            <xs:element name="Property" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="id" type="xs:string" use="required" />
+                    <xs:attribute name="minValue" default="0" type="xs:double" use="optional" />
+                    <xs:attribute name="maxValue" type="xs:double" use="optional" />
+                    <xs:attribute name="defValue" default="0" type="xs:double" use="optional" />
+                    <xs:attribute name="nameTextId" type="xs:string" use="optional" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PropertiesWithRefType">
+        <xs:complexContent>
+            <xs:extension base="PropertiesType">
+                <xs:sequence>
+                    <xs:element name="PropertyRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="PropertyConditionEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="eq" />
+            <xs:enumeration value="lt" />
+            <xs:enumeration value="gt" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PropertyChangeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="set" />
+            <xs:enumeration value="dec" />
+            <xs:enumeration value="inc" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ActivationSetEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="true" />
+            <xs:enumeration value="false" />
+            <xs:enumeration value="switch" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ReferenceType">
+        <xs:attribute name="refId" type="xs:string" use="required" />
+    </xs:complexType>
+    <xs:complexType name="GamePropertiesType">
+        <xs:attribute name="firstRoomId" type="xs:string" use="required" />
+        <xs:attribute name="gameNameTextId" type="xs:string" use="required" />
+        <xs:attribute name="greetingTextId" type="xs:string" />
+        <xs:attribute name="checkpointsOn" default="false" type="xs:boolean" />
+		    <xs:attribute name="menuSaveAvailable" default="true" type="xs:boolean" />
+        <xs:attribute name="defaultLang" type="xs:string" use="required" />
+        <xs:attribute name="menuImgSrc" type="xs:string" use="optional" />
+    </xs:complexType>
+    <xs:complexType name="NPCsType">
+        <xs:sequence>
+            <xs:element name="NPC" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Conversation" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="Line" maxOccurs="unbounded">
+                                        <xs:complexType>
+                                            <xs:sequence>
+                                                <xs:element name="Answer" minOccurs="0" maxOccurs="unbounded">
+                                                    <xs:complexType>
+                                                        <xs:sequence>
+                                                            <xs:element name="Requirements" type="RequirementsType" minOccurs="0" />
+                                                            <xs:element name="Actions" type="ItemActionsType" minOccurs="0" />
+                                                        </xs:sequence>
+                                                        <xs:attribute name="id" type="xs:string" use="required" />
+                                                        <xs:attribute name="activeAtStart" default="true" type="xs:boolean" />
+                                                        <xs:attribute name="textId" type="xs:string" use="required" />
+                                                        <xs:attribute name="nextLineId" type="xs:string" use="required" />
+                                                    </xs:complexType>
+                                                </xs:element>
+                                            </xs:sequence>
+                                            <xs:attribute name="id" type="xs:string" use="required" />
+                                            <xs:attribute name="lineTextId" type="xs:string" use="required" />
+                                            <xs:attribute name="isLastLine" type="xs:boolean" default="false" />
+                                        </xs:complexType>
+                                    </xs:element>
+                                    <xs:element name="Requirements" type="RequirementsType" minOccurs="0" />
+                                    <xs:element name="Texts" type="TextsType" minOccurs="0" />
+                                </xs:sequence>
+                                <xs:attribute name="id" type="xs:string" use="required" />
+                                <xs:attribute name="activeAtStart" type="xs:boolean" />
+                                <xs:attribute name="firstLineId" type="xs:string" use="required" />
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="MenuItems" type="MenuItemsWithRefsType" minOccurs="0" />
+                        <xs:element name="Properties" type="PropertiesWithRefType" minOccurs="0" />
+                        <xs:element name="Items" type="ItemsWithRefsType" minOccurs="0" />
+                        <xs:element name="Texts" type="TextsType" minOccurs="0" />
+                    </xs:sequence>
+                    <xs:attribute name="id" type="xs:string" use="required" />
+                    <xs:attribute name="nameTextId" type="xs:string" use="required" />
+                    <xs:attribute name="descTextId" type="xs:string" />
+                    <xs:attribute name="activeAtStart" type="xs:boolean" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="NPCsWithRefType">
+        <xs:complexContent>
+            <xs:extension base="NPCsType">
+                <xs:sequence>
+                    <xs:element name="NPCRef" type="ReferenceType" minOccurs="0" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ActionsType">
+        <xs:sequence>
+            <xs:element name="setActive" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="refId" type="xs:string" use="required" />
+                    <xs:attribute name="value" type="ActivationSetEnum" use="required" />
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="setPropertyValue" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="refId" type="xs:string" use="required" />
+                    <xs:attribute name="change" type="PropertyChangeEnum" use="required" />
+                    <xs:attribute name="value" type="xs:double" use="required" />
+                </xs:complexType>
+            </xs:element>
+			      <xs:element name="saveGame" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+					          <xs:attribute name="isAutoSave" type="xs:boolean" default="false" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="responseTextId" type="xs:string" use="required" />
+        <xs:attribute name="onUseIntervalTo" type="xs:integer" use="optional" default="0" />
+    </xs:complexType>
+    <xs:complexType name="ItemActionsType">
+        <xs:complexContent>
+            <xs:extension base="ActionsType">
+                <xs:sequence>
+                    <xs:element name="equipItem" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:attribute name="refId" type="xs:string" use="required" />
+                            <xs:attribute name="value" type="xs:boolean" default="true" />
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="RequirementsType">
+        <xs:sequence>
+            <xs:element name="isActive" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="refId" type="xs:string" use="required" />
+                    <xs:attribute name="value" type="xs:boolean" use="required" />
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="propertyCondition" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="refId" type="xs:string" use="required" />
+                    <xs:attribute name="condition" type="PropertyConditionEnum" use="required" />
+                    <xs:attribute name="value" type="xs:double" use="required" />
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="isEquipped" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="refId" type="xs:string" use="required" />
+                    <xs:attribute name="value" type="xs:boolean" use="optional" default="true" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="textOnFail" type="xs:string" use="optional" />
+    </xs:complexType>
+    <xs:complexType name="GameEndsType">
+        <xs:sequence>
+            <xs:element name="GameEnd" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="id" type="xs:string" use="required" />
+                    <xs:attribute name="textId" type="xs:string" use="required" />
+                    <xs:attribute name="gameOverTextId" type="xs:string" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="NeighboursType">
+        <xs:sequence>
+            <xs:element name="Neighbour" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Requirements" type="RequirementsType" minOccurs="0" maxOccurs="1" />
+                    </xs:sequence>
+                    <xs:attribute name="id" type="xs:string" use="required" />
+                    <xs:attribute name="roomRefId" type="xs:string" use="required" />
+                    <xs:attribute name="nameTextId" type="xs:string" use="required" />
+                    <xs:attribute name="activeAtStart" default="true" type="xs:boolean" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

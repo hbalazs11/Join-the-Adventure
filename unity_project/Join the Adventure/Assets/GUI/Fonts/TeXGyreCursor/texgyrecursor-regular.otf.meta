@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 41c0caf5375a08846929fddba68497ab
+timeCreated: 1543246351
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: TeX Gyre Cursor
+  fontNames:
+  - TeX Gyre Cursor
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
