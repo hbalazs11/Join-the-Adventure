@@ -86,5 +86,6 @@ public class StoredGameRemover : MonoBehaviour {
             storedGameNames.Remove(selectedName);
             menuController.RemoveButton(selectedName);
         }
+        selectedGameNames.Clear();
     }
 }

@@ -56,7 +56,7 @@ public class GameSaverMenu : MonoBehaviour {
         saveButton.GetComponentInChildren<Text>().text = LabelUtility.Instance.GetLabel(LabelNames.SAVE);
         menuController.SetMenuName(LabelUtility.Instance.GetLabel(LabelNames.SAVE));
         inputPlaceholder.text = LabelUtility.Instance.GetLabel(LabelNames.SAVENAME);
-        foreach (string savedGameName in Injector.GameElementManager.savedGameNames)
+        foreach (string savedGameName in ObjectManager.CurrentGEM.savedGameNames)
         {
             menuController.AddButton(savedGameName, delegate { SetSaveName(savedGameName); });
         }

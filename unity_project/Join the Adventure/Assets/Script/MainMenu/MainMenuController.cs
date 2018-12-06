@@ -35,7 +35,7 @@ public class MainMenuController : MonoBehaviour
 
     private void Start()
     {
-        Injector.GameElementManager = new GameElementManager("emptyGEM");
+        ObjectManager.CurrentGEM = new GameElementManager("emptyGEM");
         PersistanceHelper.PersistentDataPath = Application.persistentDataPath;
         OnLoadingProcessFinished += new EventHandler<EventArgs>(LoadGameMenuScene);
         OnLoadingProcessException += new EventHandler<ExceptionEventArgs>(HandleLoadingProcessException);
@@ -118,7 +118,7 @@ public class MainMenuController : MonoBehaviour
     {
         try
         {
-            Injector.DescriptorProcessor.SetExistingGemAsCurrent(gameName);
+            new DescriptorProcessor().SetExistingGemAsCurrent(gameName);
             OnFinished(null, EventArgs.Empty);
         }
         catch (System.Exception e)
@@ -154,7 +154,7 @@ public class MainMenuController : MonoBehaviour
     public void BrowseFiles()
     {
 
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID //&& !UNITY_EDITOR
         // Create the file browser and name it
         GameObject fileBrowserObject = Instantiate(FileBrowserPrefab, transform);
         fileBrowserObject.name = "FileBrowser";
@@ -165,19 +165,19 @@ public class MainMenuController : MonoBehaviour
         
         fileBrowserScript.OpenFilePanel(new string[] { "zip"});
         // Subscribe to OnFileSelect event (call LoadFileUsingPath using path) 
-        fileBrowserScript.OnFileSelect += LoadFileUsingPath;
+        fileBrowserScript.OnFileSelect += SetFilePath;
 #endif
 #if UNITY_STANDALONE || UNITY_EDITOR
         var extensions = new[] {
             new ExtensionFilter("Zip Files", "zip"),
             new ExtensionFilter("All Files", "*" ),
         };
-        StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, (string[] paths) => { if (paths.Length != 0) { LoadFileUsingPath(paths[0]); } });
+        StandaloneFileBrowser.OpenFilePanelAsync("Open File", "", extensions, false, (string[] paths) => { if (paths.Length != 0) { SetFilePath(paths[0]); } });
 #endif
 
     }
 
-    private void LoadFileUsingPath(string path)
+    private void SetFilePath(string path)
     {
         if (path.Length != 0)
         {

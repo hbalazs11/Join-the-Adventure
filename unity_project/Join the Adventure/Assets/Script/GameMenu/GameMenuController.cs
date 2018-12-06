@@ -23,11 +23,11 @@ public class GameMenuController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        logger = Injector.Logger;
+        logger = ObjectManager.Logger;
         LoadTexts();
         InitLangMenu();
         bcgImageScript = GetComponent<BcgImage>();
-        GameElementManager gem = Injector.GameElementManager;
+        GameElementManager gem = ObjectManager.CurrentGEM;
         Thread loadingThread = new Thread(() => StartLoadBcgImage(gem.GameStorageName, gem.GameProperties.MenuImgSrc));
         loadingThread.Start();
     }
@@ -59,14 +59,14 @@ public class GameMenuController : MonoBehaviour {
 
     private void LoadTexts()
     {
-        gameNameTextUI.text = System.Text.RegularExpressions.Regex.Unescape( Injector.GameElementManager.GameProperties.GameNameText.GetText());
-        greetingTextUI.text = System.Text.RegularExpressions.Regex.Unescape( Injector.GameElementManager.GameProperties.GreetingText.GetText());
+        gameNameTextUI.text = System.Text.RegularExpressions.Regex.Unescape( ObjectManager.CurrentGEM.GameProperties.GameNameText.GetText());
+        greetingTextUI.text = System.Text.RegularExpressions.Regex.Unescape( ObjectManager.CurrentGEM.GameProperties.GreetingText.GetText());
     }
 
     private void InitLangMenu()
     {
         langMenuController.SetMenuName("Languages");
-        foreach (string lang in Injector.GameElementManager.AvailableLangs)
+        foreach (string lang in ObjectManager.CurrentGEM.AvailableLangs)
         {
             langMenuController.AddButton(lang, delegate { ChangeLang(lang); });
         }
@@ -76,7 +76,7 @@ public class GameMenuController : MonoBehaviour {
 
     private void ChangeLang(string lang)
     {
-        Injector.GameElementManager.CurrentLang = lang;
+        ObjectManager.CurrentGEM.CurrentLang = lang;
         LoadTexts();
         ChangeLangMenuActivation();
     }

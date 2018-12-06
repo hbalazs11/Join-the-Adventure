@@ -7,11 +7,18 @@ public class GEPlayer  {
 
     private SortedList<string, GEProperty> properties;
     private SortedList<string, GEItem> items;
+    private bool isFinal;
 
-    public GEPlayer(SortedList<string, GEProperty> properties, SortedList<string, GEItem> items)
+    public GEPlayer(SortedList<string, GEProperty> properties, SortedList<string, GEItem> items, bool isFinal = false)
     {
         this.properties = properties;
         Items = items;
+        this.isFinal = isFinal; 
+    }
+
+    public bool IsFinal
+    {
+        get { return isFinal; }
     }
 
     public SortedList<string, GEItem> Items

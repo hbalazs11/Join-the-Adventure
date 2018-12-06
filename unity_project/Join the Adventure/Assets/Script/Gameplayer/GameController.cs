@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour {
     private void InitEscMenu()
     {
         escapeMenuController.SetMenuName(LabelUtility.Instance.GetLabel(LabelNames.MENU));
-        if (Injector.GameElementManager.GameProperties.IsMenuSaveAvailable)
+        if (ObjectManager.CurrentGEM.GameProperties.IsMenuSaveAvailable)
         {
             escapeMenuController.AddButton(LabelUtility.Instance.GetLabel(LabelNames.SAVE), delegate { OpenSaverMenu(); });
         }
@@ -68,7 +68,7 @@ public class GameController : MonoBehaviour {
 
     public void OpenSaverMenu(bool fromEscMenu = true)
     {
-        saverMenu.OpenMenu(Injector.GameElementManager, fromEscMenu);
+        saverMenu.OpenMenu(ObjectManager.CurrentGEM, fromEscMenu);
     }
 
     public void SaveGameWithTimetag(string source)
@@ -78,7 +78,7 @@ public class GameController : MonoBehaviour {
 
     public void LoadCurrentRoom()
     {
-        GameElementManager elementManager = Injector.GameElementManager;
+        GameElementManager elementManager = ObjectManager.CurrentGEM;
         desctiptionScript.SetRoomName(elementManager.CurrentRoom.NameText.GetText());
         desctiptionScript.SetDescriptionText(elementManager.CurrentRoom.DescText.GetText());
         menuController.LoadRoom(elementManager.CurrentRoom);
@@ -130,7 +130,7 @@ public class GameController : MonoBehaviour {
 
     public void LoadRoom(GERoom room)
     {
-        Injector.GameElementManager.CurrentRoom = room;
+        ObjectManager.CurrentGEM.CurrentRoom = room;
         LoadCurrentRoom();
     }
 
@@ -143,9 +143,9 @@ public class GameController : MonoBehaviour {
 
     public void HeadBackToGameMenu()
     {
-        List<string> savedNames = Injector.GameElementManager.savedGameNames;
-        Injector.GameElementManager = GameElementManager.GetInitialGEM();
-        Injector.GameElementManager.savedGameNames = savedNames;
+        List<string> savedNames = ObjectManager.CurrentGEM.savedGameNames;
+        ObjectManager.CurrentGEM = GameElementManager.GetInitialGEM();
+        ObjectManager.CurrentGEM.savedGameNames = savedNames;
 #if UNITY_ANDROID && !UNITY_EDITOR
         SceneManager.LoadScene("GameMenu_Android");
 #endif

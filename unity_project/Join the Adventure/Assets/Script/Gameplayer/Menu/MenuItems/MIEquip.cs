@@ -10,7 +10,7 @@ public class MIEquip : MenuItem
 
     public MIEquip(GEItem geItem, MenuItemBundle parentBundle) : base(LabelUtility.Instance.GetLabel(LabelNames.PICKUP), parentBundle)
     {
-        elementManager = Injector.GameElementManager;
+        elementManager = ObjectManager.CurrentGEM;
         this.geItem = geItem;
         description = Description.GetInstance();
     }

@@ -17,7 +17,7 @@ public class LabelUtility  {
 
     private LabelUtility()
     {
-        logger = Injector.Logger;
+        logger = ObjectManager.Logger;
     }
 
     public static LabelUtility Instance
@@ -55,7 +55,7 @@ public class LabelUtility  {
         {
             Start();
         }
-        string res = Injector.GameElementManager.GetText(key);
+        string res = ObjectManager.CurrentGEM.GetText(key);
         if (res != null) return res;
         res = data[key];
         if (res != null) return res;

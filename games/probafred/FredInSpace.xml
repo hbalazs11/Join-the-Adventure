@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:noNamespaceSchemaLocation="JtaDescriptor.xsd"
+                gameName="probafred"
+                version="v1.0" >
+  <GameProperties firstRoomId="Spaceship" defaultLang="hun" greetingTextId="gameGreetingTxt" menuSaveAvailable="false" checkpointsOn="false" gameNameTextId="gameNametxt" menuImgSrc="menuImg.jpg"/>
+  <Rooms>
+    <Room id="Spaceship" activeAtStart="true" nameTextId="spaceshipNameTxt" descTextId="spaceshipDescTxt" imgSrc="spaceship.jpg">
+      <Texts>
+        <Text id="spaceshipNameTxt">Fred hajója</Text>
+        <Text id="spaceshipDescTxt">Egy átlagos kisméretű teherszállító hajó. Fred még a ballagására kapta. Az óvodásra.</Text>
+      </Texts>
+    </Room>
+  </Rooms>
+  <Texts>
+    <Text id="gameGreetingTxt">Egy történet az űrben. Egy történet Fredről. Egy történet, melynek nincs se eleje, se vége.\nDe benne van Fred.</Text>
+    <Text id="gameNametxt">Fred in Space</Text>
+  </Texts>
+</GameDescriptor>

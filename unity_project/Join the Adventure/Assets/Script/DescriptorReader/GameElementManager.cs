@@ -75,7 +75,7 @@ public class GameElementManager : IGameElementManager {
 
     public static GameElementManager GetInitialGEM()
     {
-        return PersistanceHelper.GetInitialGEM(Injector.GameElementManager.GameStorageName);
+        return PersistanceHelper.GetInitialGEM(ObjectManager.CurrentGEM.GameStorageName);
     }
 
     public GEText GetTextElement(string id, bool log = true)
@@ -106,7 +106,7 @@ public class GameElementManager : IGameElementManager {
         {
             if (log)
             {
-                Injector.Logger.LogWarn("There is no GEText with the given id! " + id);
+                ObjectManager.Logger.LogWarn("There is no GEText with the given id! " + id);
                 //throw new Exception(String.Format("There is no text with the given id! id: {0}", id));
             }
             return null;
@@ -247,7 +247,7 @@ public class GameElementManager : IGameElementManager {
         else
         {
             dictionary[id] = value;
-            Injector.Logger.LogWarn("There are multiple text elements defined with the same id! The duplicated id: " + id);
+            ObjectManager.Logger.LogWarn("There are multiple text elements defined with the same id! The duplicated id: " + id);
         }
     }
 
@@ -257,7 +257,7 @@ public class GameElementManager : IGameElementManager {
         dictionary.TryGetValue(key, out value);
         if(logNullWarn && value == null)
         {
-            Injector.Logger.LogWarn("There is no content with the given id in the GameElementManager! id: " + key);
+            ObjectManager.Logger.LogWarn("There is no content with the given id in the GameElementManager! id: " + key);
         }
         return value;
     }

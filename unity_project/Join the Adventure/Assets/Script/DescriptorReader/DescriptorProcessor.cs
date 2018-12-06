@@ -16,7 +16,7 @@ public class DescriptorProcessor : IDescriptorProcessor
 
     public DescriptorProcessor()
     {
-        logger = Injector.Logger;
+        logger = ObjectManager.Logger;
     }
 
 
@@ -62,14 +62,14 @@ public class DescriptorProcessor : IDescriptorProcessor
         }
         elementManager.SetFirstRoom();
         PersistanceHelper.StoreInitialGEM(gameStorageName, elementManager);
-        Injector.GameElementManager = elementManager;
+        ObjectManager.CurrentGEM = elementManager;
     }
 
     public void SetExistingGemAsCurrent(string gameStorageName)
     {
         elementManager = PersistanceHelper.GetInitialGEM(gameStorageName);
         elementManager.savedGameNames = PersistanceHelper.GetSavedGameNames(gameStorageName);
-        Injector.GameElementManager = elementManager;
+        ObjectManager.CurrentGEM = elementManager;
     }
 
     private GameDescriptor GetRootDescriptor(List<GameDescriptor> gameDescriptors)
@@ -303,8 +303,16 @@ public class DescriptorProcessor : IDescriptorProcessor
 
     private void ProcessPlayer(PlayerType player)
     {
-        if (player == null) return;
-        elementManager.Player = new GEPlayer(ProcessProperties(player.Properties), ProcessItems(player.Items));
+        if (elementManager.Player != null && elementManager.Player.IsFinal) return;
+        if (player == null)
+        {
+            if (elementManager.Player == null)
+            {
+                elementManager.Player = new GEPlayer(new SortedList<string, GEProperty>(), new SortedList<string, GEItem>());
+            }
+            return;
+        }
+        elementManager.Player = new GEPlayer(ProcessProperties(player.Properties), ProcessItems(player.Items), true);
     }
 
     private void ProcessGameProperties(GamePropertiesType gameProperties)

@@ -42,7 +42,7 @@ public class SavedGameLoader : MonoBehaviour {
     private void InitLoadMenu()
     {
         loadMenuController.SetMenuName(LabelUtility.Instance.GetLabel(LabelNames.SAVEDGAMES));
-        foreach (string savedGameName in Injector.GameElementManager.savedGameNames)
+        foreach (string savedGameName in ObjectManager.CurrentGEM.savedGameNames)
         {
             loadMenuController.AddButton(savedGameName, delegate { LoadSavedGame(savedGameName); });
         }
@@ -50,15 +50,15 @@ public class SavedGameLoader : MonoBehaviour {
 
     private void LoadSavedGame(string savedGameName)
     {
-        Thread loadingThread = new Thread(() => StartSavedGameLoading(Injector.GameElementManager.GameStorageName, savedGameName));
+        Thread loadingThread = new Thread(() => StartSavedGameLoading(ObjectManager.CurrentGEM.GameStorageName, savedGameName));
         loadingThread.Start();
     }
 
     private void StartSavedGameLoading(string gameName, string savedGameName)
     {
-        List<string> savedGameNames = Injector.GameElementManager.savedGameNames;
-        Injector.GameElementManager = PersistanceHelper.GetSavedGameGEM(gameName, savedGameName);
-        Injector.GameElementManager.savedGameNames = savedGameNames;
+        List<string> savedGameNames = ObjectManager.CurrentGEM.savedGameNames;
+        ObjectManager.CurrentGEM = PersistanceHelper.GetSavedGameGEM(gameName, savedGameName);
+        ObjectManager.CurrentGEM.savedGameNames = savedGameNames;
         startGameAfterSavedGameLoad = true;
     }
 
@@ -71,7 +71,7 @@ public class SavedGameLoader : MonoBehaviour {
     private void RefreshNames()
     {
         List<string> currentNames = loadMenuController.GetContainedButtonNames();
-        foreach (string saveName in Injector.GameElementManager.savedGameNames)
+        foreach (string saveName in ObjectManager.CurrentGEM.savedGameNames)
         {
             if (!currentNames.Contains(saveName))
             {

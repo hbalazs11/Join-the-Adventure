@@ -15,7 +15,7 @@ public class GEText : GameElement {
     {
         this.defLang = defLang;
         this.textByLang = new SortedList<string, string>();
-        logger = Injector.Logger;
+        logger = ObjectManager.Logger;
     }
 
     public GEText(string id, string defLang, string lang, string txt): this(id, defLang)
@@ -67,7 +67,7 @@ public class GEText : GameElement {
 
     public virtual string GetText()
     {
-        return GetText(Injector.GameElementManager.CurrentLang);
+        return GetText(ObjectManager.CurrentGEM.CurrentLang);
     }
 
     private string CheckNope(string txt)

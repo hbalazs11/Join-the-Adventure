@@ -3,8 +3,8 @@
 <GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:noNamespaceSchemaLocation="JtaDescriptor.xsd"
                 gameName="AwesomeTestGame"
-                version="1" id="id" root="true">
-  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="bigRoom" defaultLang="hun" checkpointsOn="true" menuSaveAvailable="true"
+                version="2" id="id" root="true">
+  <GameProperties gameNameTextId="gameNameTxt" greetingTextId="gameDescTxt" firstRoomId="smallRoom" defaultLang="hun" checkpointsOn="true" menuSaveAvailable="true"
                   menuImgSrc="menuImg.png"/>
   <Player>
     <Properties>

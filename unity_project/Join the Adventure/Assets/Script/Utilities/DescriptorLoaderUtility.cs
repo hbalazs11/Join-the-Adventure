@@ -20,7 +20,7 @@ public class DescriptorLoaderUtility  {
             List<string> xmlNames = GetXmlNames(descFiles);
             Dictionary<string, MemoryStream> imgResources = GetImgs(descFiles);
             List<GameDescriptor> gDescriptors = ReadXmls(xmlNames, descFiles);
-            Injector.DescriptorProcessor.ProcessMultipleGameDescriptor(gDescriptors, imgResources);
+            new DescriptorProcessor().ProcessMultipleGameDescriptor(gDescriptors, imgResources);
             OnFinished(null, EventArgs.Empty);
             yield break;
         }
@@ -43,7 +43,7 @@ public class DescriptorLoaderUtility  {
             List<string> xmlNames = GetXmlNames(descFiles);
             Dictionary<string, MemoryStream> imgResources = GetImgs(descFiles);
             List<GameDescriptor> gDescriptors = ReadXmls(xmlNames, descFiles);
-            Injector.DescriptorProcessor.ProcessMultipleGameDescriptor(gDescriptors, imgResources);
+            new DescriptorProcessor().ProcessMultipleGameDescriptor(gDescriptors, imgResources);
             OnFinished(null, EventArgs.Empty);
         }
         catch (System.Exception e)

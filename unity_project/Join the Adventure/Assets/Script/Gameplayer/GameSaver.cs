@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 using UnityEngine;
 
@@ -36,20 +38,27 @@ public class GameSaver : MonoBehaviour {
 
     public void SaveGame(string saveName)
     {
-        Thread loadingThread = new Thread(() => StartSave(Injector.GameElementManager.GameStorageName, saveName, Injector.GameElementManager));
+        if (!PersistanceHelper.IsValidFilename(saveName))
+        {
+            statusText.SetStatus("The given name is invalid for save.", 2f);
+            return;
+        }
+        Thread loadingThread = new Thread(() => StartSave(ObjectManager.CurrentGEM.GameStorageName, saveName, ObjectManager.CurrentGEM));
         isSaveInAction = true;
         loadingThread.Start();
     }
+    
+
     public void AutoSave()
     {
-        Thread loadingThread = new Thread(() => StartAutoSave(Injector.GameElementManager.GameStorageName, Injector.GameElementManager));
+        Thread loadingThread = new Thread(() => StartAutoSave(ObjectManager.CurrentGEM.GameStorageName, ObjectManager.CurrentGEM));
         isSaveInAction = true;
         loadingThread.Start();
     }
 
     public void SaveGameWithTimetag(string sourceName)
     {
-        Thread loadingThread = new Thread(() => StartSaveWithTimetag(Injector.GameElementManager.GameStorageName, sourceName, Injector.GameElementManager));
+        Thread loadingThread = new Thread(() => StartSaveWithTimetag(ObjectManager.CurrentGEM.GameStorageName, sourceName, ObjectManager.CurrentGEM));
         isSaveInAction = true;
         loadingThread.Start();
     }

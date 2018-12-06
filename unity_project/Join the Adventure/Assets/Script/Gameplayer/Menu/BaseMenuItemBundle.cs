@@ -13,8 +13,8 @@ public class BaseMenuItemBundle : MenuItemBundle
 
     public BaseMenuItemBundle() : base(LabelUtility.Instance.GetLabel(LabelNames.MENU), null)
     {
-        inventoryMenu = MIOpenList<GEItem>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.INVENTORY), this, Injector.GameElementManager.Player.Items.Values);
-        List<GEProperty> propsToShow = GEProperty.GetPropertiesWithNames(Injector.GameElementManager.Player.Properties.Values);
+        inventoryMenu = MIOpenList<GEItem>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.INVENTORY), this, ObjectManager.CurrentGEM.Player.Items.Values);
+        List<GEProperty> propsToShow = GEProperty.GetPropertiesWithNames(ObjectManager.CurrentGEM.Player.Properties.Values);
         if (propsToShow.Count != 0)
         {
             propertiesMenu = new MIShowDescription(LabelUtility.Instance.GetLabel(LabelNames.PLAYERPROPS), this, () => GEProperty.GetPropertyDescText(propsToShow));
@@ -68,7 +68,7 @@ public class BaseMenuItemBundle : MenuItemBundle
         {
             inventoryMenu.DestroyGO();
         }
-        inventoryMenu = MIOpenList<GEItem>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.INVENTORY), this, Injector.GameElementManager.Player.Items.Values);
+        inventoryMenu = MIOpenList<GEItem>.CreateMIOpenList(LabelUtility.Instance.GetLabel(LabelNames.INVENTORY), this, ObjectManager.CurrentGEM.Player.Items.Values);
         inventoryMenu.SetActive(true);
         inventoryMenu.SetPositionNumber(0);
         if (!isActive)

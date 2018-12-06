@@ -61,7 +61,7 @@ public class GEAction
             IActivatable activatable = elementManager.GetActivatableGameElement(refId);
             if(activatable == null)
             {
-                Injector.Logger.LogWarn("There is no activatable element with the given id, however an action is reffering it! The given id: " + refId);
+                ObjectManager.Logger.LogWarn("There is no activatable element with the given id, however an action is reffering it! The given id: " + refId);
             }
             if(valueToSet == null)
             {
@@ -92,7 +92,7 @@ public class GEAction
             GEProperty property = elementManager.GetProperty(refId);
             if (property == null)
             {
-                Injector.Logger.LogWarn("There is no property element with the given id, however an action is reffering it! The given id: " + refId);
+                ObjectManager.Logger.LogWarn("There is no property element with the given id, however an action is reffering it! The given id: " + refId);
             }
             switch (changeType)
             {

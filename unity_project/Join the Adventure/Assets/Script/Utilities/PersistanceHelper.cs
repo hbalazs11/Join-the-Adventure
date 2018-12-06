@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.RegularExpressions;
 
 public static class PersistanceHelper
 {
@@ -203,5 +204,16 @@ public static class PersistanceHelper
         {
             destination.Write(array, 0, count);
         }
+    }
+
+    public static bool IsValidFilename(string fileName)
+    {
+        string invalidChars = new string(Path.GetInvalidFileNameChars());
+        Regex containsABadCharacter = new Regex("[" + Regex.Escape(invalidChars) + "]");
+        if (containsABadCharacter.IsMatch(fileName))
+        {
+            return false;
+        }
+        return true;
     }
 }
